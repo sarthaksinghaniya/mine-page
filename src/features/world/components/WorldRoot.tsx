@@ -23,8 +23,9 @@ import { AudioZones } from '@/features/audio';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleBase, VehicleManager } from '@/features/vehicles';
-import { SpawnPlazaScene } from '../zones/SpawnPlazaScene';
+import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
+
 
 
 
@@ -140,9 +141,13 @@ export function WorldRoot(): React.ReactElement {
           <TerrainChunk key={zone.id} zone={zone} />
         ))}
 
-        {/* Modular Spawn Plaza Scene */}
-        {activeZoneIds.includes('spawn') && <SpawnPlazaScene />}
-
+        {/* Dynamic District Scene Plugins */}
+        {activeZoneIds.map((zoneId) => {
+          const plugin = DISTRICT_PLUGINS[zoneId as any];
+          if (!plugin) return null;
+          const Component = plugin.component;
+          return <Component key={`plugin-${plugin.id}`} />;
+        })}
 
         {/* Dynamic buildings on active lots */}
         {activeChunks.map((zone) => {
@@ -152,6 +157,7 @@ export function WorldRoot(): React.ReactElement {
             <BuildingRoot key={lot.id} lot={lot} color={zone.color} />
           ));
         })}
+
 
         {/* Dynamic vehicles in active zones */}
         {activeZoneIds.includes('spawn') && (
