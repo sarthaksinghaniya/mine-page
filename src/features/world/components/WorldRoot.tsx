@@ -23,6 +23,9 @@ import { AudioZones } from '@/features/audio';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleBase, VehicleManager } from '@/features/vehicles';
+import { SpawnPlazaScene } from '../zones/SpawnPlazaScene';
+import { SpawnCutscene } from '../systems/SpawnCutscene';
+
 
 
 
@@ -98,6 +101,10 @@ export function WorldRoot(): React.ReactElement {
     activateZone('spawn');
     setZoneStatus('spawn', 'active');
 
+    // Trigger introductory spawn cutscene camera sweep
+    SpawnCutscene.playIntro();
+
+
     return () => {
       // Unregister lots on unmount
       DISTRICTS_LIST.forEach((district) => {
@@ -132,6 +139,10 @@ export function WorldRoot(): React.ReactElement {
         {activeChunks.map((zone) => (
           <TerrainChunk key={zone.id} zone={zone} />
         ))}
+
+        {/* Modular Spawn Plaza Scene */}
+        {activeZoneIds.includes('spawn') && <SpawnPlazaScene />}
+
 
         {/* Dynamic buildings on active lots */}
         {activeChunks.map((zone) => {
