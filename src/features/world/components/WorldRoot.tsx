@@ -21,6 +21,8 @@ import { BuildingRoot, DISTRICTS_LIST } from '@/features/buildings';
 import { InstancedProps } from '@/features/environment';
 import { AudioZones } from '@/features/audio';
 
+import { InteractionManager } from '@core/interaction/InteractionManager';
+
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
   const activateZone = useWorldStore((s) => s.activateZone);
@@ -31,15 +33,47 @@ export function WorldRoot(): React.ReactElement {
   const setPosition = usePlayerStore((s) => s.setPosition);
   const setRotation = usePlayerStore((s) => s.setRotation);
 
-  // Initialize Spawn Location on Mount
+  // Initialize Spawn Location and register interactable lots on Mount
   useEffect(() => {
     const spawn = SpawnManager.resolveSpawn();
     setPosition(spawn.position);
     setRotation(spawn.rotation);
 
+    // Register all district lots in the InteractionManager
+    DISTRICTS_LIST.forEach((district) => {
+      district.lots.forEach((lot) => {
+        InteractionManager.register({
+          id: lot.id,
+          name: lot.name,
+          type: lot.interior ? 'building' : 'custom',
+          position: lot.position,
+          radius: lot.interactRadius,
+          priority: lot.category === 'landmark' ? 10 : 5,
+          enabled: true,
+          promptText: lot.interior ? `Enter ${lot.name}` : `Inspect ${lot.name}`,
+          onInteract: () => {
+            console.log(`[Interaction] Interacted with: ${lot.name}`);
+            if (lot.interior) {
+              // Trigger interior load action hooks
+              console.log(`[Interaction] Portal triggered for interior: ${lot.interior.id}`);
+            }
+          },
+        });
+      });
+    });
+
     // Bootstrap initial active zone at spawn
     activateZone('spawn');
     setZoneStatus('spawn', 'active');
+
+    return () => {
+      // Unregister lots on unmount
+      DISTRICTS_LIST.forEach((district) => {
+        district.lots.forEach((lot) => {
+          InteractionManager.unregister(lot.id);
+        });
+      });
+    };
   }, [setPosition, setRotation, activateZone, setZoneStatus]);
 
   // Handle ambient soundtrack transitions as districts shift

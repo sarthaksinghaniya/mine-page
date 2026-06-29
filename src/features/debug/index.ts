@@ -7,3 +7,5 @@ export * from './debug.types';
 export * from './debug.store';
 export * from './hooks/useDebugMetrics';
 export * from './components/DebugOverlay';
+export * from './components/InteractionDebug';
+

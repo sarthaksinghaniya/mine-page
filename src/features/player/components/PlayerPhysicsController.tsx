@@ -12,6 +12,8 @@ import { InputManager } from '@core/input/InputManager';
 import { FootstepAudio, type SurfaceType } from '@/features/audio/systems/FootstepAudio';
 import { useCameraStore } from '@/features/camera/camera.store';
 
+import { InteractionManager } from '@core/interaction/InteractionManager';
+
 // ── Physics parameters ────────────────────────────────────────────────────────
 const ACCELERATION  = 30; // units/s²
 const DRAG          = 8;  // damping factor
@@ -121,9 +123,16 @@ export function PlayerPhysicsController(): React.ReactElement {
       setMovementState('falling');
     }
 
-    // ── 5. Sync to game store ─────────────────────────────────────────────────
+    // ── 5. Gameplay Interaction System ───────────────────────────────────────
+    InteractionManager.update(translation.x, translation.y, translation.z);
+    if (actions.interact) {
+      InteractionManager.interact();
+    }
+
+    // ── 6. Sync to game store ─────────────────────────────────────────────────
     setPosition({ x: translation.x, y: translation.y, z: translation.z });
   });
+
 
   return (
     <RigidBody
