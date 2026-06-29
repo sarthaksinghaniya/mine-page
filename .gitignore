@@ -1,0 +1,60 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Open-World Portfolio — .gitignore
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build Outputs
+dist/
+dist-ssr/
+build/
+
+# Environment Variables (NEVER commit secrets)
+.env
+.env.local
+.env.production
+.env.staging
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test & Coverage
+coverage/
+.nyc_output/
+test-results/
+
+# IDE / Editor
+.vscode/launch.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# OS
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Bundle Analyzer Output
+stats.html
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.vite/
+.eslintcache
+.prettiercache

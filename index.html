@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ── SEO ──────────────────────────────────────────────────────────── -->
+    <title>Open World Portfolio — Interactive 3D Experience</title>
+    <meta name="description" content="An cinematic, interactive, open-world 3D portfolio built as a futuristic city. Explore zones representing projects, skills, and experience." />
+    <meta name="author" content="Sarthak" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- ── Open Graph ───────────────────────────────────────────────────── -->
+    <meta property="og:title" content="Open World Portfolio" />
+    <meta property="og:description" content="Explore my career as a futuristic open-world city." />
+    <meta property="og:type" content="website" />
+
+    <!-- ── Performance ──────────────────────────────────────────────────── -->
+    <!-- Preconnect to Google Fonts CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preload display fonts — these affect LCP -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Icons ────────────────────────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- ── WebGL Check ──────────────────────────────────────────────────── -->
+    <script>
+      // Inline WebGL check — redirect gracefully before loading the full bundle
+      (function() {
+        try {
+          var canvas = document.createElement('canvas');
+          var gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+          if (!gl) {
+            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#050508;color:#f0f0ff;font-family:monospace;text-align:center;padding:24px"><div><h1 style="color:#00adc0">WebGL Not Supported</h1><p style="color:#a0a0c0">This experience requires WebGL 2. Please update your browser or enable hardware acceleration.</p></div></div>';
+          }
+        } catch(e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/app/main.tsx"></script>
+  </body>
+</html>
