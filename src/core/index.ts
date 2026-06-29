@@ -7,3 +7,5 @@
 export * from './ecs';
 export * from './engine';
 export * from './events';
+export * from './input';
+

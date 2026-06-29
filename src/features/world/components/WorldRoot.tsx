@@ -15,10 +15,17 @@ import { ZoneCuller } from '../systems/ZoneCuller';
 import { usePlayerStore } from '@/features/player/player.store';
 import { SpawnManager } from '../systems/SpawnManager';
 
+import { Physics } from '@react-three/rapier';
+import { PlayerPhysicsController } from '@/features/player/components/PlayerPhysicsController';
+import { BuildingRoot, DISTRICTS_LIST } from '@/features/buildings';
+import { InstancedProps } from '@/features/environment';
+import { AudioZones } from '@/features/audio';
+
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
   const activateZone = useWorldStore((s) => s.activateZone);
   const setZoneStatus = useWorldStore((s) => s.setZoneStatus);
+  const focusedZoneId = useWorldStore((s) => s.focusedZoneId);
 
   const playerPos = usePlayerStore((s) => s.position);
   const setPosition = usePlayerStore((s) => s.setPosition);
@@ -35,6 +42,13 @@ export function WorldRoot(): React.ReactElement {
     setZoneStatus('spawn', 'active');
   }, [setPosition, setRotation, activateZone, setZoneStatus]);
 
+  // Handle ambient soundtrack transitions as districts shift
+  useEffect(() => {
+    if (focusedZoneId) {
+      AudioZones.transition(focusedZoneId as any);
+    }
+  }, [focusedZoneId]);
+
   // Tick the streaming zone detector every frame
   useFrame(() => {
     ZoneCuller.update(playerPos.x, playerPos.z);
@@ -44,18 +58,37 @@ export function WorldRoot(): React.ReactElement {
   const activeChunks = ZONES_LIST.filter((z) => activeZoneIds.includes(z.id));
 
   return (
-    <group name="world-root">
-      {/* Dynamic streamed zones */}
-      {activeChunks.map((zone) => (
-        <TerrainChunk key={zone.id} zone={zone} />
-      ))}
+    <Physics gravity={[0, -20, 0]}>
+      <group name="world-root">
+        {/* Dynamic streamed zones */}
+        {activeChunks.map((zone) => (
+          <TerrainChunk key={zone.id} zone={zone} />
+        ))}
 
-      {/* Interconnecting roads */}
-      <RoadSystem />
+        {/* Dynamic buildings on active lots */}
+        {activeChunks.map((zone) => {
+          const district = DISTRICTS_LIST.find((d) => d.id === zone.id);
+          if (!district) return null;
+          return district.lots.map((lot) => (
+            <BuildingRoot key={lot.id} lot={lot} color={zone.color} />
+          ));
+        })}
 
-      {/* Floor boundaries collider base */}
-      <gridHelper args={[1200, 120, '#00e5f0', '#0a0a14']} position={[0, -0.05, 0]} opacity={0.1} transparent />
-    </group>
+        {/* Interconnecting roads */}
+        <RoadSystem />
+
+        {/* Foliage and environment props */}
+        <InstancedProps />
+
+        {/* Player physical body */}
+        <PlayerPhysicsController />
+
+        {/* Floor boundaries collider base */}
+        <gridHelper args={[1200, 120, '#00e5f0', '#0a0a14']} position={[0, -0.05, 0]} opacity={0.1} transparent />
+      </group>
+    </Physics>
   );
 }
 export default WorldRoot;
+
+
