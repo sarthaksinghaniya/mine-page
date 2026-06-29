@@ -11,8 +11,8 @@ import { usePlayerStore } from '../player.store';
 import { InputManager } from '@core/input/InputManager';
 import { FootstepAudio, type SurfaceType } from '@/features/audio/systems/FootstepAudio';
 import { useCameraStore } from '@/features/camera/camera.store';
-
 import { InteractionManager } from '@core/interaction/InteractionManager';
+import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 
 // ── Physics parameters ────────────────────────────────────────────────────────
 const ACCELERATION  = 30; // units/s²
@@ -20,6 +20,7 @@ const DRAG          = 8;  // damping factor
 const JUMP_FORCE    = 7;  // velocity impulse
 
 export function PlayerPhysicsController(): React.ReactElement {
+
   const bodyRef = useRef<RapierRigidBody>(null);
   const { camera } = useThree();
 
@@ -72,12 +73,14 @@ export function PlayerPhysicsController(): React.ReactElement {
     const cameraRight = new THREE.Vector3();
     cameraRight.crossVectors(cameraDir, camera.up).normalize();
 
-    const moveVector = new THREE.Vector3(0, 0, 0);
+    const isPlayerFrozen = CinematicDirector.isPlayerFrozen();
 
-    if (actions.moveForward)  moveVector.add(cameraDir);
-    if (actions.moveBackward) moveVector.sub(cameraDir);
-    if (actions.moveRight)    moveVector.add(cameraRight);
-    if (actions.moveLeft)     moveVector.sub(cameraRight);
+    if (!isPlayerFrozen) {
+      if (actions.moveForward)  moveVector.add(cameraDir);
+      if (actions.moveBackward) moveVector.sub(cameraDir);
+      if (actions.moveRight)    moveVector.add(cameraRight);
+      if (actions.moveLeft)     moveVector.sub(cameraRight);
+    }
 
     if (moveVector.lengthSq() > 0) {
       moveVector.normalize();
@@ -92,16 +95,17 @@ export function PlayerPhysicsController(): React.ReactElement {
     velocity.z += (targetVelZ - velocity.z) * ACCELERATION * delta;
 
     // ── 3. Jumping Mechanics ─────────────────────────────────────────────────
-    if (actions.jump) {
+    if (actions.jump && !isPlayerFrozen) {
       jumpBuffer.current = true;
     }
 
-    if (jumpBuffer.current && coyoteTimer.current > 0) {
+    if (jumpBuffer.current && coyoteTimer.current > 0 && !isPlayerFrozen) {
       velocity.y = JUMP_FORCE;
       jumpBuffer.current = false;
       coyoteTimer.current = 0;
       setMovementState('jumping');
     }
+
 
     body.setLinvel(velocity, true);
 

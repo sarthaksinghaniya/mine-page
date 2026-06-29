@@ -9,5 +9,7 @@ export * from './engine';
 export * from './events';
 export * from './input';
 export * from './interaction';
+export * from './cinematic';
+
 
 

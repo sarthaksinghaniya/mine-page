@@ -20,8 +20,9 @@ import { PlayerPhysicsController } from '@/features/player/components/PlayerPhys
 import { BuildingRoot, DISTRICTS_LIST } from '@/features/buildings';
 import { InstancedProps } from '@/features/environment';
 import { AudioZones } from '@/features/audio';
-
 import { InteractionManager } from '@core/interaction/InteractionManager';
+import { CinematicDirector } from '@core/cinematic/CinematicDirector';
+
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -53,14 +54,31 @@ export function WorldRoot(): React.ReactElement {
           promptText: lot.interior ? `Enter ${lot.name}` : `Inspect ${lot.name}`,
           onInteract: () => {
             console.log(`[Interaction] Interacted with: ${lot.name}`);
+            if (lot.id === 'spawn-plaza-pillar') {
+              // Trigger a cinematic sequence
+              CinematicDirector.play({
+                id: 'obelisk-cinematic',
+                name: 'Inspect Central Obelisk',
+                duration: 4.0,
+                priority: 10,
+                keyframes: [
+                  { time: 0.0, type: 'player', player: { frozen: true } },
+                  { time: 0.0, type: 'screen', screen: { fadeOpacity: 0, letterbox: true } },
+                  { time: 0.5, type: 'camera', camera: { position: { x: 0, y: 15, z: -30 }, lookAt: { x: 0, y: 12, z: -10 } } },
+                  { time: 2.0, type: 'screen', screen: { fadeOpacity: 1, letterbox: true } },
+                  { time: 3.0, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } },
+                  { time: 3.5, type: 'player', player: { frozen: false } },
+                ],
+              });
+            }
             if (lot.interior) {
-              // Trigger interior load action hooks
               console.log(`[Interaction] Portal triggered for interior: ${lot.interior.id}`);
             }
           },
         });
       });
     });
+
 
     // Bootstrap initial active zone at spawn
     activateZone('spawn');

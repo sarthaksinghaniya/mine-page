@@ -13,10 +13,11 @@ import { RendererConfig } from '@core/renderer';
 import { CameraController } from '@features/camera';
 import { LightingSystem } from '@features/lighting';
 import { SceneManager, SceneTransition, useSceneStore } from '@features/scene';
-import { DebugOverlay, useDebugMetrics, InteractionDebug } from '@features/debug';
+import { DebugOverlay, useDebugMetrics, InteractionDebug, CinematicDebug } from '@features/debug';
 import { LoadingScreen } from '@/ui/loading';
 import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
+import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
 
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
@@ -35,6 +36,7 @@ function CanvasEngineController(): React.ReactElement {
       <DayNightCycle />
       <WeatherSystem />
       <InteractionDebug />
+      <CinematicDebug />
     </>
   );
 }
@@ -73,7 +75,9 @@ export function App(): React.ReactElement {
       <SceneTransition />
       <DebugOverlay />
       <InteractionPrompt />
+      <CinematicOverlay />
     </AppProviders>
   );
 }
+
 
