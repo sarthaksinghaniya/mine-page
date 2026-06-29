@@ -15,6 +15,8 @@ import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
 import { TerminalManager } from '@core/terminal/TerminalManager';
+import { AppManager } from '@core/apps/AppManager';
+
 
 
 // ── Physics parameters ────────────────────────────────────────────────────────
@@ -51,12 +53,20 @@ export function PlayerPhysicsController(): React.ReactElement {
     const body = bodyRef.current;
     if (!body) return;
 
+    // Check if player is currently in application interaction
+    if (AppManager.isOpen()) {
+      body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      setMovementState('idle');
+      return;
+    }
+
     // Check if player is currently in terminal interaction
     if (TerminalManager.isOpen()) {
       body.setLinvel({ x: 0, y: 0, z: 0 }, true);
       setMovementState('idle');
       return;
     }
+
 
     // Check if player is currently driving a vehicle
     const activeVehicleId = VehicleManager.getActiveVehicleId();

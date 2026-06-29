@@ -19,6 +19,11 @@ import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
 import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
 import { TerminalWindow } from '@/ui/hud/TerminalWindow';
+import { AppManager } from '@core/apps/AppManager';
+import { ApplicationShell } from '@/ui/apps/ApplicationShell';
+import { SkillsLabApp } from '@/ui/apps/stubs/SkillsLabApp';
+import { MuseumApp } from '@/ui/apps/stubs/MuseumApp';
+
 
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
@@ -49,9 +54,22 @@ function CanvasEngineController(): React.ReactElement {
 export function App(): React.ReactElement {
   const loadScene = useSceneStore((s) => s.loadScene);
 
-  // Trigger loading initial world scene on mount
+  // Trigger loading initial world scene and register apps on mount
   useEffect(() => {
     loadScene('world');
+
+    // Register modular portfolio apps
+    AppManager.register({
+      id: 'skills-lab',
+      title: 'Technical Skills Matrix',
+      mount: () => <SkillsLabApp />,
+    });
+
+    AppManager.register({
+      id: 'museum',
+      title: 'Achievement Museum Displays',
+      mount: () => <MuseumApp />,
+    });
   }, [loadScene]);
 
   return (
@@ -79,7 +97,9 @@ export function App(): React.ReactElement {
       <InteractionPrompt />
       <CinematicOverlay />
       <TerminalWindow />
+      <ApplicationShell />
     </AppProviders>
+
   );
 }
 

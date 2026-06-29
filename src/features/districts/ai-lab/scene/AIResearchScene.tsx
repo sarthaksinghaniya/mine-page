@@ -10,6 +10,8 @@ import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '@/features/world/components/DistrictScene';
 import { AiRobotNpc } from '../components/AiRobotNpc';
 import { TerminalManager } from '@core/terminal/TerminalManager';
+import { AppManager } from '@core/apps/AppManager';
+
 
 
 export function AIResearchScene(): React.ReactElement {
@@ -57,10 +59,27 @@ export function AIResearchScene(): React.ReactElement {
       });
     });
 
+    // Register dynamic skills lab app portal
+    InteractionManager.register({
+      id: 'portal-skills-lab',
+      name: 'Skills Lab Terminal',
+      type: 'terminal',
+      position: { x: 370, y: 1.0, z: -10 },
+      radius: 5,
+      priority: 8,
+      enabled: true,
+      promptText: 'Open Skills Matrix App',
+      onInteract: () => {
+        AppManager.open('skills-lab');
+      },
+    });
+
     return () => {
       terminals.forEach((term) => InteractionManager.unregister(term.id));
+      InteractionManager.unregister('portal-skills-lab');
     };
   }, []);
+
 
   return (
     <DistrictScene id="ai-research">

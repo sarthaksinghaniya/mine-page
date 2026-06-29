@@ -8,6 +8,8 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '../components/DistrictScene';
+import { AppManager } from '@core/apps/AppManager';
+
 
 export function SpawnPlazaScene(): React.ReactElement {
   const monumentRef = useRef<THREE.Mesh>(null);
@@ -54,7 +56,11 @@ export function SpawnPlazaScene(): React.ReactElement {
         enabled: true,
         promptText: `Interact with ${gate.name}`,
         onInteract: () => {
-          console.log(`[Interaction] Spawn Plaza Lockout: ${gate.text}`);
+          if (gate.id === 'gate-museum') {
+            AppManager.open('museum');
+          } else {
+            console.log(`[Interaction] Spawn Plaza Lockout: ${gate.text}`);
+          }
         },
       });
     });
