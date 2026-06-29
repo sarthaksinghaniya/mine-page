@@ -1,11 +1,10 @@
-/**
- * @file src/core/terminal/TerminalManager.ts
- * @description Coordinates command registry, parser solvers, and console outputs.
- */
-
 import { generateUUID } from '@shared/utils/uuid';
 import { eventBus } from '@core/events/EventBus';
 import type { TerminalCommand, TerminalOutputLine, TerminalState } from './terminal.types';
+import { helpCommand } from './commands/help';
+import { projectsCommand } from './commands/projects';
+import { skillsCommand } from './commands/skills';
+
 
 class TerminalManagerClass {
   private readonly commands = new Map<string, TerminalCommand>();
@@ -36,14 +35,9 @@ class TerminalManagerClass {
   }
 
   private registerDefaults(): void {
-    this.register({
-      keyword: 'help',
-      description: 'Show list of all available commands',
-      execute: () => {
-        const lines = this.getCommands().map((c) => `${c.keyword.padEnd(12)} - ${c.description}`);
-        return ['Available commands:', ...lines].join('\n');
-      },
-    });
+    this.register(helpCommand);
+    this.register(projectsCommand);
+    this.register(skillsCommand);
 
     this.register({
       keyword: 'clear',
@@ -64,6 +58,7 @@ class TerminalManagerClass {
       },
     });
   }
+
 
   open(terminalId: string): void {
     this.state.isOpen = true;
