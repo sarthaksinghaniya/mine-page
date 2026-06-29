@@ -30,11 +30,11 @@ import type {
 } from '@/data/types';
 
 export interface SearchResult {
-  score:       number;
-  itemType:    'project' | 'skill' | 'achievement' | 'hackathon';
-  title:       string;
+  score: number;
+  itemType: 'project' | 'skill' | 'achievement' | 'hackathon';
+  title: string;
   description: string;
-  payload:     any;
+  payload: any;
 }
 
 class PortfolioDataServiceClass {
@@ -97,7 +97,6 @@ class PortfolioDataServiceClass {
       let score = 0;
       if (proj.id === term || proj.title.toLowerCase() === term) score += 100;
       else if (proj.title.toLowerCase().includes(term) || proj.id.includes(term)) score += 50;
-
 
       if (proj.summary.toLowerCase().includes(term)) score += 20;
       if (proj.description.toLowerCase().includes(term)) score += 10;

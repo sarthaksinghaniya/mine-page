@@ -6,18 +6,9 @@
 // ── Player State ──────────────────────────────────────────────────────────────
 
 export type PlayerMovementState =
-  | 'idle'
-  | 'walking'
-  | 'running'
-  | 'jumping'
-  | 'falling'
-  | 'interacting';
+  'idle' | 'walking' | 'running' | 'jumping' | 'falling' | 'interacting';
 
-export type PlayerCameraMode =
-  | 'thirdPerson'
-  | 'firstPerson'
-  | 'cinematic'
-  | 'overview';
+export type PlayerCameraMode = 'thirdPerson' | 'firstPerson' | 'cinematic' | 'overview';
 
 export interface PlayerPosition {
   x: number;
@@ -26,16 +17,16 @@ export interface PlayerPosition {
 }
 
 export interface PlayerRotation {
-  yaw:   number; // Y-axis rotation (left/right)
+  yaw: number; // Y-axis rotation (left/right)
   pitch: number; // X-axis rotation (up/down) — clamped in first person
 }
 
 export interface PlayerState {
-  position:       PlayerPosition;
-  rotation:       PlayerRotation;
-  movementState:  PlayerMovementState;
-  cameraMode:     PlayerCameraMode;
-  currentZoneId:  string | null;
-  speed:          number;
+  position: PlayerPosition;
+  rotation: PlayerRotation;
+  movementState: PlayerMovementState;
+  cameraMode: PlayerCameraMode;
+  currentZoneId: string | null;
+  speed: number;
   isPointerLocked: boolean;
 }

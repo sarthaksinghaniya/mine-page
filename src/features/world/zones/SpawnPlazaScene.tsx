@@ -10,7 +10,6 @@ import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '../components/DistrictScene';
 import { AppManager } from '@core/apps/AppManager';
 
-
 export function SpawnPlazaScene(): React.ReactElement {
   const monumentRef = useRef<THREE.Mesh>(null);
   const waterRef = useRef<THREE.Mesh>(null);
@@ -42,9 +41,9 @@ export function SpawnPlazaScene(): React.ReactElement {
     gates.forEach((gate) => {
       // Offset positions around Spawn Plaza center (0,0,0)
       let pos = { x: 0, y: 1.0, z: -35 };
-      if (gate.id === 'gate-ai')     pos = { x: 35, y: 1.0, z: 0 };
+      if (gate.id === 'gate-ai') pos = { x: 35, y: 1.0, z: 0 };
       if (gate.id === 'gate-museum') pos = { x: -35, y: 1.0, z: 0 };
-      if (gate.id === 'gate-tower')  pos = { x: 0, y: 1.0, z: 35 };
+      if (gate.id === 'gate-tower') pos = { x: 0, y: 1.0, z: 35 };
 
       InteractionManager.register({
         id: gate.id,

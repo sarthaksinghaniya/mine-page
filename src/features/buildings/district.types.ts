@@ -6,33 +6,33 @@
 import type { ZoneTheme } from '../world/zone.types';
 
 export interface InteriorConfig {
-  id:             string;
-  name:           string;
+  id: string;
+  name: string;
   ambientIntensity: number;
-  lightColor:     string;
-  skyColor:       string;
+  lightColor: string;
+  skyColor: string;
 }
 
 export interface BuildingLot {
-  id:           string;
-  name:         string;
-  category:     'landmark' | 'commercial' | 'civic' | 'residential';
-  position:     { x: number; y: number; z: number };
-  scale:        { x: number; y: number; z: number };
-  rotation:     number; // Y yaw
-  interior?:    InteriorConfig; // Presence denotes interactable building
+  id: string;
+  name: string;
+  category: 'landmark' | 'commercial' | 'civic' | 'residential';
+  position: { x: number; y: number; z: number };
+  scale: { x: number; y: number; z: number };
+  rotation: number; // Y yaw
+  interior?: InteriorConfig; // Presence denotes interactable building
   interactRadius: number;
 }
 
 export interface DistrictDefinition {
-  id:        ZoneTheme;
-  name:      string;
-  lots:      BuildingLot[];
-  ambienceId:string; // Track loops from AudioManager
+  id: ZoneTheme;
+  name: string;
+  lots: BuildingLot[];
+  ambienceId: string; // Track loops from AudioManager
 }
 
 export const DISTRICT_REGISTRY: Record<ZoneTheme, DistrictDefinition> = {
-  'spawn': {
+  spawn: {
     id: 'spawn',
     name: 'Genesis Spawn Plaza',
     ambienceId: 'spawn-plaza-bg',
@@ -117,7 +117,7 @@ export const DISTRICT_REGISTRY: Record<ZoneTheme, DistrictDefinition> = {
       },
     ],
   },
-  'museum': {
+  museum: {
     id: 'museum',
     name: 'Career & Projects Museum',
     ambienceId: 'museum-echo-ambient',
@@ -140,7 +140,7 @@ export const DISTRICT_REGISTRY: Record<ZoneTheme, DistrictDefinition> = {
       },
     ],
   },
-  'spaceport': {
+  spaceport: {
     id: 'spaceport',
     name: 'Spaceport Future Island',
     ambienceId: 'spaceport-launch-ambient',

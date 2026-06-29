@@ -21,32 +21,32 @@
 
 export interface GameEventMap {
   // Player
-  'player:zoneChanged':     { from: string; to: string };
-  'player:interacted':      { targetId: string; type: string };
+  'player:zoneChanged': { from: string; to: string };
+  'player:interacted': { targetId: string; type: string };
   'player:positionUpdated': { x: number; y: number; z: number };
 
   // World
-  'world:zoneLoaded':       { zoneId: string };
-  'world:zoneUnloaded':     { zoneId: string };
-  'world:dayNightChanged':  { phase: 'day' | 'dusk' | 'night' | 'dawn'; normalizedTime: number };
+  'world:zoneLoaded': { zoneId: string };
+  'world:zoneUnloaded': { zoneId: string };
+  'world:dayNightChanged': { phase: 'day' | 'dusk' | 'night' | 'dawn'; normalizedTime: number };
 
   // Audio
-  'audio:ambientChanged':   { trackId: string; volume: number };
-  'audio:sfxTriggered':     { soundId: string; position?: { x: number; y: number; z: number } };
+  'audio:ambientChanged': { trackId: string; volume: number };
+  'audio:sfxTriggered': { soundId: string; position?: { x: number; y: number; z: number } };
 
   // Portfolio
-  'portfolio:projectOpened':   { projectId: string };
-  'portfolio:projectClosed':   void;
-  'portfolio:dataRefreshed':   { timestamp: number };
+  'portfolio:projectOpened': { projectId: string };
+  'portfolio:projectClosed': void;
+  'portfolio:dataRefreshed': { timestamp: number };
 
   // AI Assistant
   'assistant:messageReceived': { message: string; sender: 'user' | 'assistant' };
-  'assistant:sessionStarted':  void;
-  'assistant:sessionEnded':    void;
+  'assistant:sessionStarted': void;
+  'assistant:sessionEnded': void;
 
   // UI
-  'ui:menuOpened':   { menuId: string };
-  'ui:menuClosed':   { menuId: string };
+  'ui:menuOpened': { menuId: string };
+  'ui:menuClosed': { menuId: string };
   'ui:hudVisibility': { visible: boolean };
 }
 

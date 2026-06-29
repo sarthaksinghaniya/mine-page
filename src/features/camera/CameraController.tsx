@@ -20,10 +20,18 @@ import { damp } from '@shared/utils/math';
 import { useCameraStore, applyEasing, getTransitionProgress } from './camera.store';
 
 // ── Lazy mode components ──────────────────────────────────────────────────────
-const FollowCamera    = lazy(() => import('./modes/FollowCamera').then((m) => ({ default: m.FollowCamera })));
-const OrbitCamera     = lazy(() => import('./modes/OrbitCamera').then((m) => ({ default: m.OrbitCamera })));
-const CinematicCamera = lazy(() => import('./modes/CinematicCamera').then((m) => ({ default: m.CinematicCamera })));
-const FreeCamera      = lazy(() => import('./modes/FreeCamera').then((m) => ({ default: m.FreeCamera })));
+const FollowCamera = lazy(() =>
+  import('./modes/FollowCamera').then((m) => ({ default: m.FollowCamera })),
+);
+const OrbitCamera = lazy(() =>
+  import('./modes/OrbitCamera').then((m) => ({ default: m.OrbitCamera })),
+);
+const CinematicCamera = lazy(() =>
+  import('./modes/CinematicCamera').then((m) => ({ default: m.CinematicCamera })),
+);
+const FreeCamera = lazy(() =>
+  import('./modes/FreeCamera').then((m) => ({ default: m.FreeCamera })),
+);
 
 // ── FOV smoothing ─────────────────────────────────────────────────────────────
 
@@ -43,11 +51,11 @@ const FOV_DAMP = 6; // Lambda for FOV damping
  */
 export function CameraController(): React.ReactElement {
   const { camera } = useThree();
-  const mode             = useCameraStore((s) => s.mode);
-  const targetFov        = useCameraStore((s) => s.fov);
-  const zoom             = useCameraStore((s) => s.zoom);
-  const transition       = useCameraStore((s) => s.transition);
-  const tickTransition   = useCameraStore((s) => s.tickTransition);
+  const mode = useCameraStore((s) => s.mode);
+  const targetFov = useCameraStore((s) => s.fov);
+  const zoom = useCameraStore((s) => s.zoom);
+  const transition = useCameraStore((s) => s.transition);
+  const tickTransition = useCameraStore((s) => s.tickTransition);
 
   const currentFovRef = useRef(targetFov);
 
@@ -67,18 +75,30 @@ export function CameraController(): React.ReactElement {
     if (transition) {
       tickTransition(delta);
       const progress = getTransitionProgress();
-      const easedT   = applyEasing(progress, transition.easing);
+      const easedT = applyEasing(progress, transition.easing);
 
       // Interpolate between transition from/to positions
       camera.position.lerpVectors(
-        new THREE.Vector3(transition.from.position.x, transition.from.position.y, transition.from.position.z),
-        new THREE.Vector3(transition.to.position.x,   transition.to.position.y,   transition.to.position.z),
+        new THREE.Vector3(
+          transition.from.position.x,
+          transition.from.position.y,
+          transition.from.position.z,
+        ),
+        new THREE.Vector3(
+          transition.to.position.x,
+          transition.to.position.y,
+          transition.to.position.z,
+        ),
         easedT,
       );
 
       const lookAt = new THREE.Vector3().lerpVectors(
-        new THREE.Vector3(transition.from.lookAt.x, transition.from.lookAt.y, transition.from.lookAt.z),
-        new THREE.Vector3(transition.to.lookAt.x,   transition.to.lookAt.y,   transition.to.lookAt.z),
+        new THREE.Vector3(
+          transition.from.lookAt.x,
+          transition.from.lookAt.y,
+          transition.from.lookAt.z,
+        ),
+        new THREE.Vector3(transition.to.lookAt.x, transition.to.lookAt.y, transition.to.lookAt.z),
         easedT,
       );
       camera.lookAt(lookAt);
@@ -91,10 +111,10 @@ export function CameraController(): React.ReactElement {
 
   return (
     <Suspense fallback={null}>
-      {modeActive && mode === 'follow'    && <FollowCamera />}
-      {modeActive && mode === 'orbit'     && <OrbitCamera />}
+      {modeActive && mode === 'follow' && <FollowCamera />}
+      {modeActive && mode === 'orbit' && <OrbitCamera />}
       {modeActive && mode === 'cinematic' && <CinematicCamera />}
-      {modeActive && mode === 'free'      && <FreeCamera />}
+      {modeActive && mode === 'free' && <FreeCamera />}
     </Suspense>
   );
 }

@@ -4,16 +4,16 @@
  */
 
 export interface RoadIntersection {
-  id:       string;
+  id: string;
   position: { x: number; y: number; z: number };
-  type:     'cross' | 't-junction' | 'dead-end';
+  type: 'cross' | 't-junction' | 'dead-end';
 }
 
 export interface RoadSegment {
-  id:       string;
+  id: string;
   fromNode: string;
-  toNode:   string;
-  lanes:    number;
+  toNode: string;
+  lanes: number;
   sidewalk: boolean;
 }
 
@@ -28,11 +28,31 @@ class RoadNetworkClass {
   private generateNetworkGrid(): void {
     // Generate intersection nodes for the six districts
     this.addIntersection({ id: 'spawn-plaza-node', position: { x: 0, y: 0, z: 0 }, type: 'cross' });
-    this.addIntersection({ id: 'ai-district-node', position: { x: 400, y: 0, z: 0 }, type: 't-junction' });
-    this.addIntersection({ id: 'hackathon-node', position: { x: -400, y: 0, z: 0 }, type: 'dead-end' });
-    this.addIntersection({ id: 'tech-hq-node', position: { x: 0, y: 0, z: 400 }, type: 't-junction' });
-    this.addIntersection({ id: 'museum-node', position: { x: 0, y: 0, z: -400 }, type: 'dead-end' });
-    this.addIntersection({ id: 'spaceport-node', position: { x: 400, y: 0, z: 400 }, type: 'cross' });
+    this.addIntersection({
+      id: 'ai-district-node',
+      position: { x: 400, y: 0, z: 0 },
+      type: 't-junction',
+    });
+    this.addIntersection({
+      id: 'hackathon-node',
+      position: { x: -400, y: 0, z: 0 },
+      type: 'dead-end',
+    });
+    this.addIntersection({
+      id: 'tech-hq-node',
+      position: { x: 0, y: 0, z: 400 },
+      type: 't-junction',
+    });
+    this.addIntersection({
+      id: 'museum-node',
+      position: { x: 0, y: 0, z: -400 },
+      type: 'dead-end',
+    });
+    this.addIntersection({
+      id: 'spaceport-node',
+      position: { x: 400, y: 0, z: 400 },
+      type: 'cross',
+    });
 
     // Link nodes together with segments (lanes/sidewalks)
     this.addSegment('seg-spawn-to-ai', 'spawn-plaza-node', 'ai-district-node', 2, true);
@@ -70,7 +90,11 @@ class RoadNetworkClass {
     // Yields simple linear segment interpolation paths
     return [
       { x: from.position.x, y: 0.1, z: from.position.z },
-      { x: (from.position.x + to.position.x) / 2, y: 0.1, z: (from.position.z + to.position.z) / 2 },
+      {
+        x: (from.position.x + to.position.x) / 2,
+        y: 0.1,
+        z: (from.position.z + to.position.z) / 2,
+      },
       { x: to.position.x, y: 0.1, z: to.position.z },
     ];
   }

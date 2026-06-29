@@ -8,10 +8,7 @@
  * Asserts that a value is defined (not null or undefined).
  * Throws a descriptive error in development, asserts in production.
  */
-export function assertDefined<T>(
-  value: T | null | undefined,
-  message: string,
-): asserts value is T {
+export function assertDefined<T>(value: T | null | undefined, message: string): asserts value is T {
   if (value === null || value === undefined) {
     throw new Error(`[assertDefined] ${message}`);
   }

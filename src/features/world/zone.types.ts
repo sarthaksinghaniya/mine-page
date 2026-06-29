@@ -6,12 +6,7 @@
 import type * as THREE from 'three';
 
 export type ZoneTheme =
-  | 'spawn'
-  | 'ai-research'
-  | 'hackathon-arena'
-  | 'tech-hq'
-  | 'museum'
-  | 'spaceport';
+  'spawn' | 'ai-research' | 'hackathon-arena' | 'tech-hq' | 'museum' | 'spaceport';
 
 export interface ZoneBounds {
   min: { x: number; z: number };
@@ -19,17 +14,17 @@ export interface ZoneBounds {
 }
 
 export interface ZoneConfig {
-  id:           string;
-  name:         string;
-  theme:        ZoneTheme;
-  center:       { x: number; y: number; z: number };
-  radius:       number; // Radius for streaming activation
-  bounds:       ZoneBounds;
-  color:        string; // Debug terrain grids
+  id: string;
+  name: string;
+  theme: ZoneTheme;
+  center: { x: number; y: number; z: number };
+  radius: number; // Radius for streaming activation
+  bounds: ZoneBounds;
+  color: string; // Debug terrain grids
 }
 
 export const WORLD_ZONES: Record<ZoneTheme, ZoneConfig> = {
-  'spawn': {
+  spawn: {
     id: 'spawn',
     name: 'Genesis Spawn Plaza',
     theme: 'spawn',
@@ -65,7 +60,7 @@ export const WORLD_ZONES: Record<ZoneTheme, ZoneConfig> = {
     bounds: { min: { x: -150, z: 250 }, max: { x: 150, z: 550 } },
     color: '#00ff66',
   },
-  'museum': {
+  museum: {
     id: 'museum',
     name: 'Career & Projects Museum',
     theme: 'museum',
@@ -74,7 +69,7 @@ export const WORLD_ZONES: Record<ZoneTheme, ZoneConfig> = {
     bounds: { min: { x: -150, z: -550 }, max: { x: 150, z: -250 } },
     color: '#ffcc00',
   },
-  'spaceport': {
+  spaceport: {
     id: 'spaceport',
     name: 'Spaceport Future Island',
     theme: 'spaceport',

@@ -18,10 +18,12 @@ export function LoadingStats({ progress, assets }: LoadingStatsProps): React.Rea
 
   // Locate the active loading target
   const currentAsset = activeList.find((a) => a.status === 'loading');
-  const currentName = currentAsset ? currentAsset.src.split('/').pop() ?? 'asset' : 'Ready';
+  const currentName = currentAsset ? (currentAsset.src.split('/').pop() ?? 'asset') : 'Ready';
 
   return (
-    <div style={{ textAlign: 'center', fontFamily: 'monospace', fontSize: '11px', color: '#a0a0c0' }}>
+    <div
+      style={{ textAlign: 'center', fontFamily: 'monospace', fontSize: '11px', color: '#a0a0c0' }}
+    >
       <div style={{ color: '#00e5f0', fontSize: '14px', marginBottom: '8px', fontWeight: 'bold' }}>
         {progress}%
       </div>

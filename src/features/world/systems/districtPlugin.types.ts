@@ -10,16 +10,16 @@ import type { CinematicSequence } from '@/core/cinematic/cinematic.types';
 
 export interface AudioProfile {
   ambienceId: string;
-  volume:     number;
+  volume: number;
 }
 
 export interface DistrictPlugin {
-  id:           ZoneTheme;
-  name:         string;
-  preload:      () => Promise<void>;
-  mount:        () => React.ReactElement;
-  unmount:      () => void;
-  audio:        AudioProfile;
+  id: ZoneTheme;
+  name: string;
+  preload: () => Promise<void>;
+  mount: () => React.ReactElement;
+  unmount: () => void;
+  audio: AudioProfile;
   interactions: InteractableConfig[];
-  cinematics:   CinematicSequence[];
+  cinematics: CinematicSequence[];
 }

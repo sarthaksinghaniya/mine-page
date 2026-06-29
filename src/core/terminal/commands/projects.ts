@@ -8,15 +8,16 @@ import { PortfolioDataService } from '@/core/data/PortfolioDataService';
 
 export const projectsCommand: TerminalCommand = {
   keyword: 'projects',
-  description: 'List portfolio projects or inspect a specific project details (e.g. projects ecosphere-ai)',
+  description:
+    'List portfolio projects or inspect a specific project details (e.g. projects ecosphere-ai)',
   execute: (args) => {
     const service = PortfolioDataService;
     const targetId = args[0];
 
     if (!targetId) {
-      const list = service.getProjects().map(
-        (p) => `${p.id.padEnd(16)} - ${p.title} (${p.summary})`
-      );
+      const list = service
+        .getProjects()
+        .map((p) => `${p.id.padEnd(16)} - ${p.title} (${p.summary})`);
       return [
         'Portfolio Projects:',
         ...list,

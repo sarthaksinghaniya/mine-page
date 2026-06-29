@@ -30,12 +30,12 @@ interface GameTime {
 const MAX_DELTA_SECONDS = 0.1; // 100ms cap — prevents physics tunneling on tab-blur
 
 export const gameTime: GameTime = {
-  elapsed:     0,
-  delta:       0,
-  timeScale:   1,
+  elapsed: 0,
+  delta: 0,
+  timeScale: 1,
   gameElapsed: 0,
-  gameDelta:   0,
-  frame:       0,
+  gameDelta: 0,
+  frame: 0,
 };
 
 // ── Update (called by GameLoop.tsx every frame) ────────────────────────────────
@@ -48,11 +48,11 @@ export const gameTime: GameTime = {
  */
 export function updateGameTime(rawDelta: number): void {
   const clampedDelta = Math.min(rawDelta, MAX_DELTA_SECONDS);
-  gameTime.delta       = clampedDelta;
-  gameTime.elapsed    += clampedDelta;
-  gameTime.gameDelta   = clampedDelta * gameTime.timeScale;
+  gameTime.delta = clampedDelta;
+  gameTime.elapsed += clampedDelta;
+  gameTime.gameDelta = clampedDelta * gameTime.timeScale;
   gameTime.gameElapsed += gameTime.gameDelta;
-  gameTime.frame      += 1;
+  gameTime.frame += 1;
 }
 
 /**

@@ -13,7 +13,8 @@ export const SCENE_REGISTRY: Record<Exclude<SceneId, 'loading'>, SceneDefinition
   world: {
     id: 'world',
     // Dynamic import of the world rendering node
-    component: () => import('@/features/world/components/WorldRoot').then((m) => ({ default: m.WorldRoot })),
+    component: () =>
+      import('@/features/world/components/WorldRoot').then((m) => ({ default: m.WorldRoot })),
     preloadAssets: ['env-default', 'mesh-cube'],
   },
   menu: {

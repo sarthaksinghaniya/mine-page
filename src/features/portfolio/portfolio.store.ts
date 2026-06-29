@@ -12,33 +12,33 @@ import type {
 } from './portfolio.types';
 
 interface PortfolioActions {
-  setProjects:       (projects: PortfolioProject[]) => void;
-  setSkills:         (skills: PortfolioSkill[]) => void;
-  setExperience:     (experience: WorkExperience[]) => void;
-  setLoading:        (loading: boolean) => void;
-  setError:          (error: string | null) => void;
-  setActiveProject:  (projectId: string | null) => void;
-  setLastUpdated:    (timestamp: number) => void;
+  setProjects: (projects: PortfolioProject[]) => void;
+  setSkills: (skills: PortfolioSkill[]) => void;
+  setExperience: (experience: WorkExperience[]) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  setActiveProject: (projectId: string | null) => void;
+  setLastUpdated: (timestamp: number) => void;
 }
 
 type PortfolioStore = PortfolioState & PortfolioActions;
 
 export const usePortfolioStore = create<PortfolioStore>()((set) => ({
   // ── Initial State ────────────────────────────────────────────────────────────
-  projects:        [],
-  skills:          [],
-  experience:      [],
-  loading:         false,
-  error:           null,
+  projects: [],
+  skills: [],
+  experience: [],
+  loading: false,
+  error: null,
   activeProjectId: null,
-  lastUpdated:     null,
+  lastUpdated: null,
 
   // ── Actions ──────────────────────────────────────────────────────────────────
-  setProjects:      (projects) => set({ projects }),
-  setSkills:        (skills) => set({ skills }),
-  setExperience:    (experience) => set({ experience }),
-  setLoading:       (loading) => set({ loading }),
-  setError:         (error) => set({ error }),
+  setProjects: (projects) => set({ projects }),
+  setSkills: (skills) => set({ skills }),
+  setExperience: (experience) => set({ experience }),
+  setLoading: (loading) => set({ loading }),
+  setError: (error) => set({ error }),
   setActiveProject: (activeProjectId) => set({ activeProjectId }),
-  setLastUpdated:   (timestamp) => set({ lastUpdated: timestamp }),
+  setLastUpdated: (timestamp) => set({ lastUpdated: timestamp }),
 }));

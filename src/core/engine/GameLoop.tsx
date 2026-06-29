@@ -22,8 +22,8 @@ import { updateGameTime } from './TimeSystem';
 export type SystemTickFn = (delta: number) => void;
 
 interface RegisteredSystem {
-  id:       string;
-  tick:     SystemTickFn;
+  id: string;
+  tick: SystemTickFn;
   /** Lower priority runs first. Default: 0 */
   priority: number;
 }

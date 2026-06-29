@@ -12,7 +12,7 @@
 import { useLightingStore } from '../lighting.store';
 
 export function AmbientLighting(): React.ReactElement {
-  const ambient   = useLightingStore((s) => s.ambient);
+  const ambient = useLightingStore((s) => s.ambient);
   const hemisphere = useLightingStore((s) => s.hemisphere);
 
   return (
@@ -22,10 +22,7 @@ export function AmbientLighting(): React.ReactElement {
         groundColor={hemisphere.groundColor}
         intensity={hemisphere.intensity}
       />
-      <ambientLight
-        color={ambient.color}
-        intensity={ambient.intensity}
-      />
+      <ambientLight color={ambient.color} intensity={ambient.intensity} />
     </>
   );
 }

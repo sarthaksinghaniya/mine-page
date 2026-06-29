@@ -15,7 +15,12 @@ export function InteriorRoot({ config }: InteriorRootProps): React.ReactElement 
     <group name={`interior-${config.id}`}>
       {/* Dynamic isolated lighting */}
       <ambientLight intensity={config.ambientIntensity} color={config.lightColor} />
-      <directionalLight position={[5, 15, 5]} intensity={1.5} color={config.lightColor} castShadow />
+      <directionalLight
+        position={[5, 15, 5]}
+        intensity={1.5}
+        color={config.lightColor}
+        castShadow
+      />
       <pointLight position={[0, 8, 0]} intensity={2.0} color="#ffffff" distance={30} />
 
       {/* Ceiling box */}

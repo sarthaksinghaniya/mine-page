@@ -18,21 +18,21 @@ import { useCameraStore } from '../camera.store';
 import type { CinematicKeyframe } from '../camera.types';
 
 // ── Scratch ───────────────────────────────────────────────────────────────────
-const _pos    = new THREE.Vector3();
+const _pos = new THREE.Vector3();
 const _lookAt = new THREE.Vector3();
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function interpolateKeyframes(
-  keyframes:  CinematicKeyframe[],
-  elapsed:    number,
-  duration:   number,
+  keyframes: CinematicKeyframe[],
+  elapsed: number,
+  duration: number,
 ): { position: THREE.Vector3; lookAt: THREE.Vector3; fov: number } {
   const t = Math.min(elapsed / duration, 1);
 
   // Find surrounding keyframes
   let fromKf = keyframes[0];
-  let toKf   = keyframes[keyframes.length - 1];
+  let toKf = keyframes[keyframes.length - 1];
 
   for (let i = 0; i < keyframes.length - 1; i++) {
     const a = keyframes[i];
@@ -42,16 +42,15 @@ function interpolateKeyframes(
     const kfTNext = b.time / duration;
     if (t >= kfT && t <= kfTNext) {
       fromKf = a;
-      toKf   = b;
+      toKf = b;
       break;
     }
   }
 
   // Local t between the two keyframes
   const segDuration = toKf.time - fromKf.time;
-  const localT = segDuration > 0
-    ? Math.max(0, Math.min(1, (elapsed - fromKf.time) / segDuration))
-    : 1;
+  const localT =
+    segDuration > 0 ? Math.max(0, Math.min(1, (elapsed - fromKf.time) / segDuration)) : 1;
 
   // GSAP ease interpolation
   const easedT = gsap.parseEase('power2.inOut')(localT);
@@ -68,11 +67,7 @@ function interpolateKeyframes(
     easedT,
   );
 
-  const fov = THREE.MathUtils.lerp(
-    fromKf.fov ?? 75,
-    toKf.fov ?? 75,
-    easedT,
-  );
+  const fov = THREE.MathUtils.lerp(fromKf.fov ?? 75, toKf.fov ?? 75, easedT);
 
   return { position: _pos, lookAt: _lookAt, fov };
 }
@@ -81,7 +76,7 @@ function interpolateKeyframes(
 
 export function CinematicCamera(): null {
   const { camera } = useThree();
-  const cinematic   = useCameraStore((s) => s.cinematic);
+  const cinematic = useCameraStore((s) => s.cinematic);
   const stopCinematic = useCameraStore((s) => s.stopCinematic);
 
   const elapsedRef = useRef(0);

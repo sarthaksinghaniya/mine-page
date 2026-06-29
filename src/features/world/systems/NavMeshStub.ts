@@ -4,7 +4,7 @@
  */
 
 export interface NavNode {
-  id:       string;
+  id: string;
   position: { x: number; y: number; z: number };
   neighbors: string[];
 }
@@ -18,7 +18,11 @@ class NavMeshStubClass {
 
   private generateDefaultGraph(): void {
     // Basic nodes centered around key zones
-    this.addNode({ id: 'spawn', position: { x: 0, y: 0, z: 0 }, neighbors: ['ai', 'hack', 'hq', 'museum'] });
+    this.addNode({
+      id: 'spawn',
+      position: { x: 0, y: 0, z: 0 },
+      neighbors: ['ai', 'hack', 'hq', 'museum'],
+    });
     this.addNode({ id: 'ai', position: { x: 400, y: 0, z: 0 }, neighbors: ['spawn', 'spaceport'] });
     this.addNode({ id: 'hack', position: { x: -400, y: 0, z: 0 }, neighbors: ['spawn'] });
     this.addNode({ id: 'hq', position: { x: 0, y: 0, z: 400 }, neighbors: ['spawn', 'spaceport'] });

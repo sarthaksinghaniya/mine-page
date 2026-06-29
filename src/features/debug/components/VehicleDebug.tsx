@@ -59,7 +59,16 @@ export function VehicleDebug(): React.ReactElement | null {
         pointerEvents: 'none',
       }}
     >
-      <div style={{ fontSize: '12px', borderBottom: '1px solid rgba(255, 85, 0, 0.2)', paddingBottom: '6px', marginBottom: '8px', color: '#ff5500', fontWeight: 'bold' }}>
+      <div
+        style={{
+          fontSize: '12px',
+          borderBottom: '1px solid rgba(255, 85, 0, 0.2)',
+          paddingBottom: '6px',
+          marginBottom: '8px',
+          color: '#ff5500',
+          fontWeight: 'bold',
+        }}
+      >
         VEHICLE TELEMETRY (F6)
       </div>
       <MetricRow label="Possessed" value={activeId ? 'Yes' : 'No'} />

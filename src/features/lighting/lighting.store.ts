@@ -21,23 +21,23 @@ import { LIGHTING_PRESET_NOON } from './lighting.types';
 
 interface LightingActions {
   /** Partially update sun configuration */
-  setSun:         (config: Partial<SunConfig>) => void;
+  setSun: (config: Partial<SunConfig>) => void;
   /** Partially update ambient configuration */
-  setAmbient:     (config: Partial<AmbientConfig>) => void;
+  setAmbient: (config: Partial<AmbientConfig>) => void;
   /** Partially update hemisphere configuration */
-  setHemisphere:  (config: Partial<HemisphereConfig>) => void;
+  setHemisphere: (config: Partial<HemisphereConfig>) => void;
   /** Partially update fog configuration */
-  setFog:         (config: Partial<FogConfig>) => void;
+  setFog: (config: Partial<FogConfig>) => void;
   /** Partially update environment map configuration */
   setEnvironment: (config: Partial<EnvironmentMapConfig>) => void;
   /** Apply a full lighting preset instantly (for day/night transitions) */
-  applyPreset:    (preset: LightingState) => void;
+  applyPreset: (preset: LightingState) => void;
   /**
    * Interpolate toward a target preset (for smooth day/night blending).
    * @param target - Target lighting state
    * @param t      - Blend factor [0, 1]
    */
-  blendToward:    (target: LightingState, t: number) => void;
+  blendToward: (target: LightingState, t: number) => void;
 }
 
 type LightingStore = LightingState & LightingActions;
@@ -48,18 +48,18 @@ export const useLightingStore = create<LightingStore>()(
     ...LIGHTING_PRESET_NOON,
 
     // ── Actions ────────────────────────────────────────────────────────────────
-    setSun:        (config) => set((s) => ({ sun:         { ...s.sun,         ...config } })),
-    setAmbient:    (config) => set((s) => ({ ambient:     { ...s.ambient,     ...config } })),
-    setHemisphere: (config) => set((s) => ({ hemisphere:  { ...s.hemisphere,  ...config } })),
-    setFog:        (config) => set((s) => ({ fog:         { ...s.fog,         ...config } })),
-    setEnvironment:(config) => set((s) => ({ environment: { ...s.environment, ...config } })),
+    setSun: (config) => set((s) => ({ sun: { ...s.sun, ...config } })),
+    setAmbient: (config) => set((s) => ({ ambient: { ...s.ambient, ...config } })),
+    setHemisphere: (config) => set((s) => ({ hemisphere: { ...s.hemisphere, ...config } })),
+    setFog: (config) => set((s) => ({ fog: { ...s.fog, ...config } })),
+    setEnvironment: (config) => set((s) => ({ environment: { ...s.environment, ...config } })),
 
     applyPreset: (preset) =>
       set({
-        sun:         preset.sun,
-        ambient:     preset.ambient,
-        hemisphere:  preset.hemisphere,
-        fog:         preset.fog,
+        sun: preset.sun,
+        ambient: preset.ambient,
+        hemisphere: preset.hemisphere,
+        fog: preset.fog,
         environment: preset.environment,
       }),
 
@@ -83,7 +83,7 @@ export const useLightingStore = create<LightingStore>()(
         sun: {
           ...current.sun,
           intensity: lerp(current.sun.intensity, target.sun.intensity),
-          color:     lerpColor(current.sun.color, target.sun.color),
+          color: lerpColor(current.sun.color, target.sun.color),
           position: {
             x: lerp(current.sun.position.x, target.sun.position.x),
             y: lerp(current.sun.position.y, target.sun.position.y),
@@ -92,16 +92,16 @@ export const useLightingStore = create<LightingStore>()(
         },
         ambient: {
           intensity: lerp(current.ambient.intensity, target.ambient.intensity),
-          color:     lerpColor(current.ambient.color, target.ambient.color),
+          color: lerpColor(current.ambient.color, target.ambient.color),
         },
         hemisphere: {
-          skyColor:    lerpColor(current.hemisphere.skyColor,    target.hemisphere.skyColor),
+          skyColor: lerpColor(current.hemisphere.skyColor, target.hemisphere.skyColor),
           groundColor: lerpColor(current.hemisphere.groundColor, target.hemisphere.groundColor),
-          intensity:   lerp(current.hemisphere.intensity, target.hemisphere.intensity),
+          intensity: lerp(current.hemisphere.intensity, target.hemisphere.intensity),
         },
         fog: {
           ...current.fog,
-          color:   lerpColor(current.fog.color, target.fog.color),
+          color: lerpColor(current.fog.color, target.fog.color),
           density: lerp(current.fog.density, target.fog.density),
         },
       });

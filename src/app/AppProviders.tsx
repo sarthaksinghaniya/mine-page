@@ -18,7 +18,7 @@ import React, { type ReactNode } from 'react';
 // ── Error Boundary ────────────────────────────────────────────────────────────
 
 interface ErrorBoundaryState {
-  hasError:  boolean;
+  hasError: boolean;
   errorMessage: string;
 }
 
@@ -45,16 +45,16 @@ class RootErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundar
       return (
         <div
           style={{
-            display:         'flex',
-            flexDirection:   'column',
-            alignItems:      'center',
-            justifyContent:  'center',
-            height:          '100vh',
-            background:      '#050508',
-            color:           '#f0f0ff',
-            fontFamily:      'monospace',
-            gap:             '16px',
-            padding:         '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+            background: '#050508',
+            color: '#f0f0ff',
+            fontFamily: 'monospace',
+            gap: '16px',
+            padding: '24px',
           }}
         >
           <h1 style={{ color: '#ff0090', margin: 0 }}>System Failure</h1>
@@ -65,10 +65,10 @@ class RootErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundar
             onClick={() => this.setState({ hasError: false, errorMessage: '' })}
             style={{
               background: 'transparent',
-              border:     '1px solid #00adc0',
-              color:      '#00adc0',
-              padding:    '8px 24px',
-              cursor:     'pointer',
+              border: '1px solid #00adc0',
+              color: '#00adc0',
+              padding: '8px 24px',
+              cursor: 'pointer',
               fontFamily: 'monospace',
             }}
           >
@@ -95,9 +95,7 @@ interface AppProvidersProps {
 export function AppProviders({ children }: AppProvidersProps): React.ReactElement {
   return (
     <RootErrorBoundary>
-      <React.Suspense fallback={null}>
-        {children}
-      </React.Suspense>
+      <React.Suspense fallback={null}>{children}</React.Suspense>
     </RootErrorBoundary>
   );
 }

@@ -7,4 +7,3 @@ export * from './buildings.types';
 export * from './district.types';
 export * from './components/BuildingRoot';
 export * from './components/InteriorRoot';
-

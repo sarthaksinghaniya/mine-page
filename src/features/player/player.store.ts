@@ -19,12 +19,12 @@ import type {
 } from './player.types';
 
 interface PlayerActions {
-  setPosition:       (position: PlayerPosition) => void;
-  setRotation:       (rotation: PlayerRotation) => void;
-  setMovementState:  (state: PlayerMovementState) => void;
-  setCameraMode:     (mode: PlayerCameraMode) => void;
-  setCurrentZone:    (zoneId: string | null) => void;
-  setPointerLocked:  (locked: boolean) => void;
+  setPosition: (position: PlayerPosition) => void;
+  setRotation: (rotation: PlayerRotation) => void;
+  setMovementState: (state: PlayerMovementState) => void;
+  setCameraMode: (mode: PlayerCameraMode) => void;
+  setCurrentZone: (zoneId: string | null) => void;
+  setPointerLocked: (locked: boolean) => void;
 }
 
 type PlayerStore = PlayerState & PlayerActions;
@@ -32,20 +32,20 @@ type PlayerStore = PlayerState & PlayerActions;
 export const usePlayerStore = create<PlayerStore>()(
   subscribeWithSelector((set) => ({
     // ── Initial State ──────────────────────────────────────────────────────────
-    position:        { x: 0, y: 0, z: 0 },
-    rotation:        { yaw: 0, pitch: 0 },
-    movementState:   'idle',
-    cameraMode:      'thirdPerson',
-    currentZoneId:   null,
-    speed:           5,
+    position: { x: 0, y: 0, z: 0 },
+    rotation: { yaw: 0, pitch: 0 },
+    movementState: 'idle',
+    cameraMode: 'thirdPerson',
+    currentZoneId: null,
+    speed: 5,
     isPointerLocked: false,
 
     // ── Actions ────────────────────────────────────────────────────────────────
-    setPosition:      (position) => set({ position }),
-    setRotation:      (rotation) => set({ rotation }),
+    setPosition: (position) => set({ position }),
+    setRotation: (rotation) => set({ rotation }),
     setMovementState: (movementState) => set({ movementState }),
-    setCameraMode:    (cameraMode) => set({ cameraMode }),
-    setCurrentZone:   (currentZoneId) => set({ currentZoneId }),
+    setCameraMode: (cameraMode) => set({ cameraMode }),
+    setCurrentZone: (currentZoneId) => set({ currentZoneId }),
     setPointerLocked: (isPointerLocked) => set({ isPointerLocked }),
   })),
 );

@@ -12,8 +12,6 @@ import { AiRobotNpc } from '../components/AiRobotNpc';
 import { TerminalManager } from '@core/terminal/TerminalManager';
 import { AppManager } from '@core/apps/AppManager';
 
-
-
 export function AIResearchScene(): React.ReactElement {
   const outerSphereRef = useRef<THREE.Mesh>(null);
   const innerSphereRef = useRef<THREE.Mesh>(null);
@@ -38,9 +36,24 @@ export function AIResearchScene(): React.ReactElement {
   // Register local campus terminals in InteractionManager on mount
   useEffect(() => {
     const terminals = [
-      { id: 'ai-term-llm', name: 'LLM Sandbox Terminal', pos: { x: 380, y: 1.0, z: -10 }, text: 'LLM Model sandbox loading...' },
-      { id: 'ai-term-cv', name: 'Computer Vision Gate', pos: { x: 420, y: 1.0, z: 10 }, text: 'Object detector model loading...' },
-      { id: 'ai-term-core', name: 'Neural Core Mainframe', pos: { x: 400, y: 1.0, z: -25 }, text: 'Neural weights database loading...' },
+      {
+        id: 'ai-term-llm',
+        name: 'LLM Sandbox Terminal',
+        pos: { x: 380, y: 1.0, z: -10 },
+        text: 'LLM Model sandbox loading...',
+      },
+      {
+        id: 'ai-term-cv',
+        name: 'Computer Vision Gate',
+        pos: { x: 420, y: 1.0, z: 10 },
+        text: 'Object detector model loading...',
+      },
+      {
+        id: 'ai-term-core',
+        name: 'Neural Core Mainframe',
+        pos: { x: 400, y: 1.0, z: -25 },
+        text: 'Neural weights database loading...',
+      },
     ];
 
     terminals.forEach((term) => {
@@ -79,7 +92,6 @@ export function AIResearchScene(): React.ReactElement {
       InteractionManager.unregister('portal-skills-lab');
     };
   }, []);
-
 
   return (
     <DistrictScene id="ai-research">

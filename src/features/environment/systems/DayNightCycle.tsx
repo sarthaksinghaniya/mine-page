@@ -12,12 +12,12 @@ import { eventBus } from '@core/events/EventBus';
 
 export function DayNightCycle(): React.ReactElement | null {
   const cycleRunning = useEnvironmentStore((s) => s.cycleRunning);
-  const cycleSpeed   = useEnvironmentStore((s) => s.cycleSpeed);
-  const sun          = useEnvironmentStore((s) => s.sun);
+  const cycleSpeed = useEnvironmentStore((s) => s.cycleSpeed);
+  const sun = useEnvironmentStore((s) => s.sun);
   const setTimeOfDay = useEnvironmentStore((s) => s.setTimeOfDay);
-  const setSunState  = useEnvironmentStore((s) => s.setSunState);
+  const setSunState = useEnvironmentStore((s) => s.setSunState);
 
-  const blendToward  = useLightingStore((s) => s.blendToward);
+  const blendToward = useLightingStore((s) => s.blendToward);
 
   useFrame((_, delta) => {
     if (!cycleRunning) return;

@@ -6,16 +6,14 @@
 import React, { Suspense } from 'react';
 
 interface DistrictSceneProps {
-  id:       string;
+  id: string;
   children: React.ReactNode;
 }
 
 export function DistrictScene({ id, children }: DistrictSceneProps): React.ReactElement {
   return (
     <group name={`district-scene-${id}`}>
-      <Suspense fallback={null}>
-        {children}
-      </Suspense>
+      <Suspense fallback={null}>{children}</Suspense>
     </group>
   );
 }

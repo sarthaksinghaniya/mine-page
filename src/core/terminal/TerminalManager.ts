@@ -5,7 +5,6 @@ import { helpCommand } from './commands/help';
 import { projectsCommand } from './commands/projects';
 import { skillsCommand } from './commands/skills';
 
-
 class TerminalManagerClass {
   private readonly commands = new Map<string, TerminalCommand>();
   private readonly state: TerminalState = {
@@ -59,12 +58,15 @@ class TerminalManagerClass {
     });
   }
 
-
   open(terminalId: string): void {
     this.state.isOpen = true;
     this.state.activeId = terminalId;
     this.state.lines = [
-      { id: generateUUID(), text: `Initializing terminal interface... [ID: ${terminalId}]`, type: 'success' },
+      {
+        id: generateUUID(),
+        text: `Initializing terminal interface... [ID: ${terminalId}]`,
+        type: 'success',
+      },
       { id: generateUUID(), text: 'Type "help" for a list of available commands.', type: 'output' },
     ];
     this.notify();
@@ -93,7 +95,11 @@ class TerminalManagerClass {
 
     const cmd = this.commands.get(keyword);
     if (!cmd) {
-      this.state.lines.push({ id: generateUUID(), text: `Error: command not found "${keyword}". Type "help" to list commands.`, type: 'error' });
+      this.state.lines.push({
+        id: generateUUID(),
+        text: `Error: command not found "${keyword}". Type "help" to list commands.`,
+        type: 'error',
+      });
       this.notify();
       return;
     }

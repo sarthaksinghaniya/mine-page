@@ -20,17 +20,17 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
 /** Orbit camera configuration constants */
 const ORBIT_CONFIG = {
-  minDistance:      2,
-  maxDistance:      50,
-  minPolarAngle:    0,
-  maxPolarAngle:    Math.PI * 0.85, // Prevent going below ground
-  dampingFactor:    0.08,
-  rotateSpeed:      0.8,
-  zoomSpeed:        1.2,
-  panSpeed:         0.8,
-  enablePan:        true,
-  enableZoom:       true,
-  enableRotate:     true,
+  minDistance: 2,
+  maxDistance: 50,
+  minPolarAngle: 0,
+  maxPolarAngle: Math.PI * 0.85, // Prevent going below ground
+  dampingFactor: 0.08,
+  rotateSpeed: 0.8,
+  zoomSpeed: 1.2,
+  panSpeed: 0.8,
+  enablePan: true,
+  enableZoom: true,
+  enableRotate: true,
 } as const;
 
 // ── Component ─────────────────────────────────────────────────────────────────

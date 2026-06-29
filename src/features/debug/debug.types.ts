@@ -4,14 +4,14 @@
  */
 
 export interface DebugMetrics {
-  fps:       number;
-  memory:    number; // MB used
+  fps: number;
+  memory: number; // MB used
   drawCalls: number;
   triangles: number;
-  points:    number;
-  lines:     number;
-  geometries:number;
-  textures:  number;
+  points: number;
+  lines: number;
+  geometries: number;
+  textures: number;
 }
 
 export interface DebugState {

@@ -35,7 +35,11 @@ export function BuildingRoot({ lot, color }: BuildingRootProps): React.ReactElem
   });
 
   return (
-    <group ref={groupRef} position={[lot.position.x, lot.position.y, lot.position.z]} rotation={[0, lot.rotation, 0]}>
+    <group
+      ref={groupRef}
+      position={[lot.position.x, lot.position.y, lot.position.z]}
+      rotation={[0, lot.rotation, 0]}
+    >
       {/* Structural visual placeholder box */}
       <mesh castShadow receiveShadow>
         <boxGeometry args={[lot.scale.x, lot.scale.y, lot.scale.z]} />
@@ -49,7 +53,9 @@ export function BuildingRoot({ lot, color }: BuildingRootProps): React.ReactElem
       </mesh>
 
       {/* Frame casing boundary highlighting */}
-      <boxHelper args={[new THREE.Mesh(new THREE.BoxGeometry(lot.scale.x, lot.scale.y, lot.scale.z)), color]} />
+      <boxHelper
+        args={[new THREE.Mesh(new THREE.BoxGeometry(lot.scale.x, lot.scale.y, lot.scale.z)), color]}
+      />
 
       {/* Glow highlight cylinder when player is near */}
       {near && lot.interior && (

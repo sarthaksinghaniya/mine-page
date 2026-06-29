@@ -41,7 +41,11 @@ export function InstancedProps(): React.ReactElement {
         tempRotation.set(0, Math.random() * Math.PI, 0);
         tempScale.set(1.5, 3 + Math.random() * 2, 1.5);
 
-        tempMatrix.compose(tempPosition, new THREE.Quaternion().setFromEuler(tempRotation), tempScale);
+        tempMatrix.compose(
+          tempPosition,
+          new THREE.Quaternion().setFromEuler(tempRotation),
+          tempScale,
+        );
         if (treeMesh) {
           treeMesh.setMatrixAt(treeIdx++, tempMatrix);
         }
@@ -60,7 +64,11 @@ export function InstancedProps(): React.ReactElement {
         tempRotation.set(0, 0, 0);
         tempScale.set(0.4, 5, 0.4);
 
-        tempMatrix.compose(tempPosition, new THREE.Quaternion().setFromEuler(tempRotation), tempScale);
+        tempMatrix.compose(
+          tempPosition,
+          new THREE.Quaternion().setFromEuler(tempRotation),
+          tempScale,
+        );
         if (lampMesh) {
           lampMesh.setMatrixAt(lampIdx++, tempMatrix);
         }

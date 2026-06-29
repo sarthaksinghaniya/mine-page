@@ -20,11 +20,11 @@ import { useCameraShake } from '../hooks/useCameraShake';
 import { usePlayerStore } from '@/features/player/player.store';
 
 // ── Scratch objects — allocated once, reused every frame ──────────────────────
-const _targetPos    = new THREE.Vector3();
-const _desiredPos   = new THREE.Vector3();
-const _currentPos   = new THREE.Vector3();
+const _targetPos = new THREE.Vector3();
+const _desiredPos = new THREE.Vector3();
+const _currentPos = new THREE.Vector3();
 const _lookAtTarget = new THREE.Vector3();
-const _offsetWorld  = new THREE.Vector3();
+const _offsetWorld = new THREE.Vector3();
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -39,13 +39,12 @@ export function FollowCamera(): null {
   const playerPos = usePlayerStore((s) => s.position);
 
   // Current smoothed position and look-at (initialized from camera)
-  const smoothedPos    = useRef(camera.position.clone());
+  const smoothedPos = useRef(camera.position.clone());
   const smoothedLookAt = useRef(new THREE.Vector3(0, 0, 0));
 
   useFrame((_, delta) => {
     // ── Resolve target position ────────────────────────────────────────────────
     _targetPos.set(playerPos.x, playerPos.y, playerPos.z);
-
 
     // ── Compute desired camera position ───────────────────────────────────────
     const { offset, positionLag, rotationLag } = followConfig;

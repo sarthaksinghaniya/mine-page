@@ -7,7 +7,13 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { SceneState, SceneId, SceneStatus, TransitionType, TransitionPhase } from './scene.types';
+import type {
+  SceneState,
+  SceneId,
+  SceneStatus,
+  TransitionType,
+  TransitionPhase,
+} from './scene.types';
 
 interface SceneActions {
   /** Trigger a scene change with transition */

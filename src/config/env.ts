@@ -24,8 +24,8 @@ export interface AppEnv {
   readonly aiAssistantUrl: string;
   /** Feature flags */
   readonly features: {
-    readonly physics:     boolean;
-    readonly audio:       boolean;
+    readonly physics: boolean;
+    readonly audio: boolean;
     readonly aiAssistant: boolean;
     readonly multiplayer: boolean;
   };
@@ -56,14 +56,14 @@ function parsePerformanceTier(value: string | undefined): PerformanceTier {
  * cause an explicit error with a descriptive message.
  */
 export const env: AppEnv = {
-  appName:        import.meta.env['VITE_APP_NAME']    ?? 'Open World Portfolio',
-  appVersion:     import.meta.env['VITE_APP_VERSION'] ?? '0.0.0',
-  githubToken:    import.meta.env['VITE_GITHUB_TOKEN'] ?? '',
+  appName: import.meta.env['VITE_APP_NAME'] ?? 'Open World Portfolio',
+  appVersion: import.meta.env['VITE_APP_VERSION'] ?? '0.0.0',
+  githubToken: import.meta.env['VITE_GITHUB_TOKEN'] ?? '',
   githubUsername: import.meta.env['VITE_GITHUB_USERNAME'] ?? '',
   aiAssistantUrl: import.meta.env['VITE_AI_ASSISTANT_URL'] ?? 'http://localhost:8000',
   features: {
-    physics:     parseBool(import.meta.env['VITE_ENABLE_PHYSICS'], true),
-    audio:       parseBool(import.meta.env['VITE_ENABLE_AUDIO'], true),
+    physics: parseBool(import.meta.env['VITE_ENABLE_PHYSICS'], true),
+    audio: parseBool(import.meta.env['VITE_ENABLE_AUDIO'], true),
     aiAssistant: parseBool(import.meta.env['VITE_ENABLE_AI_ASSISTANT'], false),
     multiplayer: parseBool(import.meta.env['VITE_ENABLE_MULTIPLAYER'], false),
   },

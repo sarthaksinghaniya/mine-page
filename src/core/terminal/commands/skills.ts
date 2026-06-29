@@ -18,12 +18,16 @@ export const skillsCommand: TerminalCommand = {
         const itemNames = cat.items.map((i) => i.name).join(', ');
         return `[${cat.category}]: ${itemNames}`;
       });
-      return ['Technical Skills Stack:', ...list, '\nType "skills <category-substring>" to filter details.'].join('\n');
+      return [
+        'Technical Skills Stack:',
+        ...list,
+        '\nType "skills <category-substring>" to filter details.',
+      ].join('\n');
     }
 
-    const matched = service.getSkills().filter((cat) =>
-      cat.category.toLowerCase().includes(filter)
-    );
+    const matched = service
+      .getSkills()
+      .filter((cat) => cat.category.toLowerCase().includes(filter));
 
     if (matched.length === 0) {
       return `No skill categories match filter: "${filter}"`;

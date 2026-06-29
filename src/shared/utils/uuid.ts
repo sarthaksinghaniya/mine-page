@@ -17,5 +17,7 @@ export function generateUUID(): string {
  * Not guaranteed unique across all runs — use generateUUID for entity IDs.
  */
 export function generateShortId(): string {
-  return Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, '0');
+  return Math.floor(Math.random() * 0xffffffff)
+    .toString(16)
+    .padStart(8, '0');
 }

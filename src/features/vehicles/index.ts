@@ -7,4 +7,3 @@ export * from './vehicles.types';
 export * from './vehicles.store';
 export * from './systems/VehicleManager';
 export * from './components/VehicleBase';
-

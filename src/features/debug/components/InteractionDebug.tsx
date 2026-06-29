@@ -41,16 +41,14 @@ export function InteractionDebug(): React.ReactElement | null {
         const color = isFocused ? '#ff0090' : '#00e5f0';
 
         return (
-          <group key={`debug-${item.id}`} position={[item.position.x, item.position.y, item.position.z]}>
+          <group
+            key={`debug-${item.id}`}
+            position={[item.position.x, item.position.y, item.position.z]}
+          >
             {/* Range boundary sphere */}
             <mesh>
               <sphereGeometry args={[item.radius, 16, 16]} />
-              <meshBasicMaterial
-                color={color}
-                wireframe
-                transparent
-                opacity={0.15}
-              />
+              <meshBasicMaterial color={color} wireframe transparent opacity={0.15} />
             </mesh>
             {/* Center target node */}
             <mesh position={[0, 0, 0]}>

@@ -14,9 +14,9 @@
  */
 
 import { ContactShadows } from '@react-three/drei';
-import { SunLight }       from './components/SunLight';
-import { AmbientLighting }from './components/AmbientLighting';
-import { FogLayer }       from './components/FogLayer';
+import { SunLight } from './components/SunLight';
+import { AmbientLighting } from './components/AmbientLighting';
+import { FogLayer } from './components/FogLayer';
 import { EnvironmentMap } from './components/EnvironmentMap';
 import { performanceProfile } from '@config/performance';
 

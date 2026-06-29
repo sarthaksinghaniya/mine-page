@@ -19,17 +19,17 @@ export type InteractableType =
   | 'custom';
 
 export interface InteractableConfig {
-  id:             string;
-  name:           string;
-  type:           InteractableType;
-  position:       { x: number; y: number; z: number };
-  radius:         number;
-  priority:       number; // Higher runs first on overlap
-  enabled:        boolean;
-  promptText?:    string; // e.g. "Enter Building", "Drive", "Talk"
-  onFocus?:       () => void;
-  onBlur?:        () => void;
-  onInteract?:    () => void;
-  onEnter?:       () => void;
-  onExit?:        () => void;
+  id: string;
+  name: string;
+  type: InteractableType;
+  position: { x: number; y: number; z: number };
+  radius: number;
+  priority: number; // Higher runs first on overlap
+  enabled: boolean;
+  promptText?: string; // e.g. "Enter Building", "Drive", "Talk"
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onInteract?: () => void;
+  onEnter?: () => void;
+  onExit?: () => void;
 }

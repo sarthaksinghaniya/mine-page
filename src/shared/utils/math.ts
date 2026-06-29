@@ -49,8 +49,10 @@ export function clamp(value: number, min: number, max: number): number {
  */
 export function mapRange(
   value: number,
-  inMin: number, inMax: number,
-  outMin: number, outMax: number,
+  inMin: number,
+  inMax: number,
+  outMin: number,
+  outMax: number,
 ): number {
   return outMin + ((value - inMin) / (inMax - inMin)) * (outMax - outMin);
 }
@@ -77,10 +79,7 @@ export function wrapAngle(angle: number): number {
 /**
  * 2D horizontal distance between two Vector3-like objects (ignores Y).
  */
-export function distanceXZ(
-  a: { x: number; z: number },
-  b: { x: number; z: number },
-): number {
+export function distanceXZ(a: { x: number; z: number }, b: { x: number; z: number }): number {
   const dx = b.x - a.x;
   const dz = b.z - a.z;
   return Math.sqrt(dx * dx + dz * dz);

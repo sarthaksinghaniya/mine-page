@@ -12,9 +12,9 @@ import type React from 'react';
  * Add new scenes here before implementing them.
  */
 export type SceneId =
-  | 'loading'   // Not a real scene — handled by LoadingScreen
-  | 'world'     // Main open-world scene
-  | 'menu';     // Main menu (future)
+  | 'loading' // Not a real scene — handled by LoadingScreen
+  | 'world' // Main open-world scene
+  | 'menu'; // Main menu (future)
 
 // ── Transition ────────────────────────────────────────────────────────────────
 
@@ -22,8 +22,8 @@ export type TransitionType = 'fade' | 'dissolve' | 'wipe';
 export type TransitionPhase = 'idle' | 'fadeOut' | 'loading' | 'fadeIn';
 
 export interface SceneTransitionState {
-  type:     TransitionType;
-  phase:    TransitionPhase;
+  type: TransitionType;
+  phase: TransitionPhase;
   duration: number; // seconds per phase
   progress: number; // 0–1 within current phase
 }
@@ -43,8 +43,8 @@ export interface SceneDefinition {
 export type SceneStatus = 'idle' | 'loading' | 'active' | 'transitioning';
 
 export interface SceneState {
-  activeSceneId:  SceneId | null;
+  activeSceneId: SceneId | null;
   pendingSceneId: SceneId | null;
-  status:         SceneStatus;
-  transition:     SceneTransitionState | null;
+  status: SceneStatus;
+  transition: SceneTransitionState | null;
 }

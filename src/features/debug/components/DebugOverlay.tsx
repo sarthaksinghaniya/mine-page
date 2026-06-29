@@ -42,7 +42,16 @@ export function DebugOverlay(): React.ReactElement | null {
         pointerEvents: 'none',
       }}
     >
-      <div style={{ fontSize: '12px', borderBottom: '1px solid rgba(0, 173, 192, 0.2)', paddingBottom: '6px', marginBottom: '8px', color: '#ff0090', fontWeight: 'bold' }}>
+      <div
+        style={{
+          fontSize: '12px',
+          borderBottom: '1px solid rgba(0, 173, 192, 0.2)',
+          paddingBottom: '6px',
+          marginBottom: '8px',
+          color: '#ff0090',
+          fontWeight: 'bold',
+        }}
+      >
         ENGINE STATISTICS (F3)
       </div>
       <MetricRow label="FPS" value={metrics.fps} />

@@ -17,7 +17,7 @@ import type { VehicleConfig, VehicleEngineState } from '../vehicle.types';
 
 interface VehicleBaseProps {
   config: VehicleConfig;
-  color:  string;
+  color: string;
 }
 
 export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactElement {
@@ -35,7 +35,10 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
   // Sync initial location
   useEffect(() => {
     if (bodyRef.current) {
-      bodyRef.current.setTranslation({ x: config.position.x, y: config.position.y, z: config.position.z }, true);
+      bodyRef.current.setTranslation(
+        { x: config.position.x, y: config.position.y, z: config.position.z },
+        true,
+      );
     }
 
     // Register vehicle entry interactable portal
@@ -59,7 +62,18 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
             keyframes: [
               { time: 0.0, type: 'player', player: { frozen: true } },
               { time: 0.0, type: 'screen', screen: { fadeOpacity: 0, letterbox: true } },
-              { time: 0.2, type: 'camera', camera: { position: { x: config.position.x, y: config.position.y + 6, z: config.position.z - 12 }, lookAt: config.position } },
+              {
+                time: 0.2,
+                type: 'camera',
+                camera: {
+                  position: {
+                    x: config.position.x,
+                    y: config.position.y + 6,
+                    z: config.position.z - 12,
+                  },
+                  lookAt: config.position,
+                },
+              },
               { time: 1.0, type: 'screen', screen: { fadeOpacity: 1, letterbox: true } },
               { time: 1.3, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } },
               { time: 1.4, type: 'custom', custom: () => VehicleManager.enter(config.id) },
@@ -85,7 +99,9 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
     setSpeed(Math.round(speedXZ));
 
     // Dynamic Interaction coordinate updating (anchor to car position)
-    const portal = InteractionManager.getInteractables().find((item) => item.id === `portal-${config.id}`);
+    const portal = InteractionManager.getInteractables().find(
+      (item) => item.id === `portal-${config.id}`,
+    );
     if (portal) {
       portal.position = { x: translation.x, y: translation.y, z: translation.z };
     }
@@ -105,11 +121,15 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
             { time: 0.0, type: 'player', player: { frozen: true } },
             { time: 0.0, type: 'screen', screen: { fadeOpacity: 0, letterbox: true } },
             { time: 0.8, type: 'screen', screen: { fadeOpacity: 1, letterbox: true } },
-            { time: 0.9, type: 'custom', custom: () => {
-              VehicleManager.exitActive();
-              // Drop player adjacent to the car door
-              setPlayerPosition({ x: translation.x + 3, y: translation.y + 1, z: translation.z });
-            } },
+            {
+              time: 0.9,
+              type: 'custom',
+              custom: () => {
+                VehicleManager.exitActive();
+                // Drop player adjacent to the car door
+                setPlayerPosition({ x: translation.x + 3, y: translation.y + 1, z: translation.z });
+              },
+            },
             { time: 1.1, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } },
             { time: 1.2, type: 'player', player: { frozen: false } },
           ],
@@ -119,13 +139,15 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
 
       // ── Steering & Acceleration forces ──────────────────────────────────────
       const heading = body.rotation();
-      const euler = new THREE.Euler().setFromQuaternion(new THREE.Quaternion(heading.x, heading.y, heading.z, heading.w));
+      const euler = new THREE.Euler().setFromQuaternion(
+        new THREE.Quaternion(heading.x, heading.y, heading.z, heading.w),
+      );
       const yaw = euler.y;
 
       const forward = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw)).normalize();
 
       let targetForce = 0;
-      if (actions.moveForward)  targetForce = config.acceleration;
+      if (actions.moveForward) targetForce = config.acceleration;
       if (actions.moveBackward) targetForce = -config.acceleration * 0.5; // half speed reverse
 
       // Apply forward velocity
@@ -134,7 +156,7 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
 
       // Simple Yaw Steering
       let steerAngle = 0;
-      if (actions.moveLeft)  steerAngle = 1.5; // rads per sec
+      if (actions.moveLeft) steerAngle = 1.5; // rads per sec
       if (actions.moveRight) steerAngle = -1.5;
 
       const newYaw = yaw + steerAngle * delta;

@@ -44,7 +44,11 @@ class InteractionManagerClass {
 
       if (distance <= item.radius) {
         // Priority resolving: prioritize higher priority weight, or closer if priority is equal
-        if (!bestTarget || item.priority > bestTarget.priority || (item.priority === bestTarget.priority && distance < minDistance)) {
+        if (
+          !bestTarget ||
+          item.priority > bestTarget.priority ||
+          (item.priority === bestTarget.priority && distance < minDistance)
+        ) {
           bestTarget = item;
           minDistance = distance;
         }
@@ -89,7 +93,7 @@ class InteractionManagerClass {
     const target = this.interactables.get(this.focusedId);
     if (target && target.enabled) {
       target.onInteract?.();
-      
+
       // Cooldown buffer of 0.5s to prevent double triggers
       this.cooldownActive = true;
       setTimeout(() => {

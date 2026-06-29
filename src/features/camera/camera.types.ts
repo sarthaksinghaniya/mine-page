@@ -24,11 +24,11 @@ export type CameraMode = 'follow' | 'orbit' | 'cinematic' | 'free';
 /** A single camera shake impulse added to the active shake stack */
 export interface ShakeImpulse {
   /** Unique ID for tracking */
-  id:        string;
+  id: string;
   /** Peak displacement amplitude (world units) */
   intensity: number;
   /** Decay rate: higher = faster decay. Typical: 4–10 */
-  decay:     number;
+  decay: number;
   /** Remaining intensity budget (mutated each frame) */
   remaining: number;
 }
@@ -39,16 +39,16 @@ export type TransitionEasing = 'linear' | 'easeIn' | 'easeOut' | 'easeInOut' | '
 
 export interface CameraTransitionTarget {
   position: THREE.Vector3Like;
-  lookAt:   THREE.Vector3Like;
-  fov?:     number;
+  lookAt: THREE.Vector3Like;
+  fov?: number;
 }
 
 export interface CameraTransition {
-  from:     CameraTransitionTarget;
-  to:       CameraTransitionTarget;
-  duration: number;    // seconds
-  elapsed:  number;    // seconds (mutated each frame)
-  easing:   TransitionEasing;
+  from: CameraTransitionTarget;
+  to: CameraTransitionTarget;
+  duration: number; // seconds
+  elapsed: number; // seconds (mutated each frame)
+  easing: TransitionEasing;
   onComplete?: () => void;
 }
 
@@ -56,24 +56,24 @@ export interface CameraTransition {
 
 export interface CinematicKeyframe {
   /** Time in seconds from start of this clip */
-  time:     number;
+  time: number;
   position: THREE.Vector3Like;
-  lookAt:   THREE.Vector3Like;
-  fov?:     number;
+  lookAt: THREE.Vector3Like;
+  fov?: number;
 }
 
 export interface CinematicTimeline {
-  id:         string;
-  duration:   number;
-  keyframes:  CinematicKeyframe[];
-  loop:       boolean;
+  id: string;
+  duration: number;
+  keyframes: CinematicKeyframe[];
+  loop: boolean;
 }
 
 // ── Follow Config ─────────────────────────────────────────────────────────────
 
 export interface FollowConfig {
   /** Position offset from target (in target's local space) */
-  offset:      THREE.Vector3Like;
+  offset: THREE.Vector3Like;
   /** Damp lambda for position (higher = faster snap) */
   positionLag: number;
   /** Damp lambda for look-at direction */
@@ -85,7 +85,7 @@ export interface FollowConfig {
 }
 
 export const DEFAULT_FOLLOW_CONFIG: FollowConfig = {
-  offset:      { x: 0, y: 4, z: -8 },
+  offset: { x: 0, y: 4, z: -8 },
   positionLag: 6,
   rotationLag: 8,
   minDistance: 2,
@@ -96,21 +96,21 @@ export const DEFAULT_FOLLOW_CONFIG: FollowConfig = {
 
 export interface CameraState {
   /** Active camera behaviour mode */
-  mode:           CameraMode;
+  mode: CameraMode;
   /** ECS entity ID to follow (used in `follow` mode) */
   targetEntityId: string | null;
   /** Current field of view in degrees */
-  fov:            number;
+  fov: number;
   /** Zoom multiplier (applied on top of FOV) */
-  zoom:           number;
+  zoom: number;
   /** Active shake impulses */
-  shakes:         ShakeImpulse[];
+  shakes: ShakeImpulse[];
   /** In-progress transition, or null */
-  transition:     CameraTransition | null;
+  transition: CameraTransition | null;
   /** Current follow configuration */
-  followConfig:   FollowConfig;
+  followConfig: FollowConfig;
   /** Current cinematic timeline, or null */
-  cinematic:      CinematicTimeline | null;
+  cinematic: CinematicTimeline | null;
   /** Whether the camera is currently in a cutscene (disables player input) */
-  isCutscene:     boolean;
+  isCutscene: boolean;
 }

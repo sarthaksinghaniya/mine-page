@@ -18,12 +18,12 @@ import type * as THREE from 'three';
 export interface TransformComponent {
   position: THREE.Vector3;
   rotation: THREE.Euler;
-  scale:    THREE.Vector3;
+  scale: THREE.Vector3;
 }
 
 /** Linear and angular velocity for physics-driven entities */
 export interface VelocityComponent {
-  linear:  THREE.Vector3;
+  linear: THREE.Vector3;
   angular: THREE.Vector3;
 }
 
@@ -31,7 +31,7 @@ export interface VelocityComponent {
 
 /** Unique runtime identifier and optional human-readable tag */
 export interface IdentityComponent {
-  id:  string;
+  id: string;
   tag: string;
 }
 
@@ -44,8 +44,8 @@ export interface MeshRefComponent {
 
 /** LOD level: 0 = full detail, 1 = medium, 2 = low, 3 = culled */
 export interface LodComponent {
-  level:          0 | 1 | 2 | 3;
-  distances:      [number, number, number];
+  level: 0 | 1 | 2 | 3;
+  distances: [number, number, number];
   distanceToCamera: number;
 }
 
@@ -53,9 +53,9 @@ export interface LodComponent {
 
 /** Marks an entity as participating in Rapier physics simulation */
 export interface RigidBodyComponent {
-  type:   'dynamic' | 'fixed' | 'kinematicPosition' | 'kinematicVelocity';
-  mass:   number;
-  linearDamping:  number;
+  type: 'dynamic' | 'fixed' | 'kinematicPosition' | 'kinematicVelocity';
+  mass: number;
+  linearDamping: number;
   angularDamping: number;
 }
 
@@ -63,16 +63,16 @@ export interface RigidBodyComponent {
 
 /** NPC behavioural state machine */
 export interface NpcBrainComponent {
-  state:      'idle' | 'walking' | 'talking' | 'fleeing';
-  targetId:   string | null;
+  state: 'idle' | 'walking' | 'talking' | 'fleeing';
+  targetId: string | null;
   alertLevel: number; // 0–1
 }
 
 /** Navigation path for NPC movement */
 export interface NavigationComponent {
-  path:          THREE.Vector3[];
-  currentIndex:  number;
-  speed:         number;
+  path: THREE.Vector3[];
+  currentIndex: number;
+  speed: number;
   arrivalRadius: number;
 }
 
@@ -80,19 +80,19 @@ export interface NavigationComponent {
 
 /** Spatial audio source attached to an entity */
 export interface SpatialAudioComponent {
-  soundId:    string;
-  volume:     number;
+  soundId: string;
+  volume: number;
   maxDistance: number;
   rolloffFactor: number;
-  loop:       boolean;
-  playing:    boolean;
+  loop: boolean;
+  playing: boolean;
 }
 
 // ── Zone ──────────────────────────────────────────────────────────────────────
 
 /** Marks an entity as belonging to a specific world zone */
 export interface ZoneComponent {
-  zoneId:   string;
+  zoneId: string;
   zoneName: string;
 }
 
@@ -100,9 +100,9 @@ export interface ZoneComponent {
 
 /** Associates a 3D entity (building, sign) with portfolio data */
 export interface PortfolioNodeComponent {
-  projectId:   string;
+  projectId: string;
   interactable: boolean;
-  activated:   boolean;
+  activated: boolean;
 }
 
 // ── Composite Entity Archetypes ───────────────────────────────────────────────
@@ -111,7 +111,7 @@ export interface PortfolioNodeComponent {
  * A minimal world entity — every entity in the ECS world must satisfy this.
  */
 export interface BaseEntity {
-  id:        IdentityComponent;
+  id: IdentityComponent;
   transform: TransformComponent;
 }
 
@@ -124,13 +124,13 @@ export interface RenderableEntity extends BaseEntity {
 /** A physics-simulated entity */
 export interface PhysicsEntity extends RenderableEntity {
   rigidBody: RigidBodyComponent;
-  velocity:  VelocityComponent;
+  velocity: VelocityComponent;
 }
 
 /** A full NPC entity */
 export interface NpcEntity extends PhysicsEntity {
-  brain:      NpcBrainComponent;
+  brain: NpcBrainComponent;
   navigation: NavigationComponent;
-  audio?:     SpatialAudioComponent;
-  zone?:      ZoneComponent;
+  audio?: SpatialAudioComponent;
+  zone?: ZoneComponent;
 }

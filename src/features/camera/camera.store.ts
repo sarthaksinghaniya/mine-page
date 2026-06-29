@@ -37,10 +37,10 @@ interface CameraActions {
    * Transitions blend smoothly over `duration` seconds.
    */
   transitionTo: (
-    to:       CameraTransitionTarget,
-    from:     CameraTransitionTarget,
+    to: CameraTransitionTarget,
+    from: CameraTransitionTarget,
     duration: number,
-    easing?:  TransitionEasing,
+    easing?: TransitionEasing,
     onComplete?: () => void,
   ) => void;
 
@@ -85,13 +85,17 @@ type CameraStore = CameraState & CameraActions;
 export function applyEasing(t: number, easing: TransitionEasing): number {
   const c = Math.max(0, Math.min(1, t));
   switch (easing) {
-    case 'linear':     return c;
-    case 'easeIn':     return c * c;
-    case 'easeOut':    return c * (2 - c);
-    case 'easeInOut':  return c < 0.5 ? 2 * c * c : -1 + (4 - 2 * c) * c;
+    case 'linear':
+      return c;
+    case 'easeIn':
+      return c * c;
+    case 'easeOut':
+      return c * (2 - c);
+    case 'easeInOut':
+      return c < 0.5 ? 2 * c * c : -1 + (4 - 2 * c) * c;
     case 'spring': {
       const overshoot = 1.70158;
-      return c === 1 ? 1 : (c * c * ((overshoot + 1) * c - overshoot));
+      return c === 1 ? 1 : c * c * ((overshoot + 1) * c - overshoot);
     }
   }
 }
@@ -101,15 +105,15 @@ export function applyEasing(t: number, easing: TransitionEasing): number {
 export const useCameraStore = create<CameraStore>()(
   subscribeWithSelector((set, get) => ({
     // ── Initial State ──────────────────────────────────────────────────────────
-    mode:           'follow',
+    mode: 'follow',
     targetEntityId: null,
-    fov:            75,
-    zoom:           1,
-    shakes:         [],
-    transition:     null,
-    followConfig:   DEFAULT_FOLLOW_CONFIG,
-    cinematic:      null,
-    isCutscene:     false,
+    fov: 75,
+    zoom: 1,
+    shakes: [],
+    transition: null,
+    followConfig: DEFAULT_FOLLOW_CONFIG,
+    cinematic: null,
+    isCutscene: false,
 
     // ── Actions ────────────────────────────────────────────────────────────────
     setMode: (mode) => set({ mode }),
@@ -171,7 +175,7 @@ export const useCameraStore = create<CameraStore>()(
 
     addShake: (intensity, decay = 6) => {
       const impulse: ShakeImpulse = {
-        id:        generateUUID(),
+        id: generateUUID(),
         intensity,
         decay,
         remaining: intensity,
@@ -179,8 +183,7 @@ export const useCameraStore = create<CameraStore>()(
       set((s) => ({ shakes: [...s.shakes, impulse] }));
     },
 
-    removeShake: (id) =>
-      set((s) => ({ shakes: s.shakes.filter((sh) => sh.id !== id) })),
+    removeShake: (id) => set((s) => ({ shakes: s.shakes.filter((sh) => sh.id !== id) })),
 
     tickShakes: (delta) => {
       const { shakes } = get();
@@ -193,16 +196,13 @@ export const useCameraStore = create<CameraStore>()(
       set({ shakes: updated });
     },
 
-    setFollowConfig: (config) =>
-      set((s) => ({ followConfig: { ...s.followConfig, ...config } })),
+    setFollowConfig: (config) => set((s) => ({ followConfig: { ...s.followConfig, ...config } })),
 
-    playCinematic: (timeline) =>
-      set({ cinematic: timeline, mode: 'cinematic', isCutscene: true }),
+    playCinematic: (timeline) => set({ cinematic: timeline, mode: 'cinematic', isCutscene: true }),
 
-    stopCinematic: () =>
-      set({ cinematic: null, mode: 'follow', isCutscene: false }),
+    stopCinematic: () => set({ cinematic: null, mode: 'follow', isCutscene: false }),
 
-    setFov:  (fov)  => set({ fov }),
+    setFov: (fov) => set({ fov }),
     setZoom: (zoom) => set({ zoom }),
   })),
 );

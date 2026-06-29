@@ -26,10 +26,6 @@ import { VehicleBase, VehicleManager } from '@/features/vehicles';
 import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
 
-
-
-
-
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
   const activateZone = useWorldStore((s) => s.activateZone);
@@ -70,7 +66,11 @@ export function WorldRoot(): React.ReactElement {
                 keyframes: [
                   { time: 0.0, type: 'player', player: { frozen: true } },
                   { time: 0.0, type: 'screen', screen: { fadeOpacity: 0, letterbox: true } },
-                  { time: 0.5, type: 'camera', camera: { position: { x: 0, y: 15, z: -30 }, lookAt: { x: 0, y: 12, z: -10 } } },
+                  {
+                    time: 0.5,
+                    type: 'camera',
+                    camera: { position: { x: 0, y: 15, z: -30 }, lookAt: { x: 0, y: 12, z: -10 } },
+                  },
                   { time: 2.0, type: 'screen', screen: { fadeOpacity: 1, letterbox: true } },
                   { time: 3.0, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } },
                   { time: 3.5, type: 'player', player: { frozen: false } },
@@ -84,7 +84,6 @@ export function WorldRoot(): React.ReactElement {
         });
       });
     });
-
 
     // Register a test cyber car vehicle config
     VehicleManager.register({
@@ -105,7 +104,6 @@ export function WorldRoot(): React.ReactElement {
     // Trigger introductory spawn cutscene camera sweep
     SpawnCutscene.playIntro();
 
-
     return () => {
       // Unregister lots on unmount
       DISTRICTS_LIST.forEach((district) => {
@@ -115,7 +113,6 @@ export function WorldRoot(): React.ReactElement {
       });
       VehicleManager.unregister('cyber-car-01');
     };
-
   }, [setPosition, setRotation, activateZone, setZoneStatus]);
 
   // Handle ambient soundtrack transitions as districts shift
@@ -158,7 +155,6 @@ export function WorldRoot(): React.ReactElement {
           ));
         })}
 
-
         {/* Dynamic vehicles in active zones */}
         {activeZoneIds.includes('spawn') && (
           <VehicleBase
@@ -182,16 +178,18 @@ export function WorldRoot(): React.ReactElement {
         {/* Foliage and environment props */}
         <InstancedProps />
 
-
         {/* Player physical body */}
         <PlayerPhysicsController />
 
         {/* Floor boundaries collider base */}
-        <gridHelper args={[1200, 120, '#00e5f0', '#0a0a14']} position={[0, -0.05, 0]} opacity={0.1} transparent />
+        <gridHelper
+          args={[1200, 120, '#00e5f0', '#0a0a14']}
+          position={[0, -0.05, 0]}
+          opacity={0.1}
+          transparent
+        />
       </group>
     </Physics>
   );
 }
 export default WorldRoot;
-
-

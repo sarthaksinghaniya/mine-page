@@ -6,21 +6,21 @@
 export type MessageRole = 'user' | 'assistant' | 'system';
 
 export interface ChatMessage {
-  id:        string;
-  role:      MessageRole;
-  content:   string;
+  id: string;
+  role: MessageRole;
+  content: string;
   timestamp: number;
 }
 
 export interface AssistantState {
   /** Whether the assistant panel is visible */
-  open:        boolean;
+  open: boolean;
   /** Whether the assistant is processing a message */
-  thinking:    boolean;
+  thinking: boolean;
   /** Full conversation history */
-  messages:    ChatMessage[];
+  messages: ChatMessage[];
   /** Current error message, if any */
-  error:       string | null;
+  error: string | null;
   /** The NPC entity ID that represents the assistant in the world */
-  npcId:       string | null;
+  npcId: string | null;
 }

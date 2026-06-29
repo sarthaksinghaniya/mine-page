@@ -13,7 +13,11 @@ export interface SavedPlayerState {
 const SAVE_KEY = 'owp_player_save';
 
 export const SaveSystem = {
-  save(position: { x: number; y: number; z: number }, rotation: { yaw: number; pitch: number }, discoveredZones: string[]): void {
+  save(
+    position: { x: number; y: number; z: number },
+    rotation: { yaw: number; pitch: number },
+    discoveredZones: string[],
+  ): void {
     try {
       const data: SavedPlayerState = {
         position,

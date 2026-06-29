@@ -19,12 +19,12 @@ import type { SoundDefinition, SoundCategory, CategoryVolumes } from './audio.ty
 class AudioManagerClass {
   private readonly sounds = new Map<string, Howl>();
   private volumes: CategoryVolumes = {
-    master:  1.0,
+    master: 1.0,
     ambient: 0.6,
-    sfx:     1.0,
-    music:   0.4,
-    voice:   1.0,
-    ui:      0.8,
+    sfx: 1.0,
+    music: 0.4,
+    voice: 1.0,
+    ui: 0.8,
   };
   private readonly soundCategories = new Map<string, SoundCategory>();
 
@@ -41,17 +41,17 @@ class AudioManagerClass {
     }
 
     const howl = new Howl({
-      src:        definition.src,
-      volume:     this.getCategoryVolume(definition.category) * definition.volume,
-      loop:       definition.loop,
-      preload:    definition.preload,
+      src: definition.src,
+      volume: this.getCategoryVolume(definition.category) * definition.volume,
+      loop: definition.loop,
+      preload: definition.preload,
       ...(definition.spatial && {
         pannerAttr: {
-          panningModel:    'HRTF',
-          distanceModel:   'inverse',
-          refDistance:     1,
-          maxDistance:     definition.maxDistance ?? 100,
-          rolloffFactor:   1,
+          panningModel: 'HRTF',
+          distanceModel: 'inverse',
+          refDistance: 1,
+          maxDistance: definition.maxDistance ?? 100,
+          rolloffFactor: 1,
         },
       }),
     });
@@ -105,8 +105,12 @@ class AudioManagerClass {
     }
   }
 
-  mute(): void  { Howler.mute(true); }
-  unmute(): void { Howler.mute(false); }
+  mute(): void {
+    Howler.mute(true);
+  }
+  unmute(): void {
+    Howler.mute(false);
+  }
 
   // ── Listener Position (for spatial audio) ────────────────────────────────────
 
@@ -116,8 +120,12 @@ class AudioManagerClass {
   }
 
   setListenerOrientation(
-    forwardX: number, forwardY: number, forwardZ: number,
-    upX: number, upY: number, upZ: number,
+    forwardX: number,
+    forwardY: number,
+    forwardZ: number,
+    upX: number,
+    upY: number,
+    upZ: number,
   ): void {
     Howler.orientation(forwardX, forwardY, forwardZ, upX, upY, upZ);
   }

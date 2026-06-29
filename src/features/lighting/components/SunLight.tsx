@@ -12,9 +12,9 @@ import { useLightingStore } from '../lighting.store';
 import { performanceProfile } from '@config/performance';
 
 export function SunLight(): React.ReactElement {
-  const lightRef  = useRef<THREE.DirectionalLight>(null);
+  const lightRef = useRef<THREE.DirectionalLight>(null);
   const targetRef = useRef<THREE.Object3D>(null);
-  const sun       = useLightingStore((s) => s.sun);
+  const sun = useLightingStore((s) => s.sun);
   const shadowMapSize = sun.shadowMapSize ?? performanceProfile.shadowMapSize;
 
   useEffect(() => {
@@ -23,12 +23,12 @@ export function SunLight(): React.ReactElement {
 
     // Configure shadow camera frustum
     const d = sun.shadowRadius;
-    light.shadow.camera.left   = -d;
-    light.shadow.camera.right  =  d;
-    light.shadow.camera.top    =  d;
+    light.shadow.camera.left = -d;
+    light.shadow.camera.right = d;
+    light.shadow.camera.top = d;
     light.shadow.camera.bottom = -d;
-    light.shadow.camera.near   = sun.shadowNear;
-    light.shadow.camera.far    = sun.shadowFar;
+    light.shadow.camera.near = sun.shadowNear;
+    light.shadow.camera.far = sun.shadowFar;
     light.shadow.camera.updateProjectionMatrix();
   }, [sun.shadowRadius, sun.shadowNear, sun.shadowFar]);
 

@@ -30,12 +30,7 @@ export function RoadSystem(): React.ReactElement {
             rotation={[-Math.PI / 2, 0, angle]}
           >
             <planeGeometry args={[6, length]} />
-            <meshStandardMaterial
-              color="#1a1a24"
-              roughness={0.9}
-              opacity={0.8}
-              transparent
-            />
+            <meshStandardMaterial color="#1a1a24" roughness={0.9} opacity={0.8} transparent />
           </mesh>
         );
       })}

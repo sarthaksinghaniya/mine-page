@@ -28,19 +28,19 @@ declare module '@react-three/fiber' {
  * Populated when the environment feature is implemented.
  */
 export interface AtmosphereUniforms {
-  uTime:      THREE.IUniform<number>;
+  uTime: THREE.IUniform<number>;
   uSunDirection: THREE.IUniform<THREE.Vector3>;
-  uSunColor:  THREE.IUniform<THREE.Color>;
-  uFogColor:  THREE.IUniform<THREE.Color>;
-  uFogNear:   THREE.IUniform<number>;
-  uFogFar:    THREE.IUniform<number>;
+  uSunColor: THREE.IUniform<THREE.Color>;
+  uFogColor: THREE.IUniform<THREE.Color>;
+  uFogNear: THREE.IUniform<number>;
+  uFogFar: THREE.IUniform<number>;
 }
 
 /**
  * Uniform structure for building window emissive shader.
  */
 export interface BuildingWindowUniforms {
-  uTime:       THREE.IUniform<number>;
+  uTime: THREE.IUniform<number>;
   uLightColor: THREE.IUniform<THREE.Color>;
-  uNightFactor:THREE.IUniform<number>;
+  uNightFactor: THREE.IUniform<number>;
 }

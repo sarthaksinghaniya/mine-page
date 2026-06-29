@@ -35,7 +35,11 @@ export const SpawnManager = {
   /**
    * Caches current session metrics.
    */
-  savePosition(position: { x: number; y: number; z: number }, rotation: { yaw: number; pitch: number }, zones: string[]): void {
+  savePosition(
+    position: { x: number; y: number; z: number },
+    rotation: { yaw: number; pitch: number },
+    zones: string[],
+  ): void {
     SaveSystem.save(position, rotation, zones);
   },
 };

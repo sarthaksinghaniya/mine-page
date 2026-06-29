@@ -64,7 +64,16 @@ export function CinematicDebug(): React.ReactElement | null {
         pointerEvents: 'none',
       }}
     >
-      <div style={{ fontSize: '12px', borderBottom: '1px solid rgba(128, 0, 255, 0.2)', paddingBottom: '6px', marginBottom: '8px', color: '#b55dff', fontWeight: 'bold' }}>
+      <div
+        style={{
+          fontSize: '12px',
+          borderBottom: '1px solid rgba(128, 0, 255, 0.2)',
+          paddingBottom: '6px',
+          marginBottom: '8px',
+          color: '#b55dff',
+          fontWeight: 'bold',
+        }}
+      >
         CINEMATIC SEQUENCER (F5)
       </div>
       <MetricRow label="Active Sequence" value={activeName} />

@@ -4,20 +4,20 @@
  */
 
 export interface TerminalOutputLine {
-  id:      string;
-  text:    string;
-  type:    'input' | 'output' | 'error' | 'success';
+  id: string;
+  text: string;
+  type: 'input' | 'output' | 'error' | 'success';
 }
 
 export interface TerminalCommand {
-  keyword:     string;
+  keyword: string;
   description: string;
-  execute:     (args: string[]) => Promise<string> | string;
+  execute: (args: string[]) => Promise<string> | string;
 }
 
 export interface TerminalState {
-  isOpen:       boolean;
-  activeId:     string | null;
-  history:      string[];
-  lines:        TerminalOutputLine[];
+  isOpen: boolean;
+  activeId: string | null;
+  history: string[];
+  lines: TerminalOutputLine[];
 }

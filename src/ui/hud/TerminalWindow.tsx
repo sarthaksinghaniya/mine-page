@@ -64,9 +64,7 @@ export function TerminalWindow(): React.ReactElement | null {
       const currentInput = inputValue.trim().toLowerCase();
       if (!currentInput) return;
 
-      const matched = TerminalManager.getCommands().find((c) =>
-        c.keyword.startsWith(currentInput)
-      );
+      const matched = TerminalManager.getCommands().find((c) => c.keyword.startsWith(currentInput));
       if (matched) {
         setInputValue(matched.keyword);
       }

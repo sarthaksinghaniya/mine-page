@@ -98,7 +98,9 @@ class CinematicDirectorClass {
       case 'audio':
         if (kf.audio) {
           // Future Howler bindings hook
-          console.log(`[CinematicDirector] Audio action: ${kf.audio.action} on ${kf.audio.soundId}`);
+          console.log(
+            `[CinematicDirector] Audio action: ${kf.audio.action} on ${kf.audio.soundId}`,
+          );
         }
         break;
 
@@ -108,8 +110,12 @@ class CinematicDirectorClass {
     }
   }
 
-  pause(): void  { this.isPaused = true; }
-  resume(): void { this.isPaused = false; }
+  pause(): void {
+    this.isPaused = true;
+  }
+  resume(): void {
+    this.isPaused = false;
+  }
 
   cancel(): void {
     if (this.activeSequence) {
@@ -141,12 +147,24 @@ class CinematicDirectorClass {
     }
   }
 
-  isPlayerFrozen(): boolean { return this.playerFrozen; }
-  getFadeOpacity(): number  { return this.fadeOpacity; }
-  isLetterboxActive(): boolean { return this.letterboxActive; }
-  getActiveSequence(): CinematicSequence | null { return this.activeSequence; }
-  getElapsedTime(): number { return this.elapsedTime; }
-  getQueue(): CinematicSequence[] { return [...this.queue]; }
+  isPlayerFrozen(): boolean {
+    return this.playerFrozen;
+  }
+  getFadeOpacity(): number {
+    return this.fadeOpacity;
+  }
+  isLetterboxActive(): boolean {
+    return this.letterboxActive;
+  }
+  getActiveSequence(): CinematicSequence | null {
+    return this.activeSequence;
+  }
+  getElapsedTime(): number {
+    return this.elapsedTime;
+  }
+  getQueue(): CinematicSequence[] {
+    return [...this.queue];
+  }
 }
 
 export const CinematicDirector = new CinematicDirectorClass();

@@ -35,7 +35,8 @@ export function useDebugMetrics(): null {
 
     // Read WebGL memory properties (Chrome/V8 only)
     let memory = 0;
-    const performanceMemory = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory;
+    const performanceMemory = (performance as unknown as { memory?: { usedJSHeapSize: number } })
+      .memory;
     if (performanceMemory) {
       memory = Math.round(performanceMemory.usedJSHeapSize / (1024 * 1024));
     }
@@ -48,10 +49,10 @@ export function useDebugMetrics(): null {
       memory,
       drawCalls: info.render.calls,
       triangles: info.render.triangles,
-      points:    info.render.points,
-      lines:     info.render.lines,
-      geometries:info.memory.geometries,
-      textures:  info.memory.textures,
+      points: info.render.points,
+      lines: info.render.lines,
+      geometries: info.memory.geometries,
+      textures: info.memory.textures,
     });
   });
 

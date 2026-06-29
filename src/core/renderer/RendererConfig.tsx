@@ -48,13 +48,12 @@ export function RendererConfig({ config }: RendererConfigProps): null {
     const resolved: RendererConfiguration = { ...DEFAULT_RENDERER_CONFIG, ...config };
 
     // ── Tone Mapping ──────────────────────────────────────────────────────────
-    gl.toneMapping         = TONE_MAPPING_MAP[resolved.toneMapping];
+    gl.toneMapping = TONE_MAPPING_MAP[resolved.toneMapping];
     gl.toneMappingExposure = resolved.toneMappingExposure;
 
     // ── Color Space ───────────────────────────────────────────────────────────
-    gl.outputColorSpace = resolved.outputColorSpace === 'srgb'
-      ? THREE.SRGBColorSpace
-      : THREE.LinearSRGBColorSpace;
+    gl.outputColorSpace =
+      resolved.outputColorSpace === 'srgb' ? THREE.SRGBColorSpace : THREE.LinearSRGBColorSpace;
 
     // ── Shadows ───────────────────────────────────────────────────────────────
     gl.shadowMap.enabled = resolved.shadowsEnabled && resolved.shadowQuality !== 'off';

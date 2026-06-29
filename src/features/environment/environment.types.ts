@@ -12,14 +12,14 @@ export type DayPhase = 'midnight' | 'dawn' | 'morning' | 'noon' | 'afternoon' | 
 
 export interface SunState {
   /** Normalized time 0–1 */
-  timeOfDay:   NormalizedTimeOfDay;
-  phase:       DayPhase;
+  timeOfDay: NormalizedTimeOfDay;
+  phase: DayPhase;
   /** Direction vector pointing toward the sun */
-  direction:   { x: number; y: number; z: number };
+  direction: { x: number; y: number; z: number };
   /** Sky color at the horizon */
   horizonColor: string;
   /** Sky color at the zenith */
-  zenithColor:  string;
+  zenithColor: string;
   /** Ambient light intensity */
   ambientIntensity: number;
   /** Sun light intensity */
@@ -31,15 +31,15 @@ export interface SunState {
 export type WeatherType = 'clear' | 'cloudy' | 'foggy' | 'rain' | 'storm' | 'snow';
 
 export interface WeatherState {
-  current:         WeatherType;
-  target:          WeatherType;
+  current: WeatherType;
+  target: WeatherType;
   /** Transition progress 0–1 */
-  blendFactor:     number;
+  blendFactor: number;
   /** 0 = no wind, 1 = storm */
-  windIntensity:   number;
-  windDirection:   { x: number; z: number };
+  windIntensity: number;
+  windDirection: { x: number; z: number };
   /** Fog density (0 = none, 1 = pea-soup) */
-  fogDensity:      number;
+  fogDensity: number;
   /** Particle density for rain/snow */
   precipitationDensity: number;
 }
@@ -47,10 +47,10 @@ export interface WeatherState {
 // ── Environment State ─────────────────────────────────────────────────────────
 
 export interface EnvironmentState {
-  sun:          SunState;
-  weather:      WeatherState;
+  sun: SunState;
+  weather: WeatherState;
   /** Whether the day-night cycle is advancing automatically */
   cycleRunning: boolean;
   /** Speed of the day-night cycle (1 = real-time, 60 = 1 game minute per real second) */
-  cycleSpeed:   number;
+  cycleSpeed: number;
 }

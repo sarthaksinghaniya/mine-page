@@ -4,39 +4,39 @@
  */
 
 export interface InputActionState {
-  moveForward:  boolean;
+  moveForward: boolean;
   moveBackward: boolean;
-  moveLeft:     boolean;
-  moveRight:    boolean;
-  jump:         boolean;
-  sprint:       boolean;
-  interact:     boolean;
+  moveLeft: boolean;
+  moveRight: boolean;
+  jump: boolean;
+  sprint: boolean;
+  interact: boolean;
 }
 
 class InputManagerClass {
   private readonly actions: InputActionState = {
-    moveForward:  false,
+    moveForward: false,
     moveBackward: false,
-    moveLeft:     false,
-    moveRight:    false,
-    jump:         false,
-    sprint:       false,
-    interact:     false,
+    moveLeft: false,
+    moveRight: false,
+    jump: false,
+    sprint: false,
+    interact: false,
   };
 
   private readonly keyMap: Record<string, keyof InputActionState> = {
-    KeyW:       'moveForward',
-    ArrowUp:    'moveForward',
-    KeyS:       'moveBackward',
-    ArrowDown:  'moveBackward',
-    KeyA:       'moveLeft',
-    ArrowLeft:  'moveLeft',
-    KeyD:       'moveRight',
+    KeyW: 'moveForward',
+    ArrowUp: 'moveForward',
+    KeyS: 'moveBackward',
+    ArrowDown: 'moveBackward',
+    KeyA: 'moveLeft',
+    ArrowLeft: 'moveLeft',
+    KeyD: 'moveRight',
     ArrowRight: 'moveRight',
-    Space:      'jump',
-    ShiftLeft:  'sprint',
+    Space: 'jump',
+    ShiftLeft: 'sprint',
     ShiftRight: 'sprint',
-    KeyE:       'interact',
+    KeyE: 'interact',
   };
 
   constructor() {

@@ -9,75 +9,152 @@
 /* ── Fade ─────────────────────────────────────────────────────────────────── */
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* ── Slide ────────────────────────────────────────────────────────────────── */
 
 @keyframes slideInUp {
-  from { transform: translateY(24px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideInDown {
-  from { transform: translateY(-24px); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
+  from {
+    transform: translateY(-24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-24px); opacity: 0; }
-  to   { transform: translateX(0);     opacity: 1; }
+  from {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideInRight {
-  from { transform: translateX(24px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* ── Pulse / Glow ─────────────────────────────────────────────────────────── */
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 10px rgba(0, 173, 192, 0.3); }
-  50%      { box-shadow: 0 0 30px rgba(0, 173, 192, 0.8), 0 0 60px rgba(0, 173, 192, 0.3); }
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 173, 192, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(0, 173, 192, 0.8),
+      0 0 60px rgba(0, 173, 192, 0.3);
+  }
 }
 
 @keyframes pulseOpacity {
-  0%, 100% { opacity: 1;   }
-  50%      { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* ── Scan Line (loading, HUD) ─────────────────────────────────────────────── */
 
 @keyframes scanLine {
-  0%   { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 /* ── Flicker (neon text effect) ──────────────────────────────────────────── */
 
 @keyframes flicker {
-  0%,  19%,  21%,  23%,  25%,  54%,  56%,  100% { opacity: 1; }
-  20%, 24%,  55%                                  { opacity: 0.4; }
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  24%,
+  55% {
+    opacity: 0.4;
+  }
 }
 
 /* ── Spin ─────────────────────────────────────────────────────────────────── */
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Utility Animation Classes ───────────────────────────────────────────── */
 
-.animate-fade-in        { animation: fadeIn 0.5s var(--transition-enter) both; }
-.animate-slide-in-up    { animation: slideInUp 0.5s var(--transition-enter) both; }
-.animate-pulse-glow     { animation: pulseGlow 2s ease-in-out infinite; }
-.animate-pulse-opacity  { animation: pulseOpacity 2s ease-in-out infinite; }
-.animate-flicker        { animation: flicker 3s linear infinite; }
-.animate-spin           { animation: spin 1s linear infinite; }
+.animate-fade-in {
+  animation: fadeIn 0.5s var(--transition-enter) both;
+}
+.animate-slide-in-up {
+  animation: slideInUp 0.5s var(--transition-enter) both;
+}
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.animate-pulse-opacity {
+  animation: pulseOpacity 2s ease-in-out infinite;
+}
+.animate-flicker {
+  animation: flicker 3s linear infinite;
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

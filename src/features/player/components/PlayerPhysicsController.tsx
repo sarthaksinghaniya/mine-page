@@ -17,16 +17,13 @@ import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
 import { TerminalManager } from '@core/terminal/TerminalManager';
 import { AppManager } from '@core/apps/AppManager';
 
-
-
 // ── Physics parameters ────────────────────────────────────────────────────────
 
-const ACCELERATION  = 30; // units/s²
-const DRAG          = 8;  // damping factor
-const JUMP_FORCE    = 7;  // velocity impulse
+const ACCELERATION = 30; // units/s²
+const DRAG = 8; // damping factor
+const JUMP_FORCE = 7; // velocity impulse
 
 export function PlayerPhysicsController(): React.ReactElement {
-
   const bodyRef = useRef<RapierRigidBody>(null);
   const { camera } = useThree();
 
@@ -45,7 +42,10 @@ export function PlayerPhysicsController(): React.ReactElement {
   // Sync camera position to initial spawn point on mount
   useEffect(() => {
     if (bodyRef.current) {
-      bodyRef.current.setTranslation({ x: playerStorePos.x, y: playerStorePos.y, z: playerStorePos.z }, true);
+      bodyRef.current.setTranslation(
+        { x: playerStorePos.x, y: playerStorePos.y, z: playerStorePos.z },
+        true,
+      );
     }
   }, []);
 
@@ -67,7 +67,6 @@ export function PlayerPhysicsController(): React.ReactElement {
       return;
     }
 
-
     // Check if player is currently driving a vehicle
     const activeVehicleId = VehicleManager.getActiveVehicleId();
     if (activeVehicleId) {
@@ -75,7 +74,6 @@ export function PlayerPhysicsController(): React.ReactElement {
       setMovementState('idle');
       return;
     }
-
 
     const translation = body.translation();
     const velocity = body.linvel();
@@ -94,7 +92,6 @@ export function PlayerPhysicsController(): React.ReactElement {
       coyoteTimer.current = Math.max(0, coyoteTimer.current - delta);
     }
 
-
     // ── 2. Movement Forces ────────────────────────────────────────────────────
     const cameraDir = new THREE.Vector3();
     camera.getWorldDirection(cameraDir);
@@ -107,10 +104,10 @@ export function PlayerPhysicsController(): React.ReactElement {
     const isPlayerFrozen = CinematicDirector.isPlayerFrozen();
 
     if (!isPlayerFrozen) {
-      if (actions.moveForward)  moveVector.add(cameraDir);
+      if (actions.moveForward) moveVector.add(cameraDir);
       if (actions.moveBackward) moveVector.sub(cameraDir);
-      if (actions.moveRight)    moveVector.add(cameraRight);
-      if (actions.moveLeft)     moveVector.sub(cameraRight);
+      if (actions.moveRight) moveVector.add(cameraRight);
+      if (actions.moveLeft) moveVector.sub(cameraRight);
     }
 
     if (moveVector.lengthSq() > 0) {
@@ -136,7 +133,6 @@ export function PlayerPhysicsController(): React.ReactElement {
       coyoteTimer.current = 0;
       setMovementState('jumping');
     }
-
 
     body.setLinvel(velocity, true);
 
@@ -168,7 +164,6 @@ export function PlayerPhysicsController(): React.ReactElement {
     setPosition({ x: translation.x, y: translation.y, z: translation.z });
   });
 
-
   return (
     <RigidBody
       ref={bodyRef}
@@ -185,7 +180,6 @@ export function PlayerPhysicsController(): React.ReactElement {
           <meshStandardMaterial color="#00adc0" roughness={0.3} metalness={0.8} />
         </mesh>
       )}
-
     </RigidBody>
   );
 }

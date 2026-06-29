@@ -14,11 +14,11 @@ interface WorldActions {
   /** Mark a zone as loading */
   setZoneStatus: (id: ZoneId, status: ZoneStatus) => void;
   /** Add a zone to the active set */
-  activateZone:  (id: ZoneId) => void;
+  activateZone: (id: ZoneId) => void;
   /** Remove a zone from the active set */
-  deactivateZone:(id: ZoneId) => void;
+  deactivateZone: (id: ZoneId) => void;
   /** Set the player's focused zone */
-  setFocusedZone:(id: ZoneId | null) => void;
+  setFocusedZone: (id: ZoneId | null) => void;
 }
 
 type WorldStore = WorldState & WorldActions;
@@ -26,10 +26,10 @@ type WorldStore = WorldState & WorldActions;
 export const useWorldStore = create<WorldStore>()(
   subscribeWithSelector((set) => ({
     // ── Initial State ──────────────────────────────────────────────────────────
-    zones:         [],
+    zones: [],
     activeZoneIds: [],
     focusedZoneId: null,
-    zoneStatuses:  {},
+    zoneStatuses: {},
 
     // ── Actions ────────────────────────────────────────────────────────────────
     setZoneStatus: (id, status) =>

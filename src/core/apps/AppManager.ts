@@ -10,7 +10,7 @@ class AppManagerClass {
   private readonly apps = new Map<string, PortfolioApp>();
   private readonly state: AppManagerState = {
     activeAppId: null,
-    isOpen:      false,
+    isOpen: false,
   };
 
   private onStateChange: ((state: AppManagerState) => void) | null = null;

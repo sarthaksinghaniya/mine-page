@@ -13,7 +13,13 @@ import { RendererConfig } from '@core/renderer';
 import { CameraController } from '@features/camera';
 import { LightingSystem } from '@features/lighting';
 import { SceneManager, SceneTransition, useSceneStore } from '@features/scene';
-import { DebugOverlay, useDebugMetrics, InteractionDebug, CinematicDebug, VehicleDebug } from '@features/debug';
+import {
+  DebugOverlay,
+  useDebugMetrics,
+  InteractionDebug,
+  CinematicDebug,
+  VehicleDebug,
+} from '@features/debug';
 import { LoadingScreen } from '@/ui/loading';
 import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
@@ -23,7 +29,6 @@ import { AppManager } from '@core/apps/AppManager';
 import { ApplicationShell } from '@/ui/apps/ApplicationShell';
 import { SkillsLabApp } from '@/ui/apps/stubs/SkillsLabApp';
 import { MuseumApp } from '@/ui/apps/stubs/MuseumApp';
-
 
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
@@ -47,7 +52,6 @@ function CanvasEngineController(): React.ReactElement {
     </>
   );
 }
-
 
 // ── Root App Component ────────────────────────────────────────────────────────
 
@@ -79,10 +83,10 @@ export function App(): React.ReactElement {
         id="world-canvas"
         style={{ position: 'fixed', inset: 0, zIndex: 0 }}
         gl={{
-          antialias:       true,
+          antialias: true,
           powerPreference: 'high-performance',
-          stencil:         false,
-          depth:           true,
+          stencil: false,
+          depth: true,
         }}
         shadows
         dpr={[1, performanceProfile.pixelRatio]}
@@ -99,9 +103,5 @@ export function App(): React.ReactElement {
       <TerminalWindow />
       <ApplicationShell />
     </AppProviders>
-
   );
 }
-
-
-

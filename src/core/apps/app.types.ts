@@ -4,13 +4,13 @@
  */
 
 export interface PortfolioApp {
-  id:       string;
-  title:    string;
-  mount:    () => React.ReactElement;
+  id: string;
+  title: string;
+  mount: () => React.ReactElement;
   dispose?: () => void;
 }
 
 export interface AppManagerState {
   activeAppId: string | null;
-  isOpen:      boolean;
+  isOpen: boolean;
 }

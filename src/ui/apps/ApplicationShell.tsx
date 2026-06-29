@@ -73,7 +73,9 @@ export function ApplicationShell(): React.ReactElement | null {
             alignItems: 'center',
           }}
         >
-          <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#00e5f0', letterSpacing: '1px' }}>
+          <span
+            style={{ fontSize: '16px', fontWeight: 'bold', color: '#00e5f0', letterSpacing: '1px' }}
+          >
             {app.title.toUpperCase()}
           </span>
           <button
@@ -92,9 +94,7 @@ export function ApplicationShell(): React.ReactElement | null {
         </div>
 
         {/* Content render viewport */}
-        <div style={{ flex: 1, overflowY: 'auto' }}>
-          {app.mount()}
-        </div>
+        <div style={{ flex: 1, overflowY: 'auto' }}>{app.mount()}</div>
       </div>
     </div>
   );

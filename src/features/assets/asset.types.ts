@@ -8,12 +8,12 @@ export type AssetType = 'gltf' | 'hdri' | 'texture' | 'audio' | 'font';
 export type AssetStatus = 'idle' | 'loading' | 'loaded' | 'error';
 
 export interface AssetEntry {
-  id:     string;
-  src:    string;
-  type:   AssetType;
+  id: string;
+  src: string;
+  type: AssetType;
   status: AssetStatus;
   progress: number; // 0–100 progress for this asset
-  error?:  string;
+  error?: string;
 }
 
 export interface AssetManifest {

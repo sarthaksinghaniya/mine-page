@@ -11,7 +11,7 @@ export const helpCommand: TerminalCommand = {
   description: 'Show list of all available commands',
   execute: () => {
     const lines = TerminalManager.getCommands().map(
-      (c) => `${c.keyword.padEnd(12)} - ${c.description}`
+      (c) => `${c.keyword.padEnd(12)} - ${c.description}`,
     );
     return ['Available commands:', ...lines].join('\n');
   },
