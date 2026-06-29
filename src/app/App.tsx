@@ -18,6 +18,7 @@ import { LoadingScreen } from '@/ui/loading';
 import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
 import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
+import { TerminalWindow } from '@/ui/hud/TerminalWindow';
 
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
@@ -41,7 +42,6 @@ function CanvasEngineController(): React.ReactElement {
     </>
   );
 }
-
 
 
 // ── Root App Component ────────────────────────────────────────────────────────
@@ -78,8 +78,10 @@ export function App(): React.ReactElement {
       <DebugOverlay />
       <InteractionPrompt />
       <CinematicOverlay />
+      <TerminalWindow />
     </AppProviders>
   );
 }
+
 
 

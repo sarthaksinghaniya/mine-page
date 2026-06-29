@@ -9,6 +9,8 @@ import * as THREE from 'three';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '@/features/world/components/DistrictScene';
 import { AiRobotNpc } from '../components/AiRobotNpc';
+import { TerminalManager } from '@core/terminal/TerminalManager';
+
 
 export function AIResearchScene(): React.ReactElement {
   const outerSphereRef = useRef<THREE.Mesh>(null);
@@ -50,7 +52,7 @@ export function AIResearchScene(): React.ReactElement {
         enabled: true,
         promptText: `Use ${term.name}`,
         onInteract: () => {
-          console.log(`[Interaction] AI District Console: ${term.text}`);
+          TerminalManager.open(term.id);
         },
       });
     });

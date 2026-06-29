@@ -10,6 +10,8 @@ export * from './events';
 export * from './input';
 export * from './interaction';
 export * from './cinematic';
+export * from './terminal';
+
 
 
 

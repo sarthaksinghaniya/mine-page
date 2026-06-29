@@ -14,6 +14,8 @@ import { useCameraStore } from '@/features/camera/camera.store';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
+import { TerminalManager } from '@core/terminal/TerminalManager';
+
 
 // ── Physics parameters ────────────────────────────────────────────────────────
 
@@ -49,14 +51,21 @@ export function PlayerPhysicsController(): React.ReactElement {
     const body = bodyRef.current;
     if (!body) return;
 
-    // Check if player is currently driving a vehicle
-    const activeVehicleId = VehicleManager.getActiveVehicleId();
-    if (activeVehicleId) {
-      // Teleport player body out of sight or offset inside vehicle cockpit
+    // Check if player is currently in terminal interaction
+    if (TerminalManager.isOpen()) {
       body.setLinvel({ x: 0, y: 0, z: 0 }, true);
       setMovementState('idle');
       return;
     }
+
+    // Check if player is currently driving a vehicle
+    const activeVehicleId = VehicleManager.getActiveVehicleId();
+    if (activeVehicleId) {
+      body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      setMovementState('idle');
+      return;
+    }
+
 
     const translation = body.translation();
     const velocity = body.linvel();
