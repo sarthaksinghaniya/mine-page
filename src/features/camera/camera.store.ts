@@ -10,6 +10,7 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { generateUUID } from '@shared/utils/uuid';
 import * as THREE from 'three';
+import { gsap } from 'gsap';
 import type {
   CameraState,
   CameraMode,
@@ -89,7 +90,6 @@ export function applyEasing(t: number, easing: TransitionEasing): number {
     case 'easeOut':    return c * (2 - c);
     case 'easeInOut':  return c < 0.5 ? 2 * c * c : -1 + (4 - 2 * c) * c;
     case 'spring': {
-      // Exponential spring: overshoots slightly then settles
       const overshoot = 1.70158;
       return c === 1 ? 1 : (c * c * ((overshoot + 1) * c - overshoot));
     }
@@ -116,6 +116,7 @@ export const useCameraStore = create<CameraStore>()(
     setTarget: (targetEntityId) => set({ targetEntityId }),
 
     transitionTo: (to, from, duration, easing = 'easeInOut', onComplete) => {
+      // Internal animation loop state using GSAP ticker if needed or frame delta
       const transition: CameraTransition = {
         from,
         to,
@@ -124,6 +125,30 @@ export const useCameraStore = create<CameraStore>()(
         easing,
         onComplete,
       };
+
+      // Apply GSAP values dynamically to our transition parameters
+      const animObj = { progress: 0 };
+      gsap.to(animObj, {
+        progress: 1,
+        duration,
+        ease: easing === 'spring' ? 'back.out' : 'power2.inOut',
+        onUpdate: () => {
+          const currentT = get().transition;
+          if (currentT) {
+            set({
+              transition: {
+                ...currentT,
+                elapsed: animObj.progress * duration,
+              },
+            });
+          }
+        },
+        onComplete: () => {
+          onComplete?.();
+          set({ transition: null });
+        },
+      });
+
       set({ transition });
     },
 
@@ -132,12 +157,15 @@ export const useCameraStore = create<CameraStore>()(
     tickTransition: (delta) => {
       const { transition } = get();
       if (!transition) return;
-      const elapsed = transition.elapsed + delta;
-      if (elapsed >= transition.duration) {
-        transition.onComplete?.();
-        set({ transition: null });
-      } else {
-        set({ transition: { ...transition, elapsed } });
+      // When utilizing GSAP, the progress gets updated via GSAP's onUpdate callback.
+      // Standard delta fallback for fallback safety:
+      if (!transition.onComplete) {
+        const elapsed = transition.elapsed + delta;
+        if (elapsed >= transition.duration) {
+          set({ transition: null });
+        } else {
+          set({ transition: { ...transition, elapsed } });
+        }
       }
     },
 
@@ -179,32 +207,20 @@ export const useCameraStore = create<CameraStore>()(
   })),
 );
 
-// ── Imperative shake helper (for use outside React components) ────────────────
-
-/**
- * Trigger a camera shake from any system, without accessing the store hook.
- * @param intensity - Peak displacement amplitude
- * @param decay     - Decay rate (default: 6)
- */
 export function triggerCameraShake(intensity: number, decay = 6): void {
   useCameraStore.getState().addShake(intensity, decay);
 }
 
-// ── Computed selectors ────────────────────────────────────────────────────────
-
-/** Sum of all shake impulse remaining amplitudes */
 export function getTotalShakeAmplitude(): number {
   return useCameraStore.getState().shakes.reduce((sum, s) => sum + s.remaining, 0);
 }
 
-/** Current transition progress [0, 1], or 1 if no transition active */
 export function getTransitionProgress(): number {
   const { transition } = useCameraStore.getState();
   if (!transition) return 1;
   return Math.min(transition.elapsed / transition.duration, 1);
 }
 
-// ── Scratch vectors (reused each frame, never reallocated) ────────────────────
 export const _scratchVec3A = new THREE.Vector3();
 export const _scratchVec3B = new THREE.Vector3();
 export const _scratchVec3C = new THREE.Vector3();

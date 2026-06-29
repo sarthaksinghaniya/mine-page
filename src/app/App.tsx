@@ -17,6 +17,8 @@ import { DebugOverlay, useDebugMetrics } from '@features/debug';
 import { LoadingScreen } from '@/ui/loading';
 import { performanceProfile } from '@config/performance';
 
+import { DayNightCycle, WeatherSystem } from '@features/environment';
+
 // ── Inside-Canvas Controller ──────────────────────────────────────────────────
 
 function CanvasEngineController(): React.ReactElement {
@@ -29,9 +31,12 @@ function CanvasEngineController(): React.ReactElement {
       <CameraController />
       <LightingSystem />
       <SceneManager />
+      <DayNightCycle />
+      <WeatherSystem />
     </>
   );
 }
+
 
 // ── Root App Component ────────────────────────────────────────────────────────
 
