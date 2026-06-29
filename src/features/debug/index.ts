@@ -9,5 +9,7 @@ export * from './hooks/useDebugMetrics';
 export * from './components/DebugOverlay';
 export * from './components/InteractionDebug';
 export * from './components/CinematicDebug';
+export * from './components/VehicleDebug';
+
 
 

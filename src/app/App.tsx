@@ -13,7 +13,7 @@ import { RendererConfig } from '@core/renderer';
 import { CameraController } from '@features/camera';
 import { LightingSystem } from '@features/lighting';
 import { SceneManager, SceneTransition, useSceneStore } from '@features/scene';
-import { DebugOverlay, useDebugMetrics, InteractionDebug, CinematicDebug } from '@features/debug';
+import { DebugOverlay, useDebugMetrics, InteractionDebug, CinematicDebug, VehicleDebug } from '@features/debug';
 import { LoadingScreen } from '@/ui/loading';
 import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
@@ -37,9 +37,11 @@ function CanvasEngineController(): React.ReactElement {
       <WeatherSystem />
       <InteractionDebug />
       <CinematicDebug />
+      <VehicleDebug />
     </>
   );
 }
+
 
 
 // ── Root App Component ────────────────────────────────────────────────────────

@@ -22,6 +22,8 @@ import { InstancedProps } from '@/features/environment';
 import { AudioZones } from '@/features/audio';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
+import { VehicleBase, VehicleManager } from '@/features/vehicles';
+
 
 
 export function WorldRoot(): React.ReactElement {
@@ -80,6 +82,18 @@ export function WorldRoot(): React.ReactElement {
     });
 
 
+    // Register a test cyber car vehicle config
+    VehicleManager.register({
+      id: 'cyber-car-01',
+      name: 'Cyber Roadster',
+      category: 'car',
+      position: { x: 10, y: 1.5, z: 15 },
+      rotation: 0,
+      maxSpeed: 40,
+      acceleration: 25,
+      mass: 1200,
+    });
+
     // Bootstrap initial active zone at spawn
     activateZone('spawn');
     setZoneStatus('spawn', 'active');
@@ -91,7 +105,9 @@ export function WorldRoot(): React.ReactElement {
           InteractionManager.unregister(lot.id);
         });
       });
+      VehicleManager.unregister('cyber-car-01');
     };
+
   }, [setPosition, setRotation, activateZone, setZoneStatus]);
 
   // Handle ambient soundtrack transitions as districts shift
@@ -126,11 +142,29 @@ export function WorldRoot(): React.ReactElement {
           ));
         })}
 
+        {/* Dynamic vehicles in active zones */}
+        {activeZoneIds.includes('spawn') && (
+          <VehicleBase
+            config={{
+              id: 'cyber-car-01',
+              name: 'Cyber Roadster',
+              category: 'car',
+              position: { x: 10, y: 1.5, z: 15 },
+              rotation: 0,
+              maxSpeed: 40,
+              acceleration: 25,
+              mass: 1200,
+            }}
+            color="#ff5500"
+          />
+        )}
+
         {/* Interconnecting roads */}
         <RoadSystem />
 
         {/* Foliage and environment props */}
         <InstancedProps />
+
 
         {/* Player physical body */}
         <PlayerPhysicsController />

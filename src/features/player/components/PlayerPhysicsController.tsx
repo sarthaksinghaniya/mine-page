@@ -13,8 +13,10 @@ import { FootstepAudio, type SurfaceType } from '@/features/audio/systems/Footst
 import { useCameraStore } from '@/features/camera/camera.store';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
+import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
 
 // ── Physics parameters ────────────────────────────────────────────────────────
+
 const ACCELERATION  = 30; // units/s²
 const DRAG          = 8;  // damping factor
 const JUMP_FORCE    = 7;  // velocity impulse
@@ -47,6 +49,15 @@ export function PlayerPhysicsController(): React.ReactElement {
     const body = bodyRef.current;
     if (!body) return;
 
+    // Check if player is currently driving a vehicle
+    const activeVehicleId = VehicleManager.getActiveVehicleId();
+    if (activeVehicleId) {
+      // Teleport player body out of sight or offset inside vehicle cockpit
+      body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      setMovementState('idle');
+      return;
+    }
+
     const translation = body.translation();
     const velocity = body.linvel();
     const actions = InputManager.getActions();
@@ -63,6 +74,7 @@ export function PlayerPhysicsController(): React.ReactElement {
     } else {
       coyoteTimer.current = Math.max(0, coyoteTimer.current - delta);
     }
+
 
     // ── 2. Movement Forces ────────────────────────────────────────────────────
     const cameraDir = new THREE.Vector3();
@@ -148,10 +160,13 @@ export function PlayerPhysicsController(): React.ReactElement {
     >
       <CapsuleCollider args={[0.5, 0.4]} />
       {/* Visual Debug Mesh for Player Capsule */}
-      <mesh castShadow receiveShadow>
-        <capsuleGeometry args={[0.4, 1.0, 4, 8]} />
-        <meshStandardMaterial color="#00adc0" roughness={0.3} metalness={0.8} />
-      </mesh>
+      {!VehicleManager.getActiveVehicleId() && (
+        <mesh castShadow receiveShadow>
+          <capsuleGeometry args={[0.4, 1.0, 4, 8]} />
+          <meshStandardMaterial color="#00adc0" roughness={0.3} metalness={0.8} />
+        </mesh>
+      )}
+
     </RigidBody>
   );
 }
