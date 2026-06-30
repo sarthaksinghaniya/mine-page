@@ -1,6 +1,6 @@
 /**
  * @file src/features/npc/npc.types.ts
- * @description Type definitions for the NPC feature.
+ * @description Type definitions for the NPC feature and conversation system.
  */
 
 export type NpcRole =
@@ -11,6 +11,20 @@ export type NpcRole =
 
 export type NpcInteractionState = 'idle' | 'approaching' | 'talking' | 'leaving';
 
+export interface DialogueOption {
+  id: string;
+  text: string;
+  action?: 'launch_app' | 'run_terminal' | 'next_node' | 'end_conversation';
+  actionPayload?: string;
+}
+
+export interface DialogueNode {
+  id: string;
+  text: string;
+  isTyping?: boolean;
+  options: DialogueOption[];
+}
+
 export interface NpcDefinition {
   id: string;
   name: string;
@@ -18,7 +32,6 @@ export interface NpcDefinition {
   modelPath: string;
   spawnZoneId: string;
   spawnPosition: { x: number; y: number; z: number };
-  /** Dialogue tree ID — resolved by the AI assistant or static data */
   dialogueId: string | null;
 }
 
@@ -26,4 +39,8 @@ export interface NpcState {
   npcs: NpcDefinition[];
   activeNpcId: string | null;
   interactionState: NpcInteractionState;
+  
+  // Dialogue System
+  activeDialogue: DialogueNode | null;
+  isTyping: boolean;
 }
