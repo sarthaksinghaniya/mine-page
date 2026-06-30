@@ -3,99 +3,155 @@
  * @description Fullscreen container shell wrapper displaying lazy-loaded application frames.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AppManager } from '@core/apps/AppManager';
-import type { AppManagerState } from '@core/apps/app.types';
+import type { AppManagerState, PortfolioApp } from '@core/apps/app.types';
+import { ApplicationLoader } from './ApplicationLoader';
+import { ApplicationTransition } from './ApplicationTransition';
+import { usePlayerStore } from '@features/player/player.store';
 
-export function ApplicationShell(): React.ReactElement | null {
-  const [state, setState] = useState<AppManagerState | null>(null);
+function AppContainer({ app }: { app: PortfolioApp }) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Subscribe to AppManager states
-    const unsub = AppManager.subscribe((next) => {
-      setState(next);
-    });
-
-    // Close active app on Escape keydown
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        AppManager.close();
+    if (containerRef.current) {
+      app.mount(containerRef.current);
+    }
+    return () => {
+      if (containerRef.current) {
+        app.unmount(containerRef.current);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
+  }, [app]);
 
+  return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
+}
+
+export function ApplicationShell(): React.ReactElement | null {
+  const [state, setState] = useState<AppManagerState>({ activeAppId: null, isOpen: false, isLoading: false });
+  const setCanMove = usePlayerStore((s) => s.setCanMove);
+  
+  // Focus Trap Ref
+  const shellRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const unsub = AppManager.subscribe((next) => {
+      setState(next);
+      setCanMove(!next.isOpen);
+    });
     return () => {
       unsub();
-      window.removeEventListener('keydown', handleKeyDown);
+      setCanMove(true);
     };
-  }, []);
+  }, [setCanMove]);
 
-  if (!state || !state.isOpen || !state.activeAppId) return null;
+  // Focus trap effect
+  useEffect(() => {
+    if (state.isOpen && !state.isLoading && shellRef.current) {
+      shellRef.current.focus();
+    }
+  }, [state.isOpen, state.isLoading]);
 
-  const app = AppManager.getApp(state.activeAppId);
-  if (!app) return null;
+  const [fullyClosed, setFullyClosed] = useState(!state.isOpen);
+  useEffect(() => {
+    if (state.isOpen) setFullyClosed(false);
+  }, [state.isOpen]);
+
+  if (fullyClosed && !state.isOpen) return null;
+
+  const app = state.activeAppId ? AppManager.getApp(state.activeAppId) : null;
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={app ? `${app.title} Application` : 'Application Overlay'}
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(5, 5, 10, 0.85)',
-        backdropFilter: 'blur(10px)',
-        zIndex: 40, // Z_MENU
+        backgroundColor: 'rgba(5, 5, 10, 0.4)',
+        backdropFilter: 'blur(12px)',
+        zIndex: 40,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         color: '#f0f0ff',
         fontFamily: 'sans-serif',
+        pointerEvents: state.isOpen ? 'auto' : 'none',
+        opacity: fullyClosed ? 0 : 1,
+        transition: 'opacity 0.3s ease',
       }}
     >
-      <div
-        style={{
-          width: '85vw',
-          height: '85vh',
-          backgroundColor: '#0a0a14',
-          border: '1px solid rgba(0, 229, 240, 0.3)',
-          boxShadow: '0 0 40px rgba(0, 229, 240, 0.15)',
-          borderRadius: '12px',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
+      {state.isLoading && <ApplicationLoader appId={state.activeAppId} />}
+      
+      <ApplicationTransition
+        isOpen={state.isOpen && !state.isLoading}
+        onClosed={() => setFullyClosed(true)}
       >
-        {/* Title header bar */}
-        <div
-          style={{
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-            padding: '16px 24px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <span
-            style={{ fontSize: '16px', fontWeight: 'bold', color: '#00e5f0', letterSpacing: '1px' }}
-          >
-            {app.title.toUpperCase()}
-          </span>
-          <button
-            onClick={() => AppManager.close()}
+        {app && (
+          <div
+            ref={shellRef}
+            tabIndex={-1}
             style={{
-              background: 'none',
-              border: 'none',
-              color: '#ff3b30',
-              cursor: 'pointer',
-              fontSize: '16px',
-              fontWeight: 'bold',
+              width: '90vw',
+              maxWidth: '1200px',
+              height: '85vh',
+              backgroundColor: '#0a0a14',
+              border: '1px solid rgba(0, 229, 240, 0.3)',
+              boxShadow: '0 0 40px rgba(0, 229, 240, 0.15)',
+              borderRadius: '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              outline: 'none'
             }}
           >
-            CLOSE (ESC)
-          </button>
-        </div>
+            {/* Header / Breadcrumb */}
+            <header
+              style={{
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '16px 24px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '14px' }}>NEXUS //</span>
+                {app.icon && <span style={{ fontSize: '20px' }}>{app.icon}</span>}
+                <h1 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold', color: '#00e5f0', letterSpacing: '1px' }}>
+                  {app.title.toUpperCase()}
+                </h1>
+              </div>
+              <button
+                aria-label="Close application"
+                onClick={() => AppManager.close()}
+                style={{
+                  background: 'none',
+                  border: '1px solid rgba(255, 59, 48, 0.3)',
+                  padding: '6px 12px',
+                  borderRadius: '4px',
+                  color: '#ff3b30',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  letterSpacing: '1px',
+                  transition: 'all 0.2s',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 59, 48, 0.1)')}
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+              >
+                CLOSE (ESC)
+              </button>
+            </header>
 
-        {/* Content render viewport */}
-        <div style={{ flex: 1, overflowY: 'auto' }}>{app.mount()}</div>
-      </div>
+            <div style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
+              <AppContainer app={app} />
+            </div>
+          </div>
+        )}
+      </ApplicationTransition>
     </div>
   );
 }

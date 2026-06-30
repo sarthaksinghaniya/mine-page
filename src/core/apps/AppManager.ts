@@ -1,19 +1,35 @@
 /**
  * @file src/core/apps/AppManager.ts
- * @description Coordinates application registrations, focus states, and overlays.
+ * @description Coordinates application registrations, focus states, overlays, and lifecycle.
  */
 
-import { eventBus } from '@core/events/EventBus';
+import { appEvents } from './app.events';
 import type { PortfolioApp, AppManagerState } from './app.types';
+import { CinematicDirector } from '@core/cinematic/CinematicDirector';
+import { DISTRICT_BUILDINGS } from '@core/data/district.data';
+import { ApplicationAudioManager } from '@features/audio/ApplicationAudioManager';
+import { useCameraStore } from '@features/camera/camera.store';
 
 class AppManagerClass {
   private readonly apps = new Map<string, PortfolioApp>();
   private readonly state: AppManagerState = {
     activeAppId: null,
     isOpen: false,
+    isLoading: false,
   };
 
+  private previousCameraState: any = null;
+
   private onStateChange: ((state: AppManagerState) => void) | null = null;
+  private escapeHandler = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && this.state.isOpen) {
+      this.close();
+    }
+  };
+
+  constructor() {
+    window.addEventListener('keydown', this.escapeHandler);
+  }
 
   register(app: PortfolioApp): void {
     this.apps.set(app.id, app);
@@ -23,7 +39,11 @@ class AppManagerClass {
     if (this.state.activeAppId === id) {
       this.close();
     }
-    this.apps.delete(id);
+    const app = this.apps.get(id);
+    if (app) {
+      app.dispose();
+      this.apps.delete(id);
+    }
   }
 
   getApps(): PortfolioApp[] {
@@ -34,30 +54,105 @@ class AppManagerClass {
     return this.apps.get(id) ?? null;
   }
 
-  open(appId: string): void {
-    if (!this.apps.has(appId)) return;
+  async open(appId: string): Promise<void> {
+    const app = this.apps.get(appId);
+    if (!app) {
+      console.error(`App ${appId} not found`);
+      return;
+    }
+
+    if (this.state.isOpen && this.state.activeAppId !== appId) {
+      await this.close();
+    }
+    if (this.state.isOpen) return; // ignore duplicate opens
 
     this.state.activeAppId = appId;
     this.state.isOpen = true;
+    this.state.isLoading = true;
     this.notify();
+    appEvents.emitLoading(appId);
+    
+    ApplicationAudioManager.playSfx('ui_open');
 
-    eventBus.emit('ui:menuOpened', { menuId: `app-${appId}` });
-  }
+    // Save camera state
+    const camStore = useCameraStore.getState();
+    this.previousCameraState = {
+      mode: camStore.mode,
+      fov: camStore.fov,
+      zoom: camStore.zoom,
+    };
 
-  close(): void {
-    if (!this.state.isOpen) return;
-
-    const prev = this.state.activeAppId;
-    this.state.activeAppId = null;
-    this.state.isOpen = false;
-    this.notify();
-
-    if (prev) {
-      const app = this.apps.get(prev);
-      app?.dispose?.();
+    const building = Object.values(DISTRICT_BUILDINGS).find(b => b.appId === appId);
+    if (building) {
+      CinematicDirector.play({
+        id: `open-${appId}`,
+        priority: 100,
+        duration: 1.5,
+        keyframes: [
+          { time: 0, type: 'screen', screen: { fadeOpacity: 0.5, letterbox: true } },
+          { time: 0, type: 'player', player: { frozen: true } },
+          { time: 0, type: 'camera', camera: { position: { x: building.entryPosition.x, y: building.entryPosition.y + 5, z: building.entryPosition.z + 10 }, lookAt: building.entryPosition } },
+          { time: 1.5, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } }
+        ]
+      });
     }
 
-    eventBus.emit('ui:menuClosed', { menuId: 'app-overlay' });
+    try {
+      if (app.beforeOpen) await app.beforeOpen();
+      await app.load();
+      
+      if (app.onOpen) await app.onOpen();
+      if (app.onFocus) await app.onFocus();
+      
+      appEvents.emitLoaded(appId);
+      appEvents.emitOpened(appId);
+    } catch (err) {
+      console.error(`Failed to load app ${appId}`, err);
+    } finally {
+      this.state.isLoading = false;
+      this.notify();
+    }
+  }
+
+  async close(): Promise<void> {
+    if (!this.state.isOpen || !this.state.activeAppId) return;
+
+    const appId = this.state.activeAppId;
+    const app = this.apps.get(appId);
+
+    if (app) {
+      if (app.onBlur) await app.onBlur();
+      if (app.beforeClose) await app.beforeClose();
+      if (app.onClose) await app.onClose();
+      appEvents.emitClosed(appId);
+    }
+
+    if (this.previousCameraState) {
+      useCameraStore.getState().setMode(this.previousCameraState.mode);
+      useCameraStore.getState().setFov(this.previousCameraState.fov);
+    }
+
+    CinematicDirector.play({
+      id: `close-${appId}`,
+      priority: 100,
+      duration: 1.0,
+      keyframes: [
+        { time: 0, type: 'player', player: { frozen: false } }
+      ]
+    });
+
+    this.state.activeAppId = null;
+    this.state.isOpen = false;
+    this.state.isLoading = false;
+    this.notify();
+  }
+  
+  dispose(): void {
+    window.removeEventListener('keydown', this.escapeHandler);
+    for (const app of this.apps.values()) {
+      app.dispose();
+    }
+    this.apps.clear();
   }
 
   subscribe(listener: (state: AppManagerState) => void): () => void {

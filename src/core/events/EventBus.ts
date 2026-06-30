@@ -48,6 +48,12 @@ export interface GameEventMap {
   'ui:menuOpened': { menuId: string };
   'ui:menuClosed': { menuId: string };
   'ui:hudVisibility': { visible: boolean };
+
+  // Apps
+  'app:opened': { appId: string };
+  'app:closed': { appId: string };
+  'app:loading': { appId: string };
+  'app:loaded': { appId: string };
 }
 
 export type GameEventName = keyof GameEventMap;
