@@ -4,7 +4,8 @@
  */
 
 import React, { Suspense } from 'react';
-import { createRoot, Root } from 'react-dom/client';
+import type { Root } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import type { PortfolioApp } from './app.types';
 import { ApplicationLoader } from '@ui/apps/ApplicationLoader';
 

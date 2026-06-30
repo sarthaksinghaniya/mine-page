@@ -105,7 +105,7 @@ class CacheManagerClass {
           keysToRemove.push(k);
         }
       }
-      keysToRemove.forEach(k => localStorage.removeItem(k));
+      keysToRemove.forEach(k => { localStorage.removeItem(k); });
     } catch (e) {}
   }
 }

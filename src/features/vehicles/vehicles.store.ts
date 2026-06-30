@@ -19,7 +19,7 @@ export const useVehiclesStore = create<VehiclesStore>()((set) => ({
   playerVehicleId: null,
   mountedVehicleId: null,
 
-  setVehicles: (vehicles) => set({ vehicles }),
-  mountVehicle: (vehicleId) => set({ mountedVehicleId: vehicleId }),
-  dismountVehicle: () => set({ mountedVehicleId: null }),
+  setVehicles: (vehicles) => { set({ vehicles }); },
+  mountVehicle: (vehicleId) => { set({ mountedVehicleId: vehicleId }); },
+  dismountVehicle: () => { set({ mountedVehicleId: null }); },
 }));

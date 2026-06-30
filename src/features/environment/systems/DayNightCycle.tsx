@@ -3,7 +3,8 @@
  * @description In-game clock ticking engine, resolving sun orbits and lighting matrices.
  */
 
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useEnvironmentStore } from '../environment.store';
 import { useLightingStore } from '@/features/lighting/lighting.store';

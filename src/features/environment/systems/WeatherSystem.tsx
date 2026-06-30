@@ -3,7 +3,8 @@
  * @description Coordinates weather conditions and dynamics.
  */
 
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useEnvironmentStore } from '../environment.store';
 import { useLightingStore } from '@/features/lighting/lighting.store';
@@ -23,7 +24,7 @@ export function WeatherSystem(): React.ReactElement | null {
       setWeatherState({ target: nextType, blendFactor: 0 });
     }, 120000);
 
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); };
   }, [setWeatherState]);
 
   useFrame((_, delta) => {

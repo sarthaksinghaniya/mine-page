@@ -33,22 +33,22 @@ export const useWorldStore = create<WorldStore>()(
 
     // ── Actions ────────────────────────────────────────────────────────────────
     setZoneStatus: (id, status) =>
-      set((state) => ({
+      { set((state) => ({
         zoneStatuses: { ...state.zoneStatuses, [id]: status },
-      })),
+      })); },
 
     activateZone: (id) =>
-      set((state) => ({
+      { set((state) => ({
         activeZoneIds: state.activeZoneIds.includes(id)
           ? state.activeZoneIds
           : [...state.activeZoneIds, id],
-      })),
+      })); },
 
     deactivateZone: (id) =>
-      set((state) => ({
+      { set((state) => ({
         activeZoneIds: state.activeZoneIds.filter((zId) => zId !== id),
-      })),
+      })); },
 
-    setFocusedZone: (id) => set({ focusedZoneId: id }),
+    setFocusedZone: (id) => { set({ focusedZoneId: id }); },
   })),
 );

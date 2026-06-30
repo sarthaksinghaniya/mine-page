@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useMemo, Suspense } from 'react';
 import { PortfolioAnalytics } from '@core/data/PortfolioAnalytics';
+import { GitHubService, type GitHubContribution } from '@core/data/GitHubService';
+import { UnstopService, type UnstopProfile } from '@core/data/UnstopService';
 import { SkeletonLoader, ErrorState, StatCard } from '@ui/components/SharedComponents';
 import { PrintWrapper } from '@ui/components/PrintWrapper';
 
@@ -12,25 +14,34 @@ export default function SkillsLabComponent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<any>(null);
+  const [contributions, setContributions] = useState<GitHubContribution[]>([]);
+  const [unstopProfile, setUnstopProfile] = useState<UnstopProfile | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'activity' | 'competitive'>('overview');
 
   useEffect(() => {
     let mounted = true;
-    async function loadSkills() {
+    async function loadData() {
       try {
-        const data = await PortfolioAnalytics.aggregateScores('sarthaksinghaniya', 'sarthaksinghaniya', 'sarthaksinghaniya');
+        const [portfolioData, githubData, unstopData] = await Promise.all([
+          PortfolioAnalytics.aggregateScores('sarthaksinghaniya', 'sarthaksinghaniya', 'sarthaksinghaniya'),
+          GitHubService.fetchContributions('sarthaksinghaniya'),
+          UnstopService.fetchProfile('sarthsin39721')
+        ]);
+        
         if (mounted) {
-          setStats(data);
+          setStats(portfolioData);
+          setContributions(githubData);
+          setUnstopProfile(unstopData);
           setLoading(false);
         }
       } catch (err: any) {
         if (mounted) {
-          setError(err.message || 'Failed to load skills data');
+          setError(err.message || 'Failed to load dashboard data');
           setLoading(false);
         }
       }
     }
-    loadSkills();
+    loadData();
     return () => { mounted = false; };
   }, []);
 
@@ -40,7 +51,7 @@ export default function SkillsLabComponent() {
 
   const renderContent = useMemo(() => {
     if (loading) return <SkeletonLoader count={4} height="200px" />;
-    if (error) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
+    if (error) return <ErrorState message={error} onRetry={() => { window.location.reload(); }} />;
     if (!stats) return null;
 
     if (activeTab === 'overview') {
@@ -58,9 +69,9 @@ export default function SkillsLabComponent() {
     if (activeTab === 'activity') {
       return (
         <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '8px' }}>
-          <h3 style={{ marginBottom: '16px', color: '#00e5f0' }}>Contribution Heatmap</h3>
+          <h3 style={{ marginBottom: '16px', color: '#00e5f0' }}>GitHub Contribution Heatmap</h3>
           <Suspense fallback={<SkeletonLoader count={1} height="150px" />}>
-            <ContributionHeatmap data={[{ date: 'today', count: 5 } /* Mock Data for now */]} />
+            <ContributionHeatmap data={contributions} />
           </Suspense>
           <h3 style={{ marginTop: '32px', marginBottom: '16px', color: '#00e5f0' }}>Language Distribution</h3>
           <Suspense fallback={<SkeletonLoader count={1} height="150px" />}>
@@ -77,17 +88,29 @@ export default function SkillsLabComponent() {
 
     if (activeTab === 'competitive') {
       return (
-        <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '8px' }}>
-          <h3 style={{ marginBottom: '16px', color: '#00e5f0' }}>Contest Rating Trajectory</h3>
-          <Suspense fallback={<SkeletonLoader count={1} height="200px" />}>
-            <RatingGraph data={[
-              { label: 'Jan', rating: 1200 },
-              { label: 'Feb', rating: 1350 },
-              { label: 'Mar', rating: 1300 },
-              { label: 'Apr', rating: 1550 },
-              { label: 'May', rating: 1800 },
-            ]} />
-          </Suspense>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {unstopProfile && (
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '8px', borderLeft: '4px solid #00ff66' }}>
+              <h3 style={{ marginTop: 0, marginBottom: '16px', color: '#00ff66' }}>Unstop Hacker Profile</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px' }}>
+                <StatCard label="Global Rank" value={`#${unstopProfile.globalRank}`} icon="🌍" />
+                <StatCard label="Certificates" value={unstopProfile.totalCertificates} icon="📜" />
+                <StatCard label="Competitions Won" value={unstopProfile.competitionsWon} icon="🥇" />
+              </div>
+            </div>
+          )}
+          <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '8px' }}>
+            <h3 style={{ marginBottom: '16px', color: '#00e5f0' }}>Contest Rating Trajectory (LeetCode & Codeforces)</h3>
+            <Suspense fallback={<SkeletonLoader count={1} height="200px" />}>
+              <RatingGraph data={[
+                { label: 'Jan', rating: 1200 },
+                { label: 'Feb', rating: 1350 },
+                { label: 'Mar', rating: 1300 },
+                { label: 'Apr', rating: 1550 },
+                { label: 'May', rating: 1800 },
+              ]} />
+            </Suspense>
+          </div>
         </div>
       );
     }
@@ -120,7 +143,7 @@ export default function SkillsLabComponent() {
           {(['overview', 'activity', 'competitive'] as const).map(tab => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => { setActiveTab(tab); }}
               style={{
                 background: 'none',
                 border: 'none',

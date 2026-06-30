@@ -62,7 +62,7 @@ class RootErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundar
             {this.state.errorMessage}
           </p>
           <button
-            onClick={() => this.setState({ hasError: false, errorMessage: '' })}
+            onClick={() => { this.setState({ hasError: false, errorMessage: '' }); }}
             style={{
               background: 'transparent',
               border: '1px solid #00adc0',

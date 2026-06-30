@@ -115,7 +115,7 @@ class TypedEventBus {
     const set = this.listeners.get(event);
     if (!set) return;
     for (const listener of set) {
-      listener(payload as GameEventPayload<GameEventName>);
+      listener(payload);
     }
   }
 

@@ -68,7 +68,7 @@ class AudioManagerClass {
       console.warn(`[AudioManager] Sound "${id}" not found.`);
       return null;
     }
-    return howl.play() as number;
+    return howl.play();
   }
 
   stop(id: string): void {

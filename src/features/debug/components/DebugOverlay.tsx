@@ -21,7 +21,7 @@ export function DebugOverlay(): React.ReactElement | null {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => { window.removeEventListener('keydown', handleKeyDown); };
   }, [toggleVisibility]);
 
   if (!visible) return null;

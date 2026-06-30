@@ -62,12 +62,12 @@ export const useSceneStore = create<SceneStore>()(
     },
 
     setActiveScene: (id) =>
-      set({
+      { set({
         activeSceneId: id,
         pendingSceneId: null,
         status: 'active',
         transition: null,
-      }),
+      }); },
 
     tickTransition: (delta) => {
       const { transition, pendingSceneId } = get();
@@ -106,9 +106,9 @@ export const useSceneStore = create<SceneStore>()(
     },
 
     completeTransition: () =>
-      set({
+      { set({
         status: 'active',
         transition: null,
-      }),
+      }); },
   })),
 );

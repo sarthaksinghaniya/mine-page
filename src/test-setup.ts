@@ -17,7 +17,7 @@ HTMLCanvasElement.prototype.getContext = function () {
 // ── Crypto Mock ───────────────────────────────────────────────────────────────
 // Ensure crypto.randomUUID is available in jsdom
 if (!globalThis.crypto.randomUUID) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+   
   globalThis.crypto.randomUUID = () =>
-    '00000000-0000-4000-8000-000000000000' as ReturnType<typeof crypto.randomUUID>;
+    '00000000-0000-4000-8000-000000000000';
 }

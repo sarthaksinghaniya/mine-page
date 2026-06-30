@@ -53,11 +53,11 @@ export const useEnvironmentStore = create<EnvironmentStore>()(
     cycleSpeed: 60, // 1 game-day per 24 real minutes
 
     // ── Actions ────────────────────────────────────────────────────────────────
-    setSunState: (sun) => set((s) => ({ sun: { ...s.sun, ...sun } })),
-    setTimeOfDay: (time) => set((s) => ({ sun: { ...s.sun, timeOfDay: time } })),
-    setWeather: (type) => set((s) => ({ weather: { ...s.weather, target: type } })),
-    setWeatherState: (weather) => set((s) => ({ weather: { ...s.weather, ...weather } })),
-    setCycleRunning: (cycleRunning) => set({ cycleRunning }),
-    setCycleSpeed: (cycleSpeed) => set({ cycleSpeed }),
+    setSunState: (sun) => { set((s) => ({ sun: { ...s.sun, ...sun } })); },
+    setTimeOfDay: (time) => { set((s) => ({ sun: { ...s.sun, timeOfDay: time } })); },
+    setWeather: (type) => { set((s) => ({ weather: { ...s.weather, target: type } })); },
+    setWeatherState: (weather) => { set((s) => ({ weather: { ...s.weather, ...weather } })); },
+    setCycleRunning: (cycleRunning) => { set({ cycleRunning }); },
+    setCycleSpeed: (cycleSpeed) => { set({ cycleSpeed }); },
   })),
 );

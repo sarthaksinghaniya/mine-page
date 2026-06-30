@@ -127,7 +127,7 @@ class InteractionManagerClass {
     if (AppManager.isOpen()) return;
 
     const target = this.interactables.get(this.focusedId);
-    if (target && target.enabled) {
+    if (target?.enabled) {
       // Cooldown buffer of 1s to prevent double triggers
       this.cooldownActive = true;
       setTimeout(() => {

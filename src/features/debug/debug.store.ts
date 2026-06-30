@@ -29,7 +29,7 @@ export const useDebugStore = create<DebugStore>()((set) => ({
   visible: false,
   metrics: initialMetrics,
 
-  toggleVisibility: () => set((s) => ({ visible: !s.visible })),
-  setVisibility: (visible) => set({ visible }),
-  updateMetrics: (metrics) => set((s) => ({ metrics: { ...s.metrics, ...metrics } })),
+  toggleVisibility: () => { set((s) => ({ visible: !s.visible })); },
+  setVisibility: (visible) => { set({ visible }); },
+  updateMetrics: (metrics) => { set((s) => ({ metrics: { ...s.metrics, ...metrics } })); },
 }));

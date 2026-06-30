@@ -1,25 +1,49 @@
-/**
- * @file src/data/portfolio/skills.ts
- * @description Skills data block.
- */
-
 import type { SkillCategory } from '../types';
 
 export const skills: SkillCategory[] = [
   {
-    category: 'AI & Machine Learning',
+    category: "Languages",
     items: [
-      { name: 'LLMs & RAG Pipelines', level: 'expert' },
-      { name: 'Computer Vision', level: 'proficient' },
-      { name: 'PyTorch & TensorFlow', level: 'proficient' },
-    ],
+      { name: "Python", level: "expert" },
+      { name: "JavaScript", level: "proficient" },
+      { name: "Java", level: "proficient" },
+      { name: "C++", level: "proficient" },
+      { name: "C", level: "proficient" },
+      { name: "SQL", level: "proficient" }
+    ]
   },
   {
-    category: 'Web Development',
+    category: "AI & Machine Learning",
     items: [
-      { name: 'React & React Three Fiber', level: 'expert' },
-      { name: 'TypeScript & Node.js', level: 'expert' },
-      { name: 'WebGPU & WebGL shaders', level: 'proficient' },
-    ],
+      { name: "PyTorch", level: "expert" },
+      { name: "TensorFlow", level: "proficient" },
+      { name: "Scikit-learn", level: "expert" },
+      { name: "YOLO", level: "expert" },
+      { name: "OpenCV", level: "expert" },
+      { name: "NLP", level: "proficient" },
+      { name: "LangChain", level: "proficient" },
+      { name: "RAG", level: "proficient" }
+    ]
   },
+  {
+    category: "Backend Development",
+    items: [
+      { name: "FastAPI", level: "expert" },
+      { name: "Flask", level: "proficient" },
+      { name: "Django", level: "proficient" },
+      { name: "Node.js", level: "proficient" },
+      { name: "REST APIs", level: "expert" }
+    ]
+  },
+  {
+    category: "Frontend & Cloud",
+    items: [
+      { name: "React", level: "proficient" },
+      { name: "Next.js", level: "proficient" },
+      { name: "TailwindCSS", level: "expert" },
+      { name: "Docker", level: "proficient" },
+      { name: "AWS", level: "beginner" },
+      { name: "GCP", level: "beginner" }
+    ]
+  }
 ];

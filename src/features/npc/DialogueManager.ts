@@ -9,15 +9,18 @@ import { AppManager } from '@core/apps/AppManager';
 import { TerminalManager } from '@core/terminal/TerminalManager';
 import type { DialogueNode, DialogueOption } from './npc.types';
 
-// Mock dialogue tree for the AI Guide
+import { KnowledgeBase } from './KnowledgeBase';
+import { RecommendationEngine } from './RecommendationEngine';
+
+// Mutable dictionary so we can dynamically inject responses
 const DIALOGUE_TREE: Record<string, DialogueNode> = {
   'root': {
     id: 'root',
     text: 'Hello! I am the Nexus AI Guide. I can analyze the portfolio, guide you to districts, or execute terminal commands. What would you like to do?',
     options: [
+      { id: 'opt_knowledge', text: 'Tell me about Sarthak (Projects, Skills...)', action: 'query_knowledge', actionPayload: 'general' },
+      { id: 'opt_recommend', text: 'Give me a recommendation on where to go.', action: 'query_recommendation', actionPayload: 'general' },
       { id: 'opt_stats', text: 'Analyze Developer Stats', action: 'run_terminal', actionPayload: 'analytics' },
-      { id: 'opt_projects', text: 'Show me the Projects District', action: 'launch_app', actionPayload: 'projects-district' },
-      { id: 'opt_skills', text: 'Show me the Skills Lab', action: 'launch_app', actionPayload: 'skills-lab' },
       { id: 'opt_leave', text: 'Goodbye.', action: 'end_conversation' }
     ]
   },
@@ -25,6 +28,14 @@ const DIALOGUE_TREE: Record<string, DialogueNode> = {
     id: 'processing',
     text: 'Processing your request...',
     options: []
+  },
+  'dynamic_response': {
+    id: 'dynamic_response',
+    text: '',
+    options: [
+      { id: 'opt_back', text: 'Back to main menu', action: 'next_node', actionPayload: 'root' },
+      { id: 'opt_leave', text: 'Goodbye.', action: 'end_conversation' }
+    ]
   }
 };
 
@@ -42,7 +53,7 @@ class DialogueManagerClass {
   async goToNode(nodeId: string) {
     const store = useNpcStore.getState();
     const node = DIALOGUE_TREE[nodeId];
-    if (!node) return this.endConversation();
+    if (!node) { this.endConversation(); return; }
 
     // Simulate typing
     store.setIsTyping(true);
@@ -59,6 +70,15 @@ class DialogueManagerClass {
     switch (option.action) {
       case 'next_node':
         if (option.actionPayload) this.goToNode(option.actionPayload);
+        break;
+      case 'query_knowledge':
+        DIALOGUE_TREE['dynamic_response'].text = KnowledgeBase.query(option.actionPayload || '');
+        this.goToNode('dynamic_response');
+        break;
+      case 'query_recommendation':
+        // Simulating a persona, in reality this could be an input field
+        DIALOGUE_TREE['dynamic_response'].text = RecommendationEngine.generate(option.actionPayload || 'engineer');
+        this.goToNode('dynamic_response');
         break;
       case 'launch_app':
         if (option.actionPayload) {

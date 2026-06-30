@@ -1,15 +1,9 @@
-/**
- * @file src/data/portfolio/profile.ts
- * @description Profile data block.
- */
-
 import type { Profile } from '../types';
 
 export const profile: Profile = {
-  name: 'Sarthak Singhaniya',
-  title: 'AI Engineer & Full Stack Developer',
-  summary:
-    'Building state-of-the-art open-world systems, dynamic game engines, and production-grade ML infrastructure.',
-  email: 'sarthaksinghaniya@example.com',
-  location: 'India',
+  name: "Sarthak Singhaniya",
+  title: "AI Engineer • Full Stack Developer • Founder @ TechNeekX",
+  summary: "I am an AI Engineer passionate about Computer Vision, Generative AI, Agentic AI, Healthcare AI, and scalable Full Stack Development. As the Founder of TechNeekX, I lead a growing community of 100+ developers and innovators, driving technical operations, hackathons, and collaborative building.",
+  email: "sarthaksinghaniya789@gmail.com",
+  location: "Lucknow, Uttar Pradesh, India"
 };

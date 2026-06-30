@@ -34,11 +34,11 @@ export const usePortfolioStore = create<PortfolioStore>()((set) => ({
   lastUpdated: null,
 
   // ── Actions ──────────────────────────────────────────────────────────────────
-  setProjects: (projects) => set({ projects }),
-  setSkills: (skills) => set({ skills }),
-  setExperience: (experience) => set({ experience }),
-  setLoading: (loading) => set({ loading }),
-  setError: (error) => set({ error }),
-  setActiveProject: (activeProjectId) => set({ activeProjectId }),
-  setLastUpdated: (timestamp) => set({ lastUpdated: timestamp }),
+  setProjects: (projects) => { set({ projects }); },
+  setSkills: (skills) => { set({ skills }); },
+  setExperience: (experience) => { set({ experience }); },
+  setLoading: (loading) => { set({ loading }); },
+  setError: (error) => { set({ error }); },
+  setActiveProject: (activeProjectId) => { set({ activeProjectId }); },
+  setLastUpdated: (timestamp) => { set({ lastUpdated: timestamp }); },
 }));

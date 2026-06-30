@@ -23,7 +23,7 @@ export function VehicleDebug(): React.ReactElement | null {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => { window.removeEventListener('keydown', handleKeyDown); };
   }, []);
 
   useFrame(() => {

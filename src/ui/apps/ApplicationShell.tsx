@@ -86,7 +86,7 @@ export function ApplicationShell(): React.ReactElement | null {
       
       <ApplicationTransition
         isOpen={state.isOpen && !state.isLoading}
-        onClosed={() => setFullyClosed(true)}
+        onClosed={() => { setFullyClosed(true); }}
       >
         {app && (
           <div

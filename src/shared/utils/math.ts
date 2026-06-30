@@ -4,7 +4,7 @@
  * All functions are pure and stateless.
  */
 
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 // ── Interpolation ─────────────────────────────────────────────────────────────
 

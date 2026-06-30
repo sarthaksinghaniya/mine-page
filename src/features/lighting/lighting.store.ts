@@ -48,20 +48,20 @@ export const useLightingStore = create<LightingStore>()(
     ...LIGHTING_PRESET_NOON,
 
     // ── Actions ────────────────────────────────────────────────────────────────
-    setSun: (config) => set((s) => ({ sun: { ...s.sun, ...config } })),
-    setAmbient: (config) => set((s) => ({ ambient: { ...s.ambient, ...config } })),
-    setHemisphere: (config) => set((s) => ({ hemisphere: { ...s.hemisphere, ...config } })),
-    setFog: (config) => set((s) => ({ fog: { ...s.fog, ...config } })),
-    setEnvironment: (config) => set((s) => ({ environment: { ...s.environment, ...config } })),
+    setSun: (config) => { set((s) => ({ sun: { ...s.sun, ...config } })); },
+    setAmbient: (config) => { set((s) => ({ ambient: { ...s.ambient, ...config } })); },
+    setHemisphere: (config) => { set((s) => ({ hemisphere: { ...s.hemisphere, ...config } })); },
+    setFog: (config) => { set((s) => ({ fog: { ...s.fog, ...config } })); },
+    setEnvironment: (config) => { set((s) => ({ environment: { ...s.environment, ...config } })); },
 
     applyPreset: (preset) =>
-      set({
+      { set({
         sun: preset.sun,
         ambient: preset.ambient,
         hemisphere: preset.hemisphere,
         fog: preset.fog,
         environment: preset.environment,
-      }),
+      }); },
 
     blendToward: (target, t) => {
       const current = get();

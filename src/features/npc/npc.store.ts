@@ -23,9 +23,9 @@ export const useNpcStore = create<NpcStore>()((set) => ({
   activeDialogue: null,
   isTyping: false,
 
-  setNpcs: (npcs) => set({ npcs }),
-  setActiveNpc: (activeNpcId) => set({ activeNpcId }),
-  setInteractionState: (interactionState) => set({ interactionState }),
-  setActiveDialogue: (activeDialogue) => set({ activeDialogue }),
-  setIsTyping: (isTyping) => set({ isTyping }),
+  setNpcs: (npcs) => { set({ npcs }); },
+  setActiveNpc: (activeNpcId) => { set({ activeNpcId }); },
+  setInteractionState: (interactionState) => { set({ interactionState }); },
+  setActiveDialogue: (activeDialogue) => { set({ activeDialogue }); },
+  setIsTyping: (isTyping) => { set({ isTyping }); },
 }));

@@ -41,7 +41,7 @@ export function TerminalWindow(): React.ReactElement | null {
     }
   }, [state?.isOpen]);
 
-  if (!state || !state.isOpen) return null;
+  if (!state?.isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,7 +138,7 @@ export function TerminalWindow(): React.ReactElement | null {
       >
         <span>TERMINAL SHELL INTERFACE (ESC TO CLOSE)</span>
         <button
-          onClick={() => TerminalManager.close()}
+          onClick={() => { TerminalManager.close(); }}
           style={{
             background: 'none',
             border: 'none',
@@ -189,7 +189,7 @@ export function TerminalWindow(): React.ReactElement | null {
           ref={inputRef}
           type="text"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => { setInputValue(e.target.value); }}
           onKeyDown={handleKeyDown}
           style={{
             flex: 1,

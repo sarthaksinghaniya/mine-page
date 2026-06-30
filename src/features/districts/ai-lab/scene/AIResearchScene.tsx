@@ -5,7 +5,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import type * as THREE from 'three';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '@/features/world/components/DistrictScene';
 import { AiRobotNpc } from '../components/AiRobotNpc';
@@ -88,7 +88,7 @@ export function AIResearchScene(): React.ReactElement {
     });
 
     return () => {
-      terminals.forEach((term) => InteractionManager.unregister(term.id));
+      terminals.forEach((term) => { InteractionManager.unregister(term.id); });
       InteractionManager.unregister('portal-skills-lab');
     };
   }, []);

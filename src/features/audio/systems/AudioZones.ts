@@ -8,7 +8,7 @@ import { DISTRICT_REGISTRY } from '@/features/buildings/district.types';
 import type { ZoneTheme } from '@/features/world/zone.types';
 
 export const AudioZones = {
-  private activeTheme: '' as string,
+  activeTheme: '' as string,
 
   /**
    * Cross-fades background music to match the newly entered district.

@@ -33,8 +33,8 @@ export function useGameLoop(id: string, tick: SystemTickFn, priority = 0): void 
 
   useEffect(() => {
     // Register a stable wrapper so the system registry never needs to update
-    registerSystem(id, (delta) => tickRef.current(delta), priority);
-    return () => deregisterSystem(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    registerSystem(id, (delta) => { tickRef.current(delta); }, priority);
+    return () => { deregisterSystem(id); };
+     
   }, [id, priority]);
 }

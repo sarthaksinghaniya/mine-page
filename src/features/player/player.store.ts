@@ -41,11 +41,11 @@ export const usePlayerStore = create<PlayerStore>()(
     isPointerLocked: false,
 
     // ── Actions ────────────────────────────────────────────────────────────────
-    setPosition: (position) => set({ position }),
-    setRotation: (rotation) => set({ rotation }),
-    setMovementState: (movementState) => set({ movementState }),
-    setCameraMode: (cameraMode) => set({ cameraMode }),
-    setCurrentZone: (currentZoneId) => set({ currentZoneId }),
-    setPointerLocked: (isPointerLocked) => set({ isPointerLocked }),
+    setPosition: (position) => { set({ position }); },
+    setRotation: (rotation) => { set({ rotation }); },
+    setMovementState: (movementState) => { set({ movementState }); },
+    setCameraMode: (cameraMode) => { set({ cameraMode }); },
+    setCurrentZone: (currentZoneId) => { set({ currentZoneId }); },
+    setPointerLocked: (isPointerLocked) => { set({ isPointerLocked }); },
   })),
 );

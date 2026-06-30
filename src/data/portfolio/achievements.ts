@@ -1,14 +1,24 @@
-/**
- * @file src/data/portfolio/achievements.ts
- * @description Achievements data block.
- */
-
 import type { Achievement } from '../types';
 
 export const achievements: Achievement[] = [
   {
-    title: 'Outstanding Technical Architect Award',
-    description: 'Received for spearheading browser execution graph models.',
-    date: '2025',
+    title: "Winner",
+    description: "HackBio IIT Mandi",
+    date: "2025"
   },
+  {
+    title: "2nd Place",
+    description: "Tech Expo",
+    date: "2025"
+  },
+  {
+    title: "Finalist",
+    description: "IIT Patna Hackathon",
+    date: "2025"
+  },
+  {
+    title: "High Commendation",
+    description: "International MUN",
+    date: "2025"
+  }
 ];

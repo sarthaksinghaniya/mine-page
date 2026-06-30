@@ -116,8 +116,8 @@ export const useCameraStore = create<CameraStore>()(
     isCutscene: false,
 
     // ── Actions ────────────────────────────────────────────────────────────────
-    setMode: (mode) => set({ mode }),
-    setTarget: (targetEntityId) => set({ targetEntityId }),
+    setMode: (mode) => { set({ mode }); },
+    setTarget: (targetEntityId) => { set({ targetEntityId }); },
 
     transitionTo: (to, from, duration, easing = 'easeInOut', onComplete) => {
       // Internal animation loop state using GSAP ticker if needed or frame delta
@@ -156,7 +156,7 @@ export const useCameraStore = create<CameraStore>()(
       set({ transition });
     },
 
-    clearTransition: () => set({ transition: null }),
+    clearTransition: () => { set({ transition: null }); },
 
     tickTransition: (delta) => {
       const { transition } = get();
@@ -183,7 +183,7 @@ export const useCameraStore = create<CameraStore>()(
       set((s) => ({ shakes: [...s.shakes, impulse] }));
     },
 
-    removeShake: (id) => set((s) => ({ shakes: s.shakes.filter((sh) => sh.id !== id) })),
+    removeShake: (id) => { set((s) => ({ shakes: s.shakes.filter((sh) => sh.id !== id) })); },
 
     tickShakes: (delta) => {
       const { shakes } = get();
@@ -196,14 +196,14 @@ export const useCameraStore = create<CameraStore>()(
       set({ shakes: updated });
     },
 
-    setFollowConfig: (config) => set((s) => ({ followConfig: { ...s.followConfig, ...config } })),
+    setFollowConfig: (config) => { set((s) => ({ followConfig: { ...s.followConfig, ...config } })); },
 
-    playCinematic: (timeline) => set({ cinematic: timeline, mode: 'cinematic', isCutscene: true }),
+    playCinematic: (timeline) => { set({ cinematic: timeline, mode: 'cinematic', isCutscene: true }); },
 
-    stopCinematic: () => set({ cinematic: null, mode: 'follow', isCutscene: false }),
+    stopCinematic: () => { set({ cinematic: null, mode: 'follow', isCutscene: false }); },
 
-    setFov: (fov) => set({ fov }),
-    setZoom: (zoom) => set({ zoom }),
+    setFov: (fov) => { set({ fov }); },
+    setZoom: (zoom) => { set({ zoom }); },
   })),
 );
 

@@ -76,7 +76,7 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
               },
               { time: 1.0, type: 'screen', screen: { fadeOpacity: 1, letterbox: true } },
               { time: 1.3, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } },
-              { time: 1.4, type: 'custom', custom: () => VehicleManager.enter(config.id) },
+              { time: 1.4, type: 'custom', custom: () => { VehicleManager.enter(config.id); } },
               { time: 1.5, type: 'player', player: { frozen: false } },
             ],
           });

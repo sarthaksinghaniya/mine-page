@@ -94,7 +94,7 @@ export function AiRobotNpc(): React.ReactElement {
                   {dialogue?.options.map(opt => (
                     <button
                       key={opt.id}
-                      onClick={() => DialogueManager.handleOptionSelect(opt)}
+                      onClick={() => { DialogueManager.handleOptionSelect(opt); }}
                       style={{
                         padding: '8px',
                         backgroundColor: 'rgba(0, 229, 240, 0.1)',

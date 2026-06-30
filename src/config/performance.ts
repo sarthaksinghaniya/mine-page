@@ -177,7 +177,7 @@ function detectGpuTier(): Exclude<PerformanceTier, 'auto'> {
 function resolveProfile(): PerformanceProfile {
   const configured = env.performanceTier;
   const tier =
-    configured === 'auto' ? detectGpuTier() : (configured as Exclude<PerformanceTier, 'auto'>);
+    configured === 'auto' ? detectGpuTier() : (configured);
 
   return PROFILES[tier];
 }

@@ -95,32 +95,32 @@ class AssetManagerClass {
 
         loader.load(
           entry.src,
-          (gltf) => resolve(gltf),
+          (gltf) => { resolve(gltf); },
           updateProgress,
-          (err) => reject(err),
+          (err) => { reject(err); },
         );
       } else if (entry.type === 'hdri') {
         const loader = new RGBELoader();
         loader.load(
           entry.src,
-          (texture) => resolve(texture),
+          (texture) => { resolve(texture); },
           updateProgress,
-          (err) => reject(err),
+          (err) => { reject(err); },
         );
       } else if (entry.type === 'texture') {
         const loader = new THREE.TextureLoader();
         loader.load(
           entry.src,
-          (texture) => resolve(texture),
+          (texture) => { resolve(texture); },
           updateProgress,
-          (err) => reject(err),
+          (err) => { reject(err); },
         );
       } else if (entry.type === 'audio') {
         // Fallback for simple audio loading/checking
         const audio = new Audio();
         audio.src = entry.src;
-        audio.addEventListener('canplaythrough', () => resolve(audio), { once: true });
-        audio.addEventListener('error', (err) => reject(err), { once: true });
+        audio.addEventListener('canplaythrough', () => { resolve(audio); }, { once: true });
+        audio.addEventListener('error', (err) => { reject(err); }, { once: true });
         audio.load();
       } else {
         // Standard fonts loading (document.fonts)
@@ -132,7 +132,7 @@ class AssetManagerClass {
               document.fonts.add(loadedFace);
               resolve(loadedFace);
             })
-            .catch((err) => reject(err));
+            .catch((err) => { reject(err); });
         } else {
           resolve(null);
         }
