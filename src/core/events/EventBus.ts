@@ -54,6 +54,18 @@ export interface GameEventMap {
   'app:closed': { appId: string };
   'app:loading': { appId: string };
   'app:loaded': { appId: string };
+
+  // Network & APIs
+  'github:loaded': void;
+  'github:error': { error: string };
+  'leetcode:loaded': void;
+  'leetcode:error': { error: string };
+  'codeforces:loaded': void;
+  'analytics:updated': void;
+
+  // NPC
+  'npc:conversationStarted': { npcId: string };
+  'npc:conversationEnded': { npcId: string };
 }
 
 export type GameEventName = keyof GameEventMap;

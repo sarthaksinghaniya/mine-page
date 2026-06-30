@@ -4,6 +4,10 @@ import type { TerminalCommand, TerminalOutputLine, TerminalState } from './termi
 import { helpCommand } from './commands/help';
 import { projectsCommand } from './commands/projects';
 import { skillsCommand } from './commands/skills';
+import { GitHubService } from '@core/data/GitHubService';
+import { LeetCodeService } from '@core/data/LeetCodeService';
+import { CodeforcesService } from '@core/data/CodeforcesService';
+import { PortfolioAnalytics } from '@core/data/PortfolioAnalytics';
 
 class TerminalManagerClass {
   private readonly commands = new Map<string, TerminalCommand>();
@@ -55,6 +59,48 @@ class TerminalManagerClass {
         this.close();
         return 'Closing terminal...';
       },
+    });
+
+    this.register({
+      keyword: 'github',
+      description: 'Fetch live GitHub stats. Usage: github [username]',
+      execute: async (args) => {
+        const username = args[0] || 'sarthaksinghaniya';
+        const profile = await GitHubService.fetchProfile(username);
+        if (!profile) return `Failed to load GitHub data for ${username}`;
+        return `GitHub: ${profile.login}\nRepos: ${profile.public_repos}\nFollowers: ${profile.followers}`;
+      }
+    });
+
+    this.register({
+      keyword: 'leetcode',
+      description: 'Fetch live LeetCode stats. Usage: leetcode [username]',
+      execute: async (args) => {
+        const username = args[0] || 'sarthaksinghaniya';
+        const profile = await LeetCodeService.fetchProfile(username);
+        if (!profile) return `Failed to load LeetCode data for ${username}`;
+        return `LeetCode Solved: ${profile.totalSolved} (E: ${profile.easySolved}, M: ${profile.mediumSolved}, H: ${profile.hardSolved})`;
+      }
+    });
+
+    this.register({
+      keyword: 'codeforces',
+      description: 'Fetch live Codeforces stats. Usage: codeforces [username]',
+      execute: async (args) => {
+        const username = args[0] || 'sarthaksinghaniya';
+        const profile = await CodeforcesService.fetchProfile(username);
+        if (!profile) return `Failed to load Codeforces data for ${username}`;
+        return `Codeforces: ${profile.handle} | Rating: ${profile.rating} | Rank: ${profile.rank}`;
+      }
+    });
+
+    this.register({
+      keyword: 'analytics',
+      description: 'View aggregated developer score',
+      execute: async () => {
+        const stats = await PortfolioAnalytics.aggregateScores('sarthaksinghaniya', 'sarthaksinghaniya', 'sarthaksinghaniya');
+        return `DEVELOPER SCORE: ${stats.activityScore}\nTotal Projects: ${stats.totalProjects}\nTotal Stars: ${stats.totalStars}\nTotal Forks: ${stats.totalForks}`;
+      }
     });
   }
 
