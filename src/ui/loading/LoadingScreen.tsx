@@ -18,17 +18,18 @@ export function LoadingScreen(): React.ReactElement | null {
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
-    // When done loading, trigger exit fade
-    if (!isLoading && Object.keys(assets).length > 0) {
+    // Dismiss the loading screen as soon as the engine reports no pending loads.
+    // If nothing was ever registered, isLoading starts false and we exit immediately.
+    if (!isLoading) {
       const fadeTimeout = setTimeout(() => { setOpacity(0); }, 500);
-      const removeTimeout = setTimeout(() => { setVisible(false); }, 1100); // Wait for transition
+      const removeTimeout = setTimeout(() => { setVisible(false); }, 1100);
       return () => {
         clearTimeout(fadeTimeout);
         clearTimeout(removeTimeout);
       };
     }
     return undefined;
-  }, [isLoading, assets]);
+  }, [isLoading]);
 
   if (!visible) return null;
 

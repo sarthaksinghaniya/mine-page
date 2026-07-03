@@ -101,6 +101,7 @@ export function PlayerPhysicsController(): React.ReactElement {
     const cameraRight = new THREE.Vector3();
     cameraRight.crossVectors(cameraDir, camera.up).normalize();
 
+    const moveVector = new THREE.Vector3();
     const isPlayerFrozen = CinematicDirector.isPlayerFrozen();
 
     if (!isPlayerFrozen) {

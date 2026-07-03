@@ -15,7 +15,7 @@ import { ZoneCuller } from '../systems/ZoneCuller';
 import { usePlayerStore } from '@/features/player/player.store';
 import { SpawnManager } from '../systems/SpawnManager';
 
-import { Physics } from '@react-three/rapier';
+import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
 import { PlayerPhysicsController } from '@/features/player/components/PlayerPhysicsController';
 import { BuildingRoot, DISTRICTS_LIST } from '@/features/buildings';
 import { InstancedProps } from '@/features/environment';
@@ -32,7 +32,6 @@ export function WorldRoot(): React.ReactElement {
   const setZoneStatus = useWorldStore((s) => s.setZoneStatus);
   const focusedZoneId = useWorldStore((s) => s.focusedZoneId);
 
-  const playerPos = usePlayerStore((s) => s.position);
   const setPosition = usePlayerStore((s) => s.setPosition);
   const setRotation = usePlayerStore((s) => s.setRotation);
 
@@ -124,7 +123,8 @@ export function WorldRoot(): React.ReactElement {
 
   // Tick the streaming zone detector every frame
   useFrame(() => {
-    ZoneCuller.update(playerPos.x, playerPos.z);
+    const pos = usePlayerStore.getState().position;
+    ZoneCuller.update(pos.x, pos.z);
   });
 
   // Dynamically resolve chunks to render based on activeZoneIds list
@@ -182,12 +182,15 @@ export function WorldRoot(): React.ReactElement {
         <PlayerPhysicsController />
 
         {/* Floor boundaries collider base */}
-        <gridHelper
-          args={[1200, 120, '#00e5f0', '#0a0a14']}
-          position={[0, -0.05, 0]}
-          opacity={0.1}
-          transparent
-        />
+        <RigidBody type="fixed" position={[0, -0.55, 0]} friction={1} name="ground">
+          <CuboidCollider args={[600, 0.5, 600]} />
+          <gridHelper
+            args={[1200, 120, '#00e5f0', '#0a0a14']}
+            position={[0, 0.5, 0]}
+            opacity={0.1}
+            transparent
+          />
+        </RigidBody>
       </group>
     </Physics>
   );

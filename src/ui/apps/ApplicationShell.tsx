@@ -29,21 +29,17 @@ function AppContainer({ app }: { app: PortfolioApp }) {
 
 export function ApplicationShell(): React.ReactElement | null {
   const [state, setState] = useState<AppManagerState>({ activeAppId: null, isOpen: false, isLoading: false });
-  const setCanMove = usePlayerStore((s) => s.setCanMove);
-  
   // Focus Trap Ref
   const shellRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const unsub = AppManager.subscribe((next) => {
       setState(next);
-      setCanMove(!next.isOpen);
     });
     return () => {
       unsub();
-      setCanMove(true);
     };
-  }, [setCanMove]);
+  }, []);
 
   // Focus trap effect
   useEffect(() => {

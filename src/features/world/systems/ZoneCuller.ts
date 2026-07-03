@@ -56,7 +56,7 @@ export const ZoneCuller = {
     });
   },
 
-  private getDistanceToZone(zoneId: string, playerX: number, playerZ: number): number {
+  getDistanceToZone(zoneId: string, playerX: number, playerZ: number): number {
     const zone = ZONES_LIST.find((z) => z.id === zoneId);
     if (!zone) return Infinity;
     const dx = zone.center.x - playerX;
