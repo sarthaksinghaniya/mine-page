@@ -88,7 +88,7 @@ export function App(): React.ReactElement {
           stencil: false,
           depth: true,
         }}
-        shadows
+        shadows={false}
         dpr={[1, performanceProfile.pixelRatio]}
       >
         <CanvasEngineController />

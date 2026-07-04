@@ -37,7 +37,7 @@ export type ShadowQuality = 'off' | 'basic' | 'soft' | 'vsm';
 /** Maps shadow quality to THREE shadow map type constants */
 export const SHADOW_MAP_TYPE: Record<Exclude<ShadowQuality, 'off'>, THREE.ShadowMapType> = {
   basic: 0, // THREE.BasicShadowMap
-  soft: 2, // THREE.PCFSoftShadowMap
+  soft: 1, // THREE.PCFShadowMap
   vsm: 3, // THREE.VSMShadowMap
 };
 

@@ -6,6 +6,11 @@ import { chromium } from 'playwright';
   
   page.on('console', msg => console.log(`BROWSER ${msg.type()}: ${msg.text()}`));
   page.on('pageerror', err => console.log(`BROWSER ERROR: ${err.message}`));
+  page.on('response', response => {
+    if (response.status() === 404) {
+      console.log(`BROWSER 404: ${response.url()}`);
+    }
+  });
   
   try {
     await page.goto('http://localhost:5173', { waitUntil: 'domcontentloaded' });

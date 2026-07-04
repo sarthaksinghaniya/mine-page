@@ -124,6 +124,7 @@ class CinematicDirectorClass {
       this.fadeOpacity = 0;
       this.letterboxActive = false;
       eventBus.emit('ui:hudVisibility', { visible: true });
+      eventBus.emit('ui:menuOpened', { menuId: 'cinematic-screen-update' });
     }
   }
 
@@ -144,6 +145,7 @@ class CinematicDirectorClass {
       this.fadeOpacity = 0;
       this.letterboxActive = false;
       eventBus.emit('ui:hudVisibility', { visible: true });
+      eventBus.emit('ui:menuOpened', { menuId: 'cinematic-screen-update' });
     }
   }
 
