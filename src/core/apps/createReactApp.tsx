@@ -48,11 +48,7 @@ export function createReactApp(
         root = null;
       }
     },
-    onOpen: async () => {
-      console.log(`[AppLifecycle] onOpen: ${title}`);
-    },
-    onClose: async () => {
-      console.log(`[AppLifecycle] onClose: ${title}`);
-    }
+    onOpen: (): Promise<void> => Promise.resolve(),
+    onClose: (): Promise<void> => Promise.resolve(),
   };
 }

@@ -1,35 +1,37 @@
 /**
  * @file src/features/districts/ai-lab/scene/AIResearchScene.tsx
- * @description AI Research District scene layout, neural core, and project laboratories.
+ * @description Neural AI Research District Scene with blue/purple lighting and holographic networks.
  */
 
 import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import type * as THREE from 'three';
+import * as THREE from 'three';
+import { Sparkles, Float } from '@react-three/drei';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '@/features/world/components/DistrictScene';
-import { AiRobotNpc } from '../components/AiRobotNpc';
+import { DroidNPC } from '@/features/npc/components/DroidNPC';
 import { TerminalManager } from '@core/terminal/TerminalManager';
-import { AppManager } from '@core/apps/AppManager';
 
 export function AIResearchScene(): React.ReactElement {
-  const outerSphereRef = useRef<THREE.Mesh>(null);
-  const innerSphereRef = useRef<THREE.Mesh>(null);
+  const neuralCoreRef = useRef<THREE.Mesh>(null);
+  const dataRingRef = useRef<THREE.Group>(null);
 
   // Center coordinate of AI Neural Core
-  const corePos: [number, number, number] = [400, 5.0, 0];
+  const corePos: [number, number, number] = [400, 10, 0];
 
   // Rotate outer and inner sphere geometries
   useFrame(({ clock }) => {
     const elapsed = clock.getElapsedTime();
-
-    if (outerSphereRef.current) {
-      outerSphereRef.current.rotation.y = elapsed * 0.3;
-      outerSphereRef.current.rotation.x = elapsed * 0.15;
+    if (neuralCoreRef.current) {
+      neuralCoreRef.current.rotation.y = elapsed * 0.2;
+      neuralCoreRef.current.position.y = 10 + Math.sin(elapsed * 2) * 1;
+      
+      const mat = neuralCoreRef.current.material as THREE.MeshStandardMaterial;
+      mat.emissiveIntensity = 2.0 + Math.sin(elapsed * 5) * 1.5;
     }
-
-    if (innerSphereRef.current) {
-      innerSphereRef.current.rotation.y = -elapsed * 0.6;
+    if (dataRingRef.current) {
+      dataRingRef.current.rotation.z = elapsed * 0.4;
+      dataRingRef.current.rotation.x = elapsed * 0.1;
     }
   });
 
@@ -62,94 +64,106 @@ export function AIResearchScene(): React.ReactElement {
         name: term.name,
         type: 'terminal',
         position: term.pos,
-        radius: 4,
-        priority: 7,
+        radius: 5,
+        priority: 5,
         enabled: true,
-        promptText: `Use ${term.name}`,
+        promptText: `Access ${term.name}`,
         onInteract: () => {
-          TerminalManager.open(term.id);
+          TerminalManager.open({ title: term.name, output: term.text });
         },
       });
     });
 
-    // Register dynamic skills lab app portal
-    InteractionManager.register({
-      id: 'portal-skills-lab',
-      name: 'Skills Lab Terminal',
-      type: 'terminal',
-      position: { x: 370, y: 1.0, z: -10 },
-      radius: 5,
-      priority: 8,
-      enabled: true,
-      promptText: 'Open Skills Matrix App',
-      onInteract: () => {
-        AppManager.open('skills-lab');
-      },
-    });
-
     return () => {
-      terminals.forEach((term) => { InteractionManager.unregister(term.id); });
-      InteractionManager.unregister('portal-skills-lab');
+      terminals.forEach((term) => {
+        InteractionManager.unregister(term.id);
+      });
     };
   }, []);
 
   return (
     <DistrictScene id="ai-research">
-      {/* ── Centerpiece Floating Neural Core ── */}
-      <group position={corePos}>
-        {/* Outer wireframe shell */}
-        <mesh ref={outerSphereRef}>
-          <sphereGeometry args={[3.5, 12, 12]} />
-          <meshStandardMaterial
-            color="#8000ff"
-            emissive="#8000ff"
-            emissiveIntensity={1.5}
-            wireframe
-            transparent
-            opacity={0.4}
+      {/* ── Lighting & Ambiance ── */}
+      <pointLight position={[400, 15, 0]} intensity={4.0} color="#8000ff" distance={100} />
+      <pointLight position={[400, 2, 0]} intensity={2.0} color="#00e5f0" distance={50} />
+
+      {/* ── Main Architecture: AI Core Building ── */}
+      <group position={[400, 0, 0]}>
+        {/* Base */}
+        <mesh position={[0, 2, 0]} receiveShadow castShadow>
+          <cylinderGeometry args={[15, 20, 4, 32]} />
+          <meshStandardMaterial color="#0a0a15" metalness={0.9} roughness={0.2} />
+        </mesh>
+
+        {/* Neural Core Hologram */}
+        <mesh ref={neuralCoreRef} position={[0, 10, 0]}>
+          <icosahedronGeometry args={[4, 1]} />
+          <meshStandardMaterial 
+            color="#8000ff" 
+            emissive="#8000ff" 
+            emissiveIntensity={3.0} 
+            wireframe 
+            transparent 
+            opacity={0.8} 
           />
         </mesh>
-        {/* Inner solid glow sphere */}
-        <mesh ref={innerSphereRef}>
-          <sphereGeometry args={[1.5, 16, 16]} />
-          <meshStandardMaterial
-            color="#00e5f0"
-            emissive="#00e5f0"
-            emissiveIntensity={2.5}
-            roughness={0.1}
-          />
-        </mesh>
-        <pointLight intensity={4.0} color="#8000ff" distance={40} />
+
+        {/* Orbiting Data Rings */}
+        <group ref={dataRingRef} position={[0, 10, 0]}>
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[10, 0.2, 16, 64]} />
+            <meshStandardMaterial color="#00e5f0" emissive="#00e5f0" emissiveIntensity={2.0} />
+          </mesh>
+          <mesh rotation={[0, Math.PI / 2, 0]}>
+            <torusGeometry args={[12, 0.1, 16, 64]} />
+            <meshStandardMaterial color="#8000ff" emissive="#8000ff" emissiveIntensity={2.0} />
+          </mesh>
+        </group>
+
+        {/* Neural Particles */}
+        <Sparkles position={[0, 8, 0]} count={300} scale={25} size={3} speed={0.2} opacity={0.8} color="#8000ff" />
       </group>
 
-      {/* ── AI Guide Robot NPC ── */}
-      <AiRobotNpc />
-
-      {/* ── Campus Laboratory Buildings ── */}
-      {/* LLM Laboratory */}
-      <group position={[370, 2.5, -20]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[15, 6, 15]} />
-          <meshStandardMaterial color="#3a2a4a" roughness={0.4} metalness={0.7} />
+      {/* ── Server Banks ── */}
+      <group position={[425, 0, -20]}>
+        <mesh castShadow receiveShadow position={[0, 5, 0]}>
+          <boxGeometry args={[4, 10, 2]} />
+          <meshStandardMaterial color="#111" metalness={0.8} roughness={0.4} />
         </mesh>
-        <gridHelper args={[15, 10, '#8000ff', '#ffffff']} position={[0, -2.49, 0]} />
+        <mesh position={[0, 5, 1.1]}>
+          <planeGeometry args={[3, 9]} />
+          <meshStandardMaterial color="#8000ff" emissive="#8000ff" emissiveIntensity={1.5} />
+        </mesh>
+      </group>
+      <group position={[375, 0, 20]}>
+        <mesh castShadow receiveShadow position={[0, 5, 0]}>
+          <boxGeometry args={[4, 10, 2]} />
+          <meshStandardMaterial color="#111" metalness={0.8} roughness={0.4} />
+        </mesh>
+        <mesh position={[0, 5, 1.1]}>
+          <planeGeometry args={[3, 9]} />
+          <meshStandardMaterial color="#00e5f0" emissive="#00e5f0" emissiveIntensity={1.5} />
+        </mesh>
       </group>
 
-      {/* Computer Vision Building */}
-      <group position={[430, 3.5, 20]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[12, 8, 12]} />
-          <meshStandardMaterial color="#2a3a4a" roughness={0.3} metalness={0.8} />
+      {/* ── NPCs ── */}
+      <DroidNPC position={[385, 0, 15]} color="#8000ff" />
+      <DroidNPC position={[415, 0, 25]} color="#00e5f0" />
+      
+      {/* ── Terminal Interactions Holograms ── */}
+      <group position={[380, 2.5, -10]}>
+        <mesh>
+          <boxGeometry args={[2, 2, 0.1]} />
+          <meshStandardMaterial color="#8000ff" emissive="#8000ff" emissiveIntensity={1} transparent opacity={0.5} />
         </mesh>
-        <gridHelper args={[12, 8, '#00adc0', '#ffffff']} position={[0, -3.49, 0]} />
+      </group>
+      <group position={[420, 2.5, 10]}>
+        <mesh>
+          <boxGeometry args={[2, 2, 0.1]} />
+          <meshStandardMaterial color="#00e5f0" emissive="#00e5f0" emissiveIntensity={1} transparent opacity={0.5} />
+        </mesh>
       </group>
 
-      {/* Energy cabling details linking CV to neural core */}
-      <mesh position={[415, 0.05, 10]} rotation={[0, Math.PI / 4, 0]}>
-        <boxGeometry args={[0.2, 0.1, 15]} />
-        <meshBasicMaterial color="#00e5f0" opacity={0.6} transparent />
-      </mesh>
     </DistrictScene>
   );
 }
-export default AIResearchScene;

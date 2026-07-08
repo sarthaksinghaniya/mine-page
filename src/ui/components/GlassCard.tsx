@@ -8,7 +8,7 @@ export interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverable?: boolean;
 }
 
-export function GlassCard({ children, delay = 0, hoverable = false, style, ...rest }: GlassCardProps) {
+export function GlassCard({ children, delay = 0, hoverable = false, className = '', style, ...rest }: GlassCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -16,43 +16,38 @@ export function GlassCard({ children, delay = 0, hoverable = false, style, ...re
     
     gsap.fromTo(
       cardRef.current,
-      { opacity: 0, y: 30, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', delay }
+      { opacity: 0, y: 30, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power4.out', delay }
     );
   }, { scope: cardRef });
 
   return (
     <div
       ref={cardRef}
+      className={`glass-panel ${hoverable ? 'glass-panel-interactive cursor-pointer' : ''} ${className}`}
       style={{
-        backgroundColor: 'rgba(255, 255, 255, 0.03)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(0, 229, 240, 0.1)',
-        borderRadius: '12px',
+        borderRadius: '16px',
         padding: '24px',
-        color: '#fff',
-        transition: hoverable ? 'all 0.3s ease' : 'none',
-        cursor: hoverable ? 'pointer' : 'default',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+        color: 'var(--color-text-primary)',
+        position: 'relative',
+        overflow: 'hidden',
         ...style,
-      }}
-      onMouseEnter={(e) => {
-        if (hoverable) {
-          e.currentTarget.style.transform = 'translateY(-5px)';
-          e.currentTarget.style.borderColor = 'rgba(0, 229, 240, 0.4)';
-          e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 229, 240, 0.1)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (hoverable) {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.borderColor = 'rgba(0, 229, 240, 0.1)';
-          e.currentTarget.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
-        }
       }}
       {...rest}
     >
-      {children}
+      {/* Subtle inner highlight to simulate glass edge */}
+      <div 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 'inherit',
+          boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.15)',
+          pointerEvents: 'none'
+        }}
+      />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {children}
+      </div>
     </div>
   );
 }

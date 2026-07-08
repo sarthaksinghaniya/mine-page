@@ -29,8 +29,58 @@ export const DISTRICT_PLUGINS: Record<ZoneTheme, DistrictPlugin | null> = {
       })),
     ),
   },
-  'hackathon-arena': null,
-  'tech-hq': null,
-  museum: null,
-  spaceport: null,
+  projects: {
+    id: 'projects',
+    name: 'Projects & Development Hub',
+    component: React.lazy(() =>
+      import('../../districts/projects/scene/ProjectsScene').then((m) => ({
+        default: m.ProjectsScene,
+      })),
+    ),
+  },
+  museum: {
+    id: 'museum',
+    name: 'Achievement Museum',
+    component: React.lazy(() =>
+      import('../../districts/museum/scene/MuseumScene').then((m) => ({
+        default: m.MuseumScene,
+      })),
+    ),
+  },
+  skills: {
+    id: 'skills',
+    name: 'Skills Matrix Lab',
+    component: React.lazy(() =>
+      import('../../districts/skills/scene/SkillsScene').then((m) => ({
+        default: m.SkillsScene,
+      })),
+    ),
+  },
+  experience: {
+    id: 'experience',
+    name: 'Experience Tower',
+    component: React.lazy(() =>
+      import('../../districts/experience/scene/ExperienceScene').then((m) => ({
+        default: m.ExperienceScene,
+      })),
+    ),
+  },
+  resume: {
+    id: 'resume',
+    name: 'Resume Center',
+    component: React.lazy(() =>
+      import('../../districts/resume/scene/ResumeScene').then((m) => ({
+        default: m.ResumeScene,
+      })),
+    ),
+  },
+  contact: {
+    id: 'contact',
+    name: 'Communications & Contact',
+    component: React.lazy(() =>
+      import('../../districts/contact/scene/ContactScene').then((m) => ({
+        default: m.ContactScene,
+      })),
+    ),
+  },
 };

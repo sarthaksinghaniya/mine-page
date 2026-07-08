@@ -19,7 +19,7 @@ export const LanguageDonut = React.memo(({ data }: { data: LanguageStat[] }) => 
     let currentAngle = 0;
     return data.map((item, i) => {
       const percentage = (item.count / total) * 100;
-      const strokeDasharray = `${percentage} 100`;
+      const strokeDasharray = `${percentage.toString()} 100`;
       const strokeDashoffset = -currentAngle;
       currentAngle += percentage;
       return {
@@ -37,7 +37,7 @@ export const LanguageDonut = React.memo(({ data }: { data: LanguageStat[] }) => 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
       <svg width="150" height="150" viewBox="0 0 32 32" style={{ transform: 'rotate(-90deg)' }}>
-        {segments.map((seg, i) => (
+        {segments.map((seg) => (
           <circle
             key={seg.language}
             r="16"
@@ -55,9 +55,9 @@ export const LanguageDonut = React.memo(({ data }: { data: LanguageStat[] }) => 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {segments.map(seg => (
           <div key={seg.language} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-            <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: seg.color }} />
-            <span style={{ color: '#fff' }}>{seg.language}</span>
-            <span style={{ color: 'rgba(255,255,255,0.5)' }}>({seg.percentage.toFixed(1)}%)</span>
+            <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: seg.color, boxShadow: `0 0 8px ${seg.color ?? 'rgba(255,255,255,0.5)'}` }} />
+            <span style={{ color: 'var(--color-text-primary)' }}>{seg.language}</span>
+            <span style={{ color: 'var(--color-text-secondary)' }}>({seg.percentage.toFixed(1)}%)</span>
           </div>
         ))}
       </div>

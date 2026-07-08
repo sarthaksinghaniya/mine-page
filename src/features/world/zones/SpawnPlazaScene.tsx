@@ -6,6 +6,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type * as THREE from 'three';
+import { Sparkles, MeshReflectorMaterial } from '@react-three/drei';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '../components/DistrictScene';
 import { AppManager } from '@core/apps/AppManager';
@@ -57,8 +58,6 @@ export function SpawnPlazaScene(): React.ReactElement {
         onInteract: () => {
           if (gate.id === 'gate-museum') {
             AppManager.open('museum');
-          } else {
-            console.log(`[Interaction] Spawn Plaza Lockout: ${gate.text}`);
           }
         },
       });
@@ -78,15 +77,42 @@ export function SpawnPlazaScene(): React.ReactElement {
           <meshStandardMaterial
             color="#00e5f0"
             emissive="#00e5f0"
-            emissiveIntensity={1.8}
+            emissiveIntensity={3.0}
             wireframe
             transparent
-            opacity={0.8}
+            opacity={0.6}
           />
         </mesh>
         {/* Glow point light inside monument */}
-        <pointLight intensity={3.0} color="#00e5f0" distance={30} />
+        <pointLight intensity={5.0} color="#00e5f0" distance={40} />
+        {/* Holographic data particles floating around the monument */}
+        <Sparkles 
+          count={200} 
+          scale={12} 
+          size={4} 
+          speed={0.4} 
+          opacity={0.8} 
+          color="#00e5f0" 
+        />
       </group>
+
+      {/* ── Dynamic Wet Reflection Floor ── */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
+        <planeGeometry args={[100, 100]} />
+        <MeshReflectorMaterial
+          blur={[300, 100]}
+          resolution={1024}
+          mixBlur={1}
+          mixStrength={40}
+          roughness={1}
+          depthScale={1.2}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.4}
+          color="#15151a"
+          metalness={0.5}
+          mirror={1}
+        />
+      </mesh>
 
       {/* ── Animated Water Fountain ── */}
       <group position={[0, 0.1, -18]}>

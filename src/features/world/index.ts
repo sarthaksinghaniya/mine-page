@@ -14,4 +14,3 @@ export * from './zones/SpawnPlazaScene';
 export * from './systems/SpawnCutscene';
 export * from './systems/SpawnManager';
 export * from './systems/ZoneCuller';
-export * from './systems/NavMeshStub';

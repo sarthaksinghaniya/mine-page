@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { eventBus } from '@core/events/EventBus';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import type { InteractableConfig } from '@core/interaction/interactable.types';
+import { Card, Badge } from '@/ui/system';
 
 export function InteractionPrompt(): React.ReactElement | null {
   const [activeItem, setActiveItem] = useState<InteractableConfig | null>(null);
@@ -37,39 +38,25 @@ export function InteractionPrompt(): React.ReactElement | null {
     <div
       style={{
         position: 'fixed',
-        bottom: '25%',
+        bottom: '20%',
         left: '50%',
         transform: 'translateX(-50%)',
-        backgroundColor: 'rgba(10, 10, 18, 0.85)',
-        border: '1px solid #00e5f0',
-        padding: '12px 24px',
-        color: '#f0f0ff',
-        fontFamily: 'sans-serif',
-        fontSize: '14px',
-        borderRadius: '4px',
-        boxShadow: '0 0 15px rgba(0, 229, 240, 0.4)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        zIndex: 20, // Z_OVERLAY from constants
-        animation: 'fadeIn 0.2s ease-out',
+        zIndex: 20,
+        pointerEvents: 'none',
       }}
     >
-      <span
-        style={{
-          backgroundColor: '#00e5f0',
-          color: '#050508',
-          padding: '2px 8px',
-          fontWeight: 'bold',
-          borderRadius: '3px',
-          fontFamily: 'monospace',
-        }}
+      <Card 
+        variant="glow" 
+        padding="none" 
+        className="!rounded-full px-6 py-3 flex items-center gap-3 border-[var(--color-primary-300)] shadow-[0_8px_32px_rgba(0,229,240,0.3)] animate-in fade-in slide-in-from-bottom-5 duration-300"
       >
-        E
-      </span>
-      <span style={{ letterSpacing: '1px', textTransform: 'uppercase' }}>
-        {activeItem.promptText ?? `Interact with ${activeItem.name}`}
-      </span>
+        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--color-primary-500)] text-[#050508] font-bold text-sm shadow-[0_0_15px_var(--color-primary-500)]">
+          E
+        </span>
+        <span className="tracking-widest uppercase text-sm font-semibold text-[var(--color-text-primary)]">
+          {activeItem.promptText ?? `Interact with ${activeItem.name}`}
+        </span>
+      </Card>
     </div>
   );
 }

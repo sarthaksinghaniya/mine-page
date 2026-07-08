@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
-import { useVehiclesStore } from '@/features/vehicles/vehicles.store';
 import { MetricRow } from './MetricRow';
 
 export function VehicleDebug(): React.ReactElement | null {
@@ -31,14 +30,7 @@ export function VehicleDebug(): React.ReactElement | null {
 
     const possessedId = VehicleManager.getActiveVehicleId();
     setActiveId(possessedId);
-
-    // Read active metrics
-    if (possessedId) {
-      // Calculate speed based on frame ticks roughly
-      setSpeed(Math.round(Math.random() * 20 + 30)); // telemetry simulation
-    } else {
-      setSpeed(0);
-    }
+    setSpeed(possessedId ? speed : 0);
   });
 
   if (!visible) return null;

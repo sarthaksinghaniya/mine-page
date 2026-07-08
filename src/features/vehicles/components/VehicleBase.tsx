@@ -13,7 +13,7 @@ import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { useCameraStore } from '@/features/camera/camera.store';
 import { usePlayerStore } from '@/features/player/player.store';
 import { VehicleManager } from '../systems/VehicleManager';
-import type { VehicleConfig, VehicleEngineState } from '../vehicle.types';
+import type { VehicleConfig, VehicleEngineState } from '../vehicles.types';
 
 interface VehicleBaseProps {
   config: VehicleConfig;

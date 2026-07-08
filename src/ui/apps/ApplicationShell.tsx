@@ -9,6 +9,8 @@ import type { AppManagerState, PortfolioApp } from '@core/apps/app.types';
 import { ApplicationLoader } from './ApplicationLoader';
 import { ApplicationTransition } from './ApplicationTransition';
 import { usePlayerStore } from '@features/player/player.store';
+import { Card, Button, Badge } from '@/ui/system';
+import { X, Command } from 'lucide-react';
 
 function AppContainer({ app }: { app: PortfolioApp }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -85,66 +87,35 @@ export function ApplicationShell(): React.ReactElement | null {
         onClosed={() => { setFullyClosed(true); }}
       >
         {app && (
-          <div
-            ref={shellRef}
-            tabIndex={-1}
-            style={{
-              width: '90vw',
-              maxWidth: '1200px',
-              height: '85vh',
-              backgroundColor: '#0a0a14',
-              border: '1px solid rgba(0, 229, 240, 0.3)',
-              boxShadow: '0 0 40px rgba(0, 229, 240, 0.15)',
-              borderRadius: '12px',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-              outline: 'none'
-            }}
-          >
-            {/* Header / Breadcrumb */}
-            <header
-              style={{
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                padding: '16px 24px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              }}
+          <div ref={shellRef} tabIndex={-1} className="w-[90vw] max-w-6xl h-[85vh] outline-none">
+            <Card
+              variant="glow"
+              padding="none"
+              className="w-full h-full flex flex-col shadow-[0_24px_60px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-300"
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '14px' }}>NEXUS //</span>
-                {app.icon && <span style={{ fontSize: '20px' }}>{app.icon}</span>}
-                <h1 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold', color: '#00e5f0', letterSpacing: '1px' }}>
-                  {app.title.toUpperCase()}
-                </h1>
-              </div>
-              <button
-                aria-label="Close application"
-                onClick={() => AppManager.close()}
-                style={{
-                  background: 'none',
-                  border: '1px solid rgba(255, 59, 48, 0.3)',
-                  padding: '6px 12px',
-                  borderRadius: '4px',
-                  color: '#ff3b30',
-                  cursor: 'pointer',
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  letterSpacing: '1px',
-                  transition: 'all 0.2s',
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 59, 48, 0.1)')}
-                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-              >
-                CLOSE (ESC)
-              </button>
-            </header>
+              {/* Header / Breadcrumb */}
+              <header className="border-b border-[rgba(255,255,255,0.05)] p-4 px-6 flex justify-between items-center bg-[rgba(0,0,0,0.2)]">
+                <div className="flex items-center gap-3">
+                  <Badge variant="outline" className="!px-2 text-xs tracking-widest"><Command size={12} className="inline mr-1" /> NEXUS OS</Badge>
+                  {app.icon && <span className="text-xl">{app.icon}</span>}
+                  <h1 className="neon-text-primary m-0 text-base font-bold tracking-widest uppercase">
+                    {app.title}
+                  </h1>
+                </div>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => AppManager.close()}
+                  icon={<X size={14} />}
+                >
+                  CLOSE
+                </Button>
+              </header>
 
-            <div style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
-              <AppContainer app={app} />
-            </div>
+              <div className="flex-1 overflow-y-auto relative p-0">
+                <AppContainer app={app} />
+              </div>
+            </Card>
           </div>
         )}
       </ApplicationTransition>

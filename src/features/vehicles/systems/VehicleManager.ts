@@ -5,7 +5,7 @@
 
 import { eventBus } from '@core/events/EventBus';
 import { useVehiclesStore } from '../vehicles.store';
-import type { VehicleConfig, VehicleSavedState } from '../vehicle.types';
+import type { VehicleConfig, VehicleSavedState } from '../vehicles.types';
 
 class VehicleManagerClass {
   private readonly vehicles = new Map<string, VehicleConfig>();

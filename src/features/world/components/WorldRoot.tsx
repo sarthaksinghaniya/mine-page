@@ -25,6 +25,9 @@ import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleBase, VehicleManager } from '@/features/vehicles';
 import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
+import { PostProcessing } from './PostProcessing';
+import { Environment } from '@react-three/drei';
+import * as THREE from 'three';
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -54,7 +57,6 @@ export function WorldRoot(): React.ReactElement {
           enabled: true,
           promptText: lot.interior ? `Enter ${lot.name}` : `Inspect ${lot.name}`,
           onInteract: () => {
-            console.log(`[Interaction] Interacted with: ${lot.name}`);
             if (lot.id === 'spawn-plaza-pillar') {
               // Trigger a cinematic sequence
               CinematicDirector.play({
@@ -77,7 +79,7 @@ export function WorldRoot(): React.ReactElement {
               });
             }
             if (lot.interior) {
-              console.log(`[Interaction] Portal triggered for interior: ${lot.interior.id}`);
+              // Interior portal interaction handled by the app system
             }
           },
         });
@@ -130,8 +132,20 @@ export function WorldRoot(): React.ReactElement {
   // Dynamically resolve chunks to render based on activeZoneIds list
   const activeChunks = ZONES_LIST.filter((z) => activeZoneIds.includes(z.id));
 
+  // Inject cinematic environment fog
+  useEffect(() => {
+    // Add Fog to global scene using useThree if we were inside Canvas, 
+    // but WorldRoot is already inside Canvas. Let's just render a <fogExp2 /> 
+    // natively inside the scene group or just use it.
+  }, []);
+
   return (
     <Physics gravity={[0, -20, 0]}>
+      {/* Global Fog and Environment */}
+      <fogExp2 attach="fog" args={['#05050a', 0.015]} />
+      <Environment preset="night" background blur={0.8} />
+      <PostProcessing />
+
       <group name="world-root">
         {/* Dynamic streamed zones */}
         {activeChunks.map((zone) => (

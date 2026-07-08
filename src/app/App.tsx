@@ -27,8 +27,8 @@ import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
 import { TerminalWindow } from '@/ui/hud/TerminalWindow';
 import { AppManager } from '@core/apps/AppManager';
 import { ApplicationShell } from '@/ui/apps/ApplicationShell';
-import { SkillsLabApp } from '@/ui/apps/stubs/SkillsLabApp';
-import { MuseumApp } from '@/ui/apps/stubs/MuseumApp';
+import { SkillsLabApp } from '@/features/apps/SkillsMatrix';
+import { MuseumApp } from '@/features/apps/Museum';
 
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 

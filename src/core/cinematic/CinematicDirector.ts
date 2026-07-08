@@ -96,12 +96,7 @@ class CinematicDirectorClass {
         break;
 
       case 'audio':
-        if (kf.audio) {
-          // Future Howler bindings hook
-          console.log(
-            `[CinematicDirector] Audio action: ${kf.audio.action} on ${kf.audio.soundId}`,
-          );
-        }
+        // Future Howler.js audio bindings
         break;
 
       case 'custom':

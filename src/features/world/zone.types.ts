@@ -6,7 +6,7 @@
 import type * as THREE from 'three';
 
 export type ZoneTheme =
-  'spawn' | 'ai-research' | 'hackathon-arena' | 'tech-hq' | 'museum' | 'spaceport';
+  'spawn' | 'ai-research' | 'projects' | 'museum' | 'skills' | 'experience' | 'resume' | 'contact';
 
 export interface ZoneBounds {
   min: { x: number; z: number };
@@ -30,7 +30,7 @@ export const WORLD_ZONES: Record<ZoneTheme, ZoneConfig> = {
     theme: 'spawn',
     center: { x: 0, y: 0, z: 0 },
     radius: 250,
-    bounds: { min: { x: -150, z: -150 }, max: { x: 150, z: 150 } },
+    bounds: { min: { x: -200, z: -200 }, max: { x: 200, z: 200 } },
     color: '#00e5f0',
   },
   'ai-research': {
@@ -39,44 +39,62 @@ export const WORLD_ZONES: Record<ZoneTheme, ZoneConfig> = {
     theme: 'ai-research',
     center: { x: 400, y: 0, z: 0 },
     radius: 250,
-    bounds: { min: { x: 250, z: -150 }, max: { x: 550, z: 150 } },
+    bounds: { min: { x: 200, z: -200 }, max: { x: 600, z: 200 } },
     color: '#8000ff',
   },
-  'hackathon-arena': {
-    id: 'hackathon-arena',
-    name: 'Code Arena & Hackathon Hub',
-    theme: 'hackathon-arena',
-    center: { x: -400, y: 0, z: 0 },
+  projects: {
+    id: 'projects',
+    name: 'Projects & Development Hub',
+    theme: 'projects',
+    center: { x: 400, y: 0, z: 400 },
     radius: 250,
-    bounds: { min: { x: -550, z: -150 }, max: { x: -250, z: 150 } },
-    color: '#ff0090',
-  },
-  'tech-hq': {
-    id: 'tech-hq',
-    name: 'TechNeekX Corporate HQ',
-    theme: 'tech-hq',
-    center: { x: 0, y: 0, z: 400 },
-    radius: 250,
-    bounds: { min: { x: -150, z: 250 }, max: { x: 150, z: 550 } },
-    color: '#00ff66',
+    bounds: { min: { x: 200, z: 200 }, max: { x: 600, z: 600 } },
+    color: '#ff5500',
   },
   museum: {
     id: 'museum',
-    name: 'Career & Projects Museum',
+    name: 'Achievement Museum',
     theme: 'museum',
-    center: { x: 0, y: 0, z: -400 },
+    center: { x: 0, y: 0, z: 400 },
     radius: 250,
-    bounds: { min: { x: -150, z: -550 }, max: { x: 150, z: -250 } },
+    bounds: { min: { x: -200, z: 200 }, max: { x: 200, z: 600 } },
     color: '#ffcc00',
   },
-  spaceport: {
-    id: 'spaceport',
-    name: 'Spaceport Future Island',
-    theme: 'spaceport',
-    center: { x: 400, y: 0, z: 400 },
-    radius: 300,
-    bounds: { min: { x: 250, z: 250 }, max: { x: 550, z: 550 } },
-    color: '#ff5500',
+  skills: {
+    id: 'skills',
+    name: 'Skills Matrix Lab',
+    theme: 'skills',
+    center: { x: -400, y: 0, z: 400 },
+    radius: 250,
+    bounds: { min: { x: -600, z: 200 }, max: { x: -200, z: 600 } },
+    color: '#00ff66',
+  },
+  experience: {
+    id: 'experience',
+    name: 'Experience Tower',
+    theme: 'experience',
+    center: { x: -400, y: 0, z: 0 },
+    radius: 250,
+    bounds: { min: { x: -600, z: -200 }, max: { x: -200, z: 200 } },
+    color: '#ff0055',
+  },
+  resume: {
+    id: 'resume',
+    name: 'Resume Center',
+    theme: 'resume',
+    center: { x: -400, y: 0, z: -400 },
+    radius: 250,
+    bounds: { min: { x: -600, z: -600 }, max: { x: -200, z: -200 } },
+    color: '#0055ff',
+  },
+  contact: {
+    id: 'contact',
+    name: 'Communications & Contact',
+    theme: 'contact',
+    center: { x: 0, y: 0, z: -400 },
+    radius: 250,
+    bounds: { min: { x: -200, z: -600 }, max: { x: 200, z: -200 } },
+    color: '#ff00ff',
   },
 };
 

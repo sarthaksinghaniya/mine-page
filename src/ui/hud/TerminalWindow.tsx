@@ -6,6 +6,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { TerminalManager } from '@core/terminal/TerminalManager';
 import type { TerminalState, TerminalOutputLine } from '@core/terminal/terminal.types';
+import { Card, Input, Button, Badge } from '@/ui/system';
+import { X, Terminal as TerminalIcon } from 'lucide-react';
 
 export function TerminalWindow(): React.ReactElement | null {
   const [state, setState] = useState<TerminalState | null>(null);
@@ -113,61 +115,52 @@ export function TerminalWindow(): React.ReactElement | null {
         left: '10%',
         width: '80%',
         height: '80%',
-        backgroundColor: 'rgba(5, 5, 8, 0.95)',
-        border: '1px solid #00e5f0',
-        boxShadow: '0 0 30px rgba(0, 229, 240, 0.25)',
-        borderRadius: '8px',
+        zIndex: 40,
         display: 'flex',
         flexDirection: 'column',
-        fontFamily: 'monospace',
-        zIndex: 40, // Z_MENU
-        color: '#f0f0ff',
       }}
     >
-      {/* Header bar */}
-      <div
-        style={{
-          borderBottom: '1px solid rgba(0, 229, 240, 0.3)',
-          padding: '10px 16px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '13px',
-          color: '#00e5f0',
-        }}
-      >
-        <span>TERMINAL SHELL INTERFACE (ESC TO CLOSE)</span>
-        <button
-          onClick={() => { TerminalManager.close(); }}
+      <Card variant="glow" padding="none" className="h-full flex flex-col font-mono shadow-[0_24px_60px_rgba(0,0,0,0.6)]">
+        {/* Header bar */}
+        <div
           style={{
-            background: 'none',
-            border: 'none',
-            color: '#ff3b30',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: 'bold',
+            borderBottom: '1px solid var(--color-border)',
+            padding: '12px 20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.02)',
           }}
         >
-          ✖
-        </button>
-      </div>
+          <span className="flex items-center gap-2 text-xs text-[var(--color-primary-400)] tracking-widest font-bold">
+            <Badge variant="default" className="!px-1.5 !py-0.5"><TerminalIcon size={12} className="inline mr-1"/> SHELL</Badge>
+            NEXUS_TERMINAL_SESSION
+          </span>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => { TerminalManager.close(); }} 
+            icon={<X size={16} />} 
+            className="!p-1 hover:!text-[#ff3b30] hover:!bg-[rgba(255,59,48,0.1)]" 
+          />
+        </div>
 
       {/* Output scroll box */}
       <div
         ref={scrollRef}
         style={{
           flex: 1,
-          padding: '16px',
+          padding: '20px',
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
           gap: '8px',
           fontSize: '14px',
-          lineHeight: '1.4',
+          lineHeight: '1.6',
         }}
       >
         {state.lines.map((line) => (
-          <div key={line.id} style={{ color: getColor(line.type), whiteSpace: 'pre-wrap' }}>
+          <div key={line.id} style={{ color: getColor(line.type), whiteSpace: 'pre-wrap', textShadow: '0 0 10px rgba(255,255,255,0.1)' }}>
             {line.text}
           </div>
         ))}
@@ -177,32 +170,28 @@ export function TerminalWindow(): React.ReactElement | null {
       <form
         onSubmit={handleSubmit}
         style={{
-          borderTop: '1px solid rgba(0, 229, 240, 0.2)',
-          padding: '16px',
+          borderTop: '1px solid var(--color-border)',
+          padding: '16px 20px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '12px',
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
         }}
       >
-        <span style={{ color: '#00e5f0', fontWeight: 'bold' }}>&gt;</span>
-        <input
+        <span className="neon-text-primary" style={{ fontWeight: 'bold' }}>❯</span>
+        <Input
           ref={inputRef}
-          type="text"
           value={inputValue}
           onChange={(e) => { setInputValue(e.target.value); }}
           onKeyDown={handleKeyDown}
-          style={{
-            flex: 1,
-            background: 'none',
-            border: 'none',
-            color: '#00e5f0',
-            fontFamily: 'monospace',
-            fontSize: '14px',
-            outline: 'none',
-          }}
-          placeholder="Type commands..."
+          placeholder="Enter command..."
+          autoComplete="off"
+          spellCheck="false"
+          fullWidth
+          className="!bg-transparent !border-none !px-0 !text-[15px] !font-mono !text-[var(--color-primary-300)] !shadow-none focus:!shadow-none focus:!ring-0 placeholder-[rgba(0,229,240,0.3)]"
         />
       </form>
+      </Card>
     </div>
   );
 }

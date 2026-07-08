@@ -38,17 +38,18 @@ export function LoadingScreen(): React.ReactElement | null {
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: '#050508',
+        backgroundColor: 'var(--color-bg-void)',
+        backgroundImage: 'radial-gradient(circle at center, rgba(0,229,240,0.05) 0%, transparent 50%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         opacity: opacity,
-        transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
         zIndex: 30, // Z_MENU from constants
       }}
     >
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <LoadingLogo />
         <LoadingBar progress={totalProgress} />
         <LoadingStats progress={totalProgress} assets={assets} />

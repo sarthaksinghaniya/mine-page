@@ -14,13 +14,13 @@ describe('PortfolioDataService', () => {
   });
 
   it('filters project details by ID slug', () => {
-    const proj = PortfolioDataService.getProject('ecosphere-ai');
+    const proj = PortfolioDataService.getProject('fracturevision-ai');
     expect(proj).toBeDefined();
-    expect(proj?.title).toBe('Ecosphere AI');
+    expect(proj?.title).toBe('FractureVision AI');
   });
 
   it('ranks exact search queries above partial description matches', () => {
-    const results = PortfolioDataService.search('ecosphere-ai');
+    const results = PortfolioDataService.search('fracturevision-ai');
     expect(results.length).toBeGreaterThan(0);
     // Score should be high due to exact title match
     expect(results[0]?.score).toBeGreaterThanOrEqual(100);
