@@ -55,6 +55,13 @@ export interface GameEventMap {
   'app:loading': { appId: string };
   'app:loaded': { appId: string };
 
+  // Vehicles
+  'vehicles:playerEntered': { vehicleId: string };
+  'vehicles:playerExited': { vehicleId: string };
+
+  // NPC
+  'npc:conversationStarted': { npcId: string };
+
   // Network & APIs
   'github:loaded': void;
   'github:error': { error: string };

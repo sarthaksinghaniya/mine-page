@@ -10,7 +10,6 @@ import * as THREE from 'three';
 import { usePlayerStore } from '../player.store';
 import { InputManager } from '@core/input/InputManager';
 import { FootstepAudio, type SurfaceType } from '@/features/audio/systems/FootstepAudio';
-import { useCameraStore } from '@/features/camera/camera.store';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
@@ -20,7 +19,6 @@ import { AppManager } from '@core/apps/AppManager';
 // ── Physics parameters ────────────────────────────────────────────────────────
 
 const ACCELERATION = 30; // units/s²
-const DRAG = 8; // damping factor
 const JUMP_FORCE = 7; // velocity impulse
 
 export function PlayerPhysicsController(): React.ReactElement {
@@ -81,7 +79,6 @@ export function PlayerPhysicsController(): React.ReactElement {
 
     // ── 1. Ground detection ──────────────────────────────────────────────────
     // Simple vertical trace check to see if character is resting on terrain
-    const castStart = new THREE.Vector3(translation.x, translation.y - 0.9, translation.z);
     // Standard height checks
     const onGround = velocity.y < 0.1 && velocity.y > -0.5;
     isGrounded.current = onGround;

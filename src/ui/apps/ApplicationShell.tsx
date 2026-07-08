@@ -9,7 +9,7 @@ import type { AppManagerState, PortfolioApp } from '@core/apps/app.types';
 import { ApplicationLoader } from './ApplicationLoader';
 import { ApplicationTransition } from './ApplicationTransition';
 import { usePlayerStore } from '@features/player/player.store';
-import { Card, Button, Badge } from '@/ui/system';
+import { Card, Button, Badge, ErrorBoundary } from '@/ui/system';
 import { X, Command } from 'lucide-react';
 
 function AppContainer({ app }: { app: PortfolioApp }) {
@@ -113,7 +113,11 @@ export function ApplicationShell(): React.ReactElement | null {
               </header>
 
               <div className="flex-1 overflow-y-auto relative p-0">
-                <AppContainer app={app} />
+                <ErrorBoundary>
+                  <React.Suspense fallback={<ApplicationLoader appId={state.activeAppId} />}>
+                    <AppContainer app={app} />
+                  </React.Suspense>
+                </ErrorBoundary>
               </div>
             </Card>
           </div>

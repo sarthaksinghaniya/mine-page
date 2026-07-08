@@ -14,7 +14,7 @@ export type NpcInteractionState = 'idle' | 'approaching' | 'talking' | 'leaving'
 export interface DialogueOption {
   id: string;
   text: string;
-  action?: 'launch_app' | 'run_terminal' | 'next_node' | 'end_conversation';
+  action?: 'launch_app' | 'run_terminal' | 'next_node' | 'end_conversation' | 'query_knowledge' | 'query_recommendation';
   actionPayload?: string;
 }
 

@@ -30,6 +30,8 @@ export function AiRobotNpc(): React.ReactElement {
   useEffect(() => {
     InteractionManager.register({
       id: npcId,
+      name: 'Nexus Guide',
+      promptText: 'Talk to Nexus Guide',
       position: { x: npcWorldPos.x, y: npcWorldPos.y, z: npcWorldPos.z },
       radius: 8,
       enabled: true,

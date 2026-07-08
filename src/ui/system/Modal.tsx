@@ -33,10 +33,15 @@ export function Modal({ isOpen, onClose, title, children, width = 'max-w-2xl' }:
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
+        aria-hidden="true"
       />
       
       {/* Modal Content container */}
-      <div className={`relative w-full ${width} z-10 animate-in fade-in zoom-in-95 duration-200`}>
+      <div 
+        role="dialog" 
+        aria-modal="true"
+        className={`relative w-full ${width} z-10 animate-in fade-in zoom-in-95 duration-200`}
+      >
         <Card variant="glow" padding="none" className="shadow-[0_0_50px_rgba(0,0,0,0.8)] border-[rgba(255,255,255,0.1)]">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-[rgba(255,255,255,0.05)] bg-[rgba(0,0,0,0.2)]">

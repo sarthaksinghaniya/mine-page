@@ -6,7 +6,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Sparkles, Float } from '@react-three/drei';
+import { Sparkles } from '@react-three/drei';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '@/features/world/components/DistrictScene';
 import { DroidNPC } from '@/features/npc/components/DroidNPC';
@@ -17,7 +17,7 @@ export function AIResearchScene(): React.ReactElement {
   const dataRingRef = useRef<THREE.Group>(null);
 
   // Center coordinate of AI Neural Core
-  const corePos: [number, number, number] = [400, 10, 0];
+  // const corePos: [number, number, number] = [400, 10, 0];
 
   // Rotate outer and inner sphere geometries
   useFrame(({ clock }) => {
@@ -69,7 +69,7 @@ export function AIResearchScene(): React.ReactElement {
         enabled: true,
         promptText: `Access ${term.name}`,
         onInteract: () => {
-          TerminalManager.open({ title: term.name, output: term.text });
+          TerminalManager.open(term.id);
         },
       });
     });

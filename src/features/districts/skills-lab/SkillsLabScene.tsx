@@ -1,12 +1,11 @@
-import React from 'react';
-import { DistrictScene } from '../components/DistrictScene';
+import { DistrictScene } from '@/features/world/components/DistrictScene';
 
 export default function SkillsLabScene() {
   return (
     <DistrictScene id="skills-lab">
       {/* Server Racks */}
       <group position={[0, 3, 0]}>
-        {[[-5, -5], [5, -5], [-5, 5], [5, 5]].map(([x, z], i) => (
+        {([[-5, -5], [5, -5], [-5, 5], [5, 5]] as [number, number][]).map(([x, z], i) => (
           <mesh key={i} position={[x, 0, z]} castShadow>
             <boxGeometry args={[3, 6, 3]} />
             <meshStandardMaterial color="#1a1a24" roughness={0.6} metalness={0.5} />

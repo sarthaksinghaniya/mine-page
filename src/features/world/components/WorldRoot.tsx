@@ -26,7 +26,7 @@ import { VehicleBase, VehicleManager } from '@/features/vehicles';
 import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
 import { PostProcessing } from './PostProcessing';
-import { Environment } from '@react-three/drei';
+import { Environment, BakeShadows } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function WorldRoot(): React.ReactElement {
@@ -144,6 +144,7 @@ export function WorldRoot(): React.ReactElement {
       {/* Global Fog and Environment */}
       <fogExp2 attach="fog" args={['#05050a', 0.015]} />
       <Environment preset="night" background blur={0.8} />
+      <BakeShadows />
       <PostProcessing />
 
       <group name="world-root">

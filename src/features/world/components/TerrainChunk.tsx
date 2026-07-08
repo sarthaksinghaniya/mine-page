@@ -33,8 +33,6 @@ export function TerrainChunk({ zone }: TerrainChunkProps): React.ReactElement {
       <gridHelper
         args={[width, Math.round(width / 10), '#ffffff', zone.color]}
         position={[0, 0.01, 0]}
-        opacity={0.25}
-        transparent
       />
 
       {/* Minor center anchor cylinder */}

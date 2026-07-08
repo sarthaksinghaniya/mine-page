@@ -10,3 +10,4 @@ export * from './Modal';
 export * from './Badge';
 export * from './TechBadge';
 export * from './Timeline';
+export * from './ErrorBoundary';

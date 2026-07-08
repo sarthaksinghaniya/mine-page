@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import * as THREE from 'three';
+
 import { ZONES_LIST } from '../zone.types';
 
 export function RoadSystem(): React.ReactElement {

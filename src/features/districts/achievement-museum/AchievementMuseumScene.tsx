@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type * as THREE from 'three';
-import { DistrictScene } from '../components/DistrictScene';
+import { DistrictScene } from '@/features/world/components/DistrictScene';
 
 export default function AchievementMuseumScene() {
   const monolithsRef = useRef<THREE.Group>(null);

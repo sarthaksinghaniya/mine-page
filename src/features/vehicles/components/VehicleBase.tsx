@@ -3,8 +3,8 @@
  * @description Rapier physics rigid body base for cars, hovercrafts, and shuttles.
  */
 
-import React, { useRef, useEffect, useState } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import React, { useRef, useEffect } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { RigidBody, CapsuleCollider, type RapierRigidBody } from '@react-three/rapier';
 import * as THREE from 'three';
 import { InputManager } from '@core/input/InputManager';
@@ -13,7 +13,7 @@ import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { useCameraStore } from '@/features/camera/camera.store';
 import { usePlayerStore } from '@/features/player/player.store';
 import { VehicleManager } from '../systems/VehicleManager';
-import type { VehicleConfig, VehicleEngineState } from '../vehicles.types';
+import type { VehicleConfig } from '../vehicles.types';
 
 interface VehicleBaseProps {
   config: VehicleConfig;
@@ -22,13 +22,7 @@ interface VehicleBaseProps {
 
 export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactElement {
   const bodyRef = useRef<RapierRigidBody>(null);
-  const { camera } = useThree();
-
-  const [engineState, setEngineState] = useState<VehicleEngineState>('parked');
-  const [speed, setSpeed] = useState(0);
-
   const setPlayerPosition = usePlayerStore((s) => s.setPosition);
-  const playerPos = usePlayerStore((s) => s.position);
 
   const isPossessed = VehicleManager.getActiveVehicleId() === config.id;
 
@@ -83,20 +77,17 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
         }
       },
     });
-
     return () => {
       InteractionManager.unregister(`portal-${config.id}`);
     };
-  }, [isPossessed]);
-
+  }, [isPossessed, config.id, config.name, config.position]);
   useFrame((_, delta) => {
     const body = bodyRef.current;
     if (!body) return;
 
     const translation = body.translation();
     const velocity = body.linvel();
-    const speedXZ = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-    setSpeed(Math.round(speedXZ));
+    // speedXZ logic removed as speed state is unused
 
     // Dynamic Interaction coordinate updating (anchor to car position)
     const portal = InteractionManager.getInteractables().find(
@@ -172,10 +163,6 @@ export function VehicleBase({ config, color }: VehicleBaseProps): React.ReactEle
         rotationLag: 12,
       });
       setPlayerPosition({ x: translation.x, y: translation.y, z: translation.z });
-
-      setEngineState(actions.moveForward ? 'driving' : actions.moveBackward ? 'reversing' : 'idle');
-    } else {
-      setEngineState('parked');
     }
   });
 

@@ -10,7 +10,6 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import type {
   SceneState,
   SceneId,
-  SceneStatus,
   TransitionType,
   TransitionPhase,
 } from './scene.types';
@@ -28,12 +27,6 @@ interface SceneActions {
 
 type SceneStore = SceneState & SceneActions;
 
-const defaultTransition = {
-  type: 'fade' as TransitionType,
-  phase: 'idle' as TransitionPhase,
-  duration: 0.5,
-  progress: 0,
-};
 
 export const useSceneStore = create<SceneStore>()(
   subscribeWithSelector((set, get) => ({

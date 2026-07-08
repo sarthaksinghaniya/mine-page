@@ -27,8 +27,8 @@ import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
 import { TerminalWindow } from '@/ui/hud/TerminalWindow';
 import { AppManager } from '@core/apps/AppManager';
 import { ApplicationShell } from '@/ui/apps/ApplicationShell';
-import { SkillsLabApp } from '@/features/apps/SkillsMatrix';
-import { MuseumApp } from '@/features/apps/Museum';
+import { ErrorBoundary } from '@/ui/system';
+import { SkeletonLoader } from '@/ui/components/SharedComponents';
 
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
@@ -58,25 +58,13 @@ function CanvasEngineController(): React.ReactElement {
 export function App(): React.ReactElement {
   const loadScene = useSceneStore((s) => s.loadScene);
 
-  // Trigger loading initial world scene and register apps on mount
+  // Trigger loading initial world scene
   useEffect(() => {
     loadScene('world');
-
-    // Register modular portfolio apps
-    AppManager.register({
-      id: 'skills-lab',
-      title: 'Technical Skills Matrix',
-      mount: () => <SkillsLabApp />,
-    });
-
-    AppManager.register({
-      id: 'museum',
-      title: 'Achievement Museum Displays',
-      mount: () => <MuseumApp />,
-    });
   }, [loadScene]);
 
   return (
+    <ErrorBoundary>
     <AppProviders>
       {/* ── 3D Canvas ── */}
       <Canvas
@@ -101,7 +89,10 @@ export function App(): React.ReactElement {
       <InteractionPrompt />
       <CinematicOverlay />
       <TerminalWindow />
-      <ApplicationShell />
+      <React.Suspense fallback={<SkeletonLoader height="100vh" />}>
+        <ApplicationShell />
+      </React.Suspense>
     </AppProviders>
+    </ErrorBoundary>
   );
 }
