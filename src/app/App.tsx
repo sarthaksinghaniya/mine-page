@@ -7,7 +7,7 @@
  */
 
 import { Canvas } from '@react-three/fiber';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { AppProviders } from './AppProviders';
 import { RendererConfig } from '@core/renderer';
 import { CameraController } from '@features/camera';
@@ -25,7 +25,7 @@ import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
 import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
 import { TerminalWindow } from '@/ui/hud/TerminalWindow';
-import { AppManager } from '@core/apps/AppManager';
+
 import { ApplicationShell } from '@/ui/apps/ApplicationShell';
 import { ErrorBoundary } from '@/ui/system';
 import { SkeletonLoader } from '@/ui/components/SharedComponents';
@@ -89,9 +89,9 @@ export function App(): React.ReactElement {
       <InteractionPrompt />
       <CinematicOverlay />
       <TerminalWindow />
-      <React.Suspense fallback={<SkeletonLoader height="100vh" />}>
+      <Suspense fallback={<SkeletonLoader height="100vh" />}>
         <ApplicationShell />
-      </React.Suspense>
+      </Suspense>
     </AppProviders>
     </ErrorBoundary>
   );

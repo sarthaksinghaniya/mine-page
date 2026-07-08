@@ -12,7 +12,7 @@ export const FootstepAudio = {
    * Triggers a footstep sound based on surface texture.
    * Leverages pre-cached audio nodes from the manifest.
    */
-  trigger(surface: SurfaceType, volume = 0.5): void {
+  trigger(surface: SurfaceType): void {
     const soundId = `step-${surface}`;
     if (AudioManager.isRegistered(soundId)) {
       AudioManager.play(soundId);

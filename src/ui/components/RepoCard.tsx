@@ -3,7 +3,6 @@
  * @description Card component to display a GitHub repository.
  */
 
-import React from 'react';
 import type { GitHubRepo } from '@core/data/GitHubService';
 
 export function RepoCard({ repo }: { repo: GitHubRepo }) {

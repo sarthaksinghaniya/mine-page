@@ -3,7 +3,7 @@
  * @description Unit tests for the interaction manager and priority solver.
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { InteractionManager } from './InteractionManager';
 
 describe('InteractionManager', () => {

@@ -72,12 +72,12 @@ class DialogueManagerClass {
         if (option.actionPayload) this.goToNode(option.actionPayload);
         break;
       case 'query_knowledge':
-        DIALOGUE_TREE['dynamic_response'].text = KnowledgeBase.query(option.actionPayload || '');
+        DIALOGUE_TREE['dynamic_response']!.text = KnowledgeBase.query(option.actionPayload || '');
         this.goToNode('dynamic_response');
         break;
       case 'query_recommendation':
         // Simulating a persona, in reality this could be an input field
-        DIALOGUE_TREE['dynamic_response'].text = RecommendationEngine.generate(option.actionPayload || 'engineer');
+        DIALOGUE_TREE['dynamic_response']!.text = RecommendationEngine.generate(option.actionPayload || 'engineer');
         this.goToNode('dynamic_response');
         break;
       case 'launch_app':

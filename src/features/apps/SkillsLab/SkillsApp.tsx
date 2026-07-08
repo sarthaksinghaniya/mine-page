@@ -3,7 +3,6 @@
  * @description Interactive skill matrix and radar chart.
  */
 
-import React from 'react';
 import { Card } from '@/ui/system';
 import { skillsData } from '@/data/skills';
 import { Network } from 'lucide-react';

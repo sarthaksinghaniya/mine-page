@@ -11,7 +11,7 @@ import type {
   SceneState,
   SceneId,
   TransitionType,
-  TransitionPhase,
+
 } from './scene.types';
 
 interface SceneActions {

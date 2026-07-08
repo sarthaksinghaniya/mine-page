@@ -1,6 +1,6 @@
 import { generateUUID } from '@shared/utils/uuid';
 import { eventBus } from '@core/events/EventBus';
-import type { TerminalCommand, TerminalOutputLine, TerminalState } from './terminal.types';
+import type { TerminalCommand, TerminalState } from './terminal.types';
 import { helpCommand } from './commands/help';
 import { projectsCommand } from './commands/projects';
 import { skillsCommand } from './commands/skills';

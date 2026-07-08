@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { PortfolioDataService } from '@core/data/PortfolioDataService';
 import { GlassCard } from '@ui/components/GlassCard';
 import { AppHeader } from '@ui/components/AppHeader';

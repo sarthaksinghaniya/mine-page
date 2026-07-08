@@ -3,7 +3,7 @@
  * @description Global error boundary to prevent blank screens on crash.
  */
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, type ReactNode } from 'react';
 import { Card, Button } from './index';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 

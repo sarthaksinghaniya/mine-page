@@ -10,7 +10,7 @@ export function PostProcessing(): React.ReactElement | null {
   if (!performanceProfile.postProcessing) return null;
 
   return (
-    <EffectComposer disableNormalPass multisampling={performanceProfile.tier === 'high' ? 4 : 2}>
+    <EffectComposer multisampling={performanceProfile.tier === 'high' ? 4 : 2}>
       <Bloom 
         luminanceThreshold={1.2} 
         luminanceSmoothing={0.9} 
@@ -29,7 +29,7 @@ export function PostProcessing(): React.ReactElement | null {
           focalLength={0.02} 
           bokehScale={2} 
         />
-      ) : null}
+      ) : <></>}
     </EffectComposer>
   );
 }

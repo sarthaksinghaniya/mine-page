@@ -21,6 +21,7 @@ class InteractionManagerClass {
     for (const building of Object.values(DISTRICT_BUILDINGS)) {
       this.register({
         id: building.id,
+        name: building.id,
         position: building.entryPosition,
         radius: building.interactionRadius,
         enabled: true,

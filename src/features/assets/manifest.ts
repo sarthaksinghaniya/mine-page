@@ -18,7 +18,7 @@ export const ASSET_MANIFEST: Record<string, AssetEntry> = {
   // Audio files
   'ambient-bg': {
     id: 'ambient-bg',
-    src: ['/audio/ambient-bg.mp3'],
+    src: '/audio/ambient-bg.mp3',
     type: 'audio',
     status: 'idle',
     progress: 0,

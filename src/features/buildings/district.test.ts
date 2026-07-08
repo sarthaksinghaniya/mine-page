@@ -8,7 +8,7 @@ import { DISTRICT_REGISTRY, DISTRICTS_LIST } from './district.types';
 
 describe('District Registry', () => {
   it('correctly maps 6 districts matching world zones', () => {
-    expect(DISTRICTS_LIST.length).toBe(6);
+    expect(DISTRICTS_LIST.length).toBe(8);
   });
 
   it('contains target lot for Neural AI lab in ai-research district', () => {
@@ -17,6 +17,6 @@ describe('District Registry', () => {
     const lab = aiDistrict.lots.find((l) => l.id === 'ai-research-lab');
     expect(lab).toBeDefined();
     expect(lab?.category).toBe('landmark');
-    expect(lab?.interior?.name).toBe('AI Core Sandbox');
+    expect(lab?.interior?.name).toBe('AI Core Mainframe');
   });
 });

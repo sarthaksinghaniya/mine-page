@@ -5,8 +5,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { AppManager } from '@core/apps/AppManager';
-import { appEvents } from '@core/apps/app.events';
+
 
 interface Props {
   isOpen: boolean;

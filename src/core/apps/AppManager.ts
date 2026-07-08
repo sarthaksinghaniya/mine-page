@@ -86,6 +86,7 @@ class AppManagerClass {
     if (building) {
       CinematicDirector.play({
         id: `open-${appId}`,
+        name: `Open App ${appId}`,
         priority: 100,
         duration: 1.5,
         keyframes: [
@@ -134,6 +135,7 @@ class AppManagerClass {
 
     CinematicDirector.play({
       id: `close-${appId}`,
+      name: `Close App ${appId}`,
       priority: 100,
       duration: 1.0,
       keyframes: [

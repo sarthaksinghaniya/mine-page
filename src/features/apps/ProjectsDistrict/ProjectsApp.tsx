@@ -3,10 +3,9 @@
  * @description Interactive grid of project cards with live demo and GitHub links.
  */
 
-import React from 'react';
 import { Card, Button, TechBadge } from '@/ui/system';
 import { projectsData } from '@/data/projects';
-import { ExternalLink, Github, FolderGit2 } from 'lucide-react';
+import { ExternalLink, FolderGit2, Code } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function ProjectsApp() {
@@ -61,7 +60,7 @@ export function ProjectsApp() {
                     variant="ghost" 
                     size="sm" 
                     onClick={() => window.open(project.githubUrl, '_blank')}
-                    icon={<Github size={16} />}
+                    icon={<Code size={16} />}
                   >
                     Source Code
                   </Button>

@@ -8,7 +8,7 @@ import { AppManager } from '@core/apps/AppManager';
 import type { AppManagerState, PortfolioApp } from '@core/apps/app.types';
 import { ApplicationLoader } from './ApplicationLoader';
 import { ApplicationTransition } from './ApplicationTransition';
-import { usePlayerStore } from '@features/player/player.store';
+
 import { Card, Button, Badge, ErrorBoundary } from '@/ui/system';
 import { X, Command } from 'lucide-react';
 

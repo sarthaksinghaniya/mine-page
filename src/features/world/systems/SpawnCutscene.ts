@@ -37,10 +37,8 @@ export const SpawnCutscene = {
         {
           time: 4.5,
           type: 'custom',
-          custom: {
-            execute: () => {
-              eventBus.emit('ui:menuOpened', { menuId: 'cinematic-welcome-title' });
-            }
+          custom: () => {
+            eventBus.emit('ui:menuOpened', { menuId: 'cinematic-welcome-title' });
           }
         },
         // Shot 3: Close up on the monument particles
@@ -59,10 +57,8 @@ export const SpawnCutscene = {
         {
           time: 9.0,
           type: 'custom',
-          custom: {
-            execute: () => {
-              eventBus.emit('ui:menuClosed', { menuId: 'cinematic-welcome-title' });
-            }
+          custom: () => {
+            eventBus.emit('ui:menuClosed', { menuId: 'cinematic-welcome-title' });
           }
         },
         { time: 9.5, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } },

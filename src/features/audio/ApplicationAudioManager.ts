@@ -7,7 +7,6 @@ import { eventBus } from '@core/events/EventBus';
 
 class ApplicationAudioManagerClass {
   private activeAppId: string | null = null;
-  private isDucking = false;
 
   init() {
     eventBus.on('app:opened', ({ appId }) => {
@@ -28,12 +27,10 @@ class ApplicationAudioManagerClass {
   }
 
   private duckEnvironment() {
-    this.isDucking = true;
     eventBus.emit('audio:ambientChanged', { trackId: 'duck', volume: 0.1 });
   }
 
   private restoreEnvironment() {
-    this.isDucking = false;
     eventBus.emit('audio:ambientChanged', { trackId: 'restore', volume: 1.0 });
   }
 

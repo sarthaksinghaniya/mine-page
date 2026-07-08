@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export function AnimatedCounter({ value, prefix = '', suffix = '', duration = 1.5 }: { value: number, prefix?: string, suffix?: string, duration?: number }) {

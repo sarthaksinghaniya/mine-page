@@ -40,7 +40,7 @@ const ORBIT_CONFIG = {
  * Mount inside Canvas as a child of CameraController.
  */
 export function OrbitCamera(): React.ReactElement {
-  const { gl } = useThree();
+  useThree();
   const controlsRef = useRef<OrbitControlsImpl>(null);
 
   // Focus on origin when orbit mode activates
@@ -54,7 +54,6 @@ export function OrbitCamera(): React.ReactElement {
   return (
     <OrbitControls
       ref={controlsRef}
-      args={[undefined, gl.domElement]}
       makeDefault
       enableDamping
       dampingFactor={ORBIT_CONFIG.dampingFactor}

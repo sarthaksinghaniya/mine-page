@@ -8,7 +8,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { BuildingLot } from '../district.types';
 import { usePlayerStore } from '@/features/player/player.store';
-import { useSceneStore } from '@/features/scene/scene.store';
+
 
 interface BuildingRootProps {
   lot: BuildingLot;
@@ -17,7 +17,6 @@ interface BuildingRootProps {
 
 export function BuildingRoot({ lot, color }: BuildingRootProps): React.ReactElement {
   const playerPos = usePlayerStore((s) => s.position);
-  const loadScene = useSceneStore((s) => s.loadScene);
   const [near, setNear] = useState(false);
 
   const groupRef = useRef<THREE.Group>(null);

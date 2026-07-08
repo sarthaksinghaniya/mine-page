@@ -3,8 +3,6 @@
  * @description Stylized badge for displaying technologies.
  */
 
-import React from 'react';
-
 export interface TechBadgeProps {
   name: string;
 }

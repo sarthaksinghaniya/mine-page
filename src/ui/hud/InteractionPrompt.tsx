@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { eventBus } from '@core/events/EventBus';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import type { InteractableConfig } from '@core/interaction/interactable.types';
-import { Card, Badge } from '@/ui/system';
+import { Card } from '@/ui/system';
 
 export function InteractionPrompt(): React.ReactElement | null {
   const [activeItem, setActiveItem] = useState<InteractableConfig | null>(null);

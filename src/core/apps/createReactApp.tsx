@@ -21,7 +21,7 @@ export function createReactApp(
   return {
     id,
     title,
-    icon,
+    ...(icon ? { icon } : {}),
     load: async () => {
       // Preload the chunk if possible
       await importFn();
@@ -36,7 +36,7 @@ export function createReactApp(
         </Suspense>
       );
     },
-    unmount: (container: HTMLElement) => {
+    unmount: (_container: HTMLElement) => {
       if (root) {
         root.unmount();
         root = null;

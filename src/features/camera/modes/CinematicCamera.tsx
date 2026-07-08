@@ -47,6 +47,10 @@ function interpolateKeyframes(
     }
   }
 
+  if (!fromKf || !toKf) {
+    return { position: _pos, lookAt: _lookAt, fov: 75 };
+  }
+
   // Local t between the two keyframes
   const segDuration = toKf.time - fromKf.time;
   const localT =

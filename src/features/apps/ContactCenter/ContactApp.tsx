@@ -3,9 +3,8 @@
  * @description Contact form and social media links.
  */
 
-import React from 'react';
 import { Card, Input, Button } from '@/ui/system';
-import { Mail, Send, Github, Twitter, Linkedin, MessageSquare } from 'lucide-react';
+import { Send, MessageSquare, Globe, Code, Link } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function ContactApp() {
@@ -72,7 +71,7 @@ export function ContactApp() {
               <div className="flex flex-col gap-4">
                 <a href="#" className="flex items-center gap-4 p-3 rounded-lg hover:bg-[rgba(255,255,255,0.05)] transition-colors border border-transparent hover:border-[rgba(255,255,255,0.1)] group cursor-pointer text-decoration-none">
                   <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.05)] flex items-center justify-center text-[var(--color-text-primary)] group-hover:bg-white group-hover:text-black transition-colors">
-                    <Github size={20} />
+                    <Code size={20} />
                   </div>
                   <div>
                     <div className="font-bold text-[var(--color-text-primary)]">GitHub</div>
@@ -82,7 +81,7 @@ export function ContactApp() {
 
                 <a href="#" className="flex items-center gap-4 p-3 rounded-lg hover:bg-[rgba(29,161,242,0.1)] transition-colors border border-transparent hover:border-[rgba(29,161,242,0.2)] group cursor-pointer text-decoration-none">
                   <div className="w-10 h-10 rounded-full bg-[rgba(29,161,242,0.1)] flex items-center justify-center text-[#1DA1F2] group-hover:bg-[#1DA1F2] group-hover:text-white transition-colors">
-                    <Twitter size={20} />
+                    <Globe size={20} />
                   </div>
                   <div>
                     <div className="font-bold text-[var(--color-text-primary)]">Twitter / X</div>
@@ -92,7 +91,7 @@ export function ContactApp() {
 
                 <a href="#" className="flex items-center gap-4 p-3 rounded-lg hover:bg-[rgba(10,102,194,0.1)] transition-colors border border-transparent hover:border-[rgba(10,102,194,0.2)] group cursor-pointer text-decoration-none">
                   <div className="w-10 h-10 rounded-full bg-[rgba(10,102,194,0.1)] flex items-center justify-center text-[#0A66C2] group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
-                    <Linkedin size={20} />
+                    <Link size={20} />
                   </div>
                   <div>
                     <div className="font-bold text-[var(--color-text-primary)]">LinkedIn</div>

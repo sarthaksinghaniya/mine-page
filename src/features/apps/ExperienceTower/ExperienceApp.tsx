@@ -3,7 +3,6 @@
  * @description Experience timeline displaying work history.
  */
 
-import React from 'react';
 import { Timeline, TimelineEvent } from '@/ui/system';
 import { experienceData } from '@/data/experience';
 import { Briefcase } from 'lucide-react';

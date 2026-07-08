@@ -3,7 +3,6 @@
  * @description Gallery view of certifications and awards.
  */
 
-import React from 'react';
 import { Card } from '@/ui/system';
 import { resumeData } from '@/data/resume';
 import { Trophy, Award } from 'lucide-react';

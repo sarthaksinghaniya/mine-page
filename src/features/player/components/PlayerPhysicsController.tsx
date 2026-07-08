@@ -143,7 +143,7 @@ export function PlayerPhysicsController(): React.ReactElement {
         // Check local coordinates to resolve surface type
         // In the future, this reads active zone metadata. Defaulting to concrete.
         const surface: SurfaceType = translation.z > 200 ? 'grass' : 'concrete';
-        FootstepAudio.trigger(surface, 0.4);
+        FootstepAudio.trigger(surface);
       }
       setMovementState(actions.sprint ? 'running' : 'walking');
     } else if (onGround) {

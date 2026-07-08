@@ -6,10 +6,10 @@
  */
 
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
+import { GLTFLoader } from 'three-stdlib';
+import { DRACOLoader } from 'three-stdlib';
+import { KTX2Loader } from 'three-stdlib';
+import { RGBELoader } from 'three-stdlib';
 import { useAssetStore } from './asset.store';
 import type { AssetEntry } from './asset.types';
 
@@ -95,25 +95,25 @@ class AssetManagerClass {
 
         loader.load(
           entry.src,
-          (gltf) => { resolve(gltf); },
+          (gltf: unknown) => { resolve(gltf); },
           updateProgress,
-          (err) => { reject(err); },
+          (err: unknown) => { reject(err); },
         );
       } else if (entry.type === 'hdri') {
         const loader = new RGBELoader();
         loader.load(
           entry.src,
-          (texture) => { resolve(texture); },
+          (texture: unknown) => { resolve(texture); },
           updateProgress,
-          (err) => { reject(err); },
+          (err: unknown) => { reject(err); },
         );
       } else if (entry.type === 'texture') {
         const loader = new THREE.TextureLoader();
         loader.load(
           entry.src,
-          (texture) => { resolve(texture); },
+          (texture: unknown) => { resolve(texture); },
           updateProgress,
-          (err) => { reject(err); },
+          (err: unknown) => { reject(err); },
         );
       } else if (entry.type === 'audio') {
         // Fallback for simple audio loading/checking

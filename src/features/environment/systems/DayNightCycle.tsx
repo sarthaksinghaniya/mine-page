@@ -4,7 +4,6 @@
  */
 
 import type React from 'react';
-import { useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useEnvironmentStore } from '../environment.store';
 import { useLightingStore } from '@/features/lighting/lighting.store';

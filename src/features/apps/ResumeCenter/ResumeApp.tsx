@@ -3,7 +3,6 @@
  * @description Professional resume viewer.
  */
 
-import React from 'react';
 import { Card, Button, Badge } from '@/ui/system';
 import { resumeData } from '@/data/resume';
 import { Download, Printer, FileText, MapPin, Mail, Phone, Globe } from 'lucide-react';

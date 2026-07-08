@@ -8,7 +8,7 @@
 import React, { useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useWorldStore } from '../world.store';
-import { ZONES_LIST, WORLD_ZONES } from '../zone.types';
+import { ZONES_LIST } from '../zone.types';
 import { TerrainChunk } from './TerrainChunk';
 import { RoadSystem } from './RoadSystem';
 import { ZoneCuller } from '../systems/ZoneCuller';
@@ -27,7 +27,6 @@ import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
 import { PostProcessing } from './PostProcessing';
 import { Environment, BakeShadows } from '@react-three/drei';
-import * as THREE from 'three';
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -155,7 +154,7 @@ export function WorldRoot(): React.ReactElement {
 
         {/* Dynamic District Scene Plugins */}
         {activeZoneIds.map((zoneId) => {
-          const plugin = DISTRICT_PLUGINS[zoneId as any];
+          const plugin = DISTRICT_PLUGINS[zoneId as import('../zone.types').ZoneTheme];
           if (!plugin) return null;
           const Component = plugin.component;
           return <Component key={`plugin-${plugin.id}`} />;
@@ -202,8 +201,6 @@ export function WorldRoot(): React.ReactElement {
           <gridHelper
             args={[1200, 120, '#00e5f0', '#0a0a14']}
             position={[0, 0.5, 0]}
-            opacity={0.1}
-            transparent
           />
         </RigidBody>
       </group>

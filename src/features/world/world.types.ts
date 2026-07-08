@@ -3,21 +3,13 @@
  * @description Type definitions for the open-world management feature.
  */
 
-import type * as THREE from 'three';
+import type { ZoneTheme } from './zone.types';
+import * as THREE from 'three';
 
-// ── Zone ──────────────────────────────────────────────────────────────────────
+export type { ZoneTheme };
 
 export type ZoneId = string;
 export type ZoneStatus = 'unloaded' | 'loading' | 'active' | 'unloading';
-
-/** The career theme / aesthetic of a zone */
-export type ZoneTheme =
-  | 'hub' // Central plaza — portfolio overview
-  | 'projects' // Tower district — featured projects
-  | 'skills' // Tech grid — skills visualization
-  | 'experience' // Timeline avenue — work history
-  | 'contact' // Rooftop — contact / socials
-  | 'secret'; // Easter egg zone
 
 export interface ZoneDefinition {
   id: ZoneId;

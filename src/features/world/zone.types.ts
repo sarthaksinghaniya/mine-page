@@ -3,7 +3,7 @@
  * @description Structure declarations for the open world zone streaming system.
  */
 
-import type * as THREE from 'three';
+
 
 export type ZoneTheme =
   'spawn' | 'ai-research' | 'projects' | 'museum' | 'skills' | 'experience' | 'resume' | 'contact';

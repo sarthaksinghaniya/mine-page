@@ -59,8 +59,6 @@ export interface GameEventMap {
   'vehicles:playerEntered': { vehicleId: string };
   'vehicles:playerExited': { vehicleId: string };
 
-  // NPC
-  'npc:conversationStarted': { npcId: string };
 
   // Network & APIs
   'github:loaded': void;
@@ -68,6 +66,8 @@ export interface GameEventMap {
   'leetcode:loaded': void;
   'leetcode:error': { error: string };
   'codeforces:loaded': void;
+  'unstop:loaded': void;
+  'unstop:error': { error: string };
   'analytics:updated': void;
 
   // NPC

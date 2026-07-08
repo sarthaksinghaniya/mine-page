@@ -21,8 +21,8 @@ describe('AppManager', () => {
       id: 'test-app',
       title: 'Test App',
       load: async () => Promise.resolve(),
-      mount: (el) => {},
-      unmount: (el) => {},
+      mount: (_el) => {},
+      unmount: (_el) => {},
       dispose: () => {},
     });
 

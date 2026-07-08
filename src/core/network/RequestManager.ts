@@ -33,7 +33,7 @@ class RequestManagerClass {
     // 3. Execute fetch with retries
     const reqPromise = this.executeWithRetry<T>(url, options).then(data => {
       // 4. Cache successful response
-      CacheManager.set(cacheKey, data, { ttlMs: options?.cacheTtlMs });
+      CacheManager.set(cacheKey, data, options?.cacheTtlMs ? { ttlMs: options.cacheTtlMs } : undefined);
       this.inFlightRequests.delete(cacheKey);
       return data;
     }).catch(err => {

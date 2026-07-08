@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { GitHubService, type GitHubRepo } from '@core/data/GitHubService';
 import { RepoCard } from '@ui/components/RepoCard';
 import { SkeletonLoader, ErrorState } from '@ui/components/SharedComponents';

@@ -77,7 +77,7 @@ class GitHubServiceClass {
     }
   }
 
-  async fetchContributions(username: string): Promise<GitHubContribution[]> {
+  async fetchContributions(_username: string): Promise<GitHubContribution[]> {
     try {
       // Simulate network delay for fetching contributions
       await new Promise(res => setTimeout(res, 500));
@@ -95,7 +95,7 @@ class GitHubServiceClass {
         if (rand > 0.95) count = Math.floor(Math.random() * 15) + 5;
         
         contributions.push({
-          date: d.toISOString().split('T')[0],
+          date: d.toISOString().split('T')[0] as string,
           count
         });
       }
