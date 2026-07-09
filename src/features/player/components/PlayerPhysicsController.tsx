@@ -38,6 +38,11 @@ export function PlayerPhysicsController(): React.ReactElement {
   const coyoteTimer = useRef(0);
   const jumpBuffer = useRef(false);
 
+  // Refs for AnimatedPlayerModel to avoid re-renders
+  const velocityRef = useRef(new THREE.Vector3());
+  const isGroundedRef = useRef(true);
+  const isSprintingRef = useRef(false);
+
   // Sync camera position to initial spawn point on mount
   useEffect(() => {
     if (bodyRef.current) {
@@ -83,6 +88,8 @@ export function PlayerPhysicsController(): React.ReactElement {
     // Standard height checks
     const onGround = velocity.y < 0.1 && velocity.y > -0.5;
     isGrounded.current = onGround;
+    isGroundedRef.current = onGround;
+    isSprintingRef.current = actions.sprint;
 
     if (onGround) {
       coyoteTimer.current = 0.15; // Reset coyote timer window
@@ -134,6 +141,7 @@ export function PlayerPhysicsController(): React.ReactElement {
     }
 
     body.setLinvel(velocity, true);
+    velocityRef.current.copy(velocity);
 
     // ── 4. Footsteps Orchestrator ─────────────────────────────────────────────
     const speedXZ = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
@@ -175,7 +183,11 @@ export function PlayerPhysicsController(): React.ReactElement {
       {/* Animated Procedural Character */}
       {!VehicleManager.getActiveVehicleId() && (
         <group position={[0, -0.4, 0]}>
-          <AnimatedPlayerModel />
+          <AnimatedPlayerModel 
+            velocityRef={velocityRef}
+            isGroundedRef={isGroundedRef}
+            isSprintingRef={isSprintingRef}
+          />
         </group>
       )}
     </RigidBody>

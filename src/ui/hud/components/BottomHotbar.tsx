@@ -60,15 +60,18 @@ export function BottomHotbar(): React.ReactElement {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2 pointer-events-auto">
+    <div className="flex flex-col items-center gap-3 pointer-events-auto mb-2 transition-transform hover:-translate-y-1">
       {/* Stats Row */}
       <div className="flex items-center justify-between w-[400px]">
         {/* Hearts */}
         <div className="flex">{renderHearts()}</div>
         
         {/* Level */}
-        <div className="text-green-400 font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-          {level}
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 bg-cyan-400/20 blur-md rounded-full" />
+          <div className="text-cyan-400 font-black text-2xl drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] z-10">
+            {level}
+          </div>
         </div>
         
         {/* Hunger */}
@@ -76,19 +79,19 @@ export function BottomHotbar(): React.ReactElement {
       </div>
 
       {/* Hotbar */}
-      <div className="flex gap-1 p-1 bg-black/40 backdrop-blur-sm rounded-lg border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+      <div className="flex gap-1.5 p-2 bg-slate-900/40 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
         {hotbar.map((item, index) => (
           <div 
             key={index}
-            className={`relative w-12 h-12 flex items-center justify-center rounded cursor-pointer ${
+            className={`relative w-14 h-14 flex items-center justify-center rounded-xl cursor-pointer transition-all duration-200 overflow-hidden ${
               activeSlot === index 
-                ? 'bg-white/20 border-2 border-white shadow-[inset_0_0_10px_rgba(255,255,255,0.5)]' 
-                : 'bg-black/40 border border-white/5 hover:bg-white/10'
+                ? 'bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-400 shadow-[inset_0_0_20px_rgba(34,211,238,0.3)] scale-110 z-10' 
+                : 'bg-black/40 border border-white/5 hover:bg-white/10 hover:border-white/20'
             }`}
             onClick={() => useGameplayStore.getState().setActiveSlot(index)}
           >
             {/* Slot Number */}
-            <span className="absolute top-0.5 left-1 text-white/70 text-[10px] font-bold drop-shadow-md">
+            <span className={`absolute top-1 left-1.5 text-[10px] font-bold ${activeSlot === index ? 'text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,1)]' : 'text-slate-400'}`}>
               {index + 1}
             </span>
             

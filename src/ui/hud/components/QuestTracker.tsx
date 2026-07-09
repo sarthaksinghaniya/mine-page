@@ -8,7 +8,7 @@ import { X, CheckSquare } from 'lucide-react';
 
 export function QuestTracker(): React.ReactElement {
   return (
-    <div className="bg-[rgba(40,55,75,0.8)] backdrop-blur-md rounded-xl p-4 w-64 shadow-lg border border-white/10 pointer-events-auto">
+    <div className="bg-slate-900/40 backdrop-blur-2xl rounded-2xl p-5 w-72 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 pointer-events-auto transition-transform hover:-translate-x-1 cursor-default">
       <div className="flex justify-between items-start mb-1">
         <span className="text-[10px] font-bold text-gray-300 tracking-wider">CURRENT QUEST</span>
         <button className="text-gray-400 hover:text-white transition-colors">
@@ -16,13 +16,13 @@ export function QuestTracker(): React.ReactElement {
         </button>
       </div>
       
-      <h3 className="text-yellow-400 font-bold text-sm mb-3 drop-shadow-sm">Explore the world</h3>
+      <h3 className="text-cyan-400 font-bold text-[15px] mb-4 drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]">Explore the world</h3>
       
       <div className="flex justify-between items-center text-sm">
-        <span className="text-white/90">Visit all districts</span>
-        <div className="flex items-center gap-1.5 text-gray-300">
-          <span className="text-xs">0/8</span>
-          <div className="w-4 h-4 rounded border border-gray-400 flex items-center justify-center bg-black/20"></div>
+        <span className="text-slate-200 font-medium tracking-wide">Visit all districts</span>
+        <div className="flex items-center gap-2 text-cyan-300">
+          <span className="text-xs font-bold drop-shadow-sm">0/8</span>
+          <div className="w-5 h-5 rounded border border-cyan-500/50 flex items-center justify-center bg-cyan-950/30 shadow-[inset_0_0_8px_rgba(34,211,238,0.2)]"></div>
         </div>
       </div>
     </div>
