@@ -1,51 +1,50 @@
 /**
  * @file src/features/lighting/components/SunLight.tsx
- * @description Physically-correct directional sun light with shadow support.
- *
- * Reads position, intensity, and shadow config from lighting.store.
- * Shadow camera frustum is configured to cover the active world area efficiently.
+ * @description Directional sunlight with soft shadows and golden hour warmth.
  */
 
-import { useRef, useEffect } from 'react';
-import type * as THREE from 'three';
+import React, { useRef } from 'react';
+import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
 import { useLightingStore } from '../lighting.store';
 import { performanceProfile } from '@config/performance';
 
-export function SunLight(): React.ReactElement {
+export function SunLight(): React.ReactElement | null {
   const lightRef = useRef<THREE.DirectionalLight>(null);
-  const targetRef = useRef<THREE.Object3D>(null);
-  const sun = useLightingStore((s) => s.sun);
-  const shadowMapSize = sun.shadowMapSize ?? performanceProfile.shadowMapSize;
+  
+  const sunEnabled = useLightingStore((s) => s.sunEnabled);
+  const sunIntensity = useLightingStore((s) => s.sunIntensity) * 1.5; // Boosted for AAA look
+  const sunColor = '#ffe4b5'; // Golden hour warm sunlight (Genshin/Zelda)
 
-  useEffect(() => {
-    const light = lightRef.current;
-    if (!light) return;
+  // In a real app we'd link this to time of day
+  const sunPosition = new THREE.Vector3(100, 200, 100);
 
-    // Configure shadow camera frustum
-    const d = sun.shadowRadius;
-    light.shadow.camera.left = -d;
-    light.shadow.camera.right = d;
-    light.shadow.camera.top = d;
-    light.shadow.camera.bottom = -d;
-    light.shadow.camera.near = sun.shadowNear;
-    light.shadow.camera.far = sun.shadowFar;
-    light.shadow.camera.updateProjectionMatrix();
-  }, [sun.shadowRadius, sun.shadowNear, sun.shadowFar]);
+  useFrame(({ camera }) => {
+    if (lightRef.current && performanceProfile.shadowsEnabled) {
+      // Keep sun shadows centered on camera for crisp dynamic shadows
+      lightRef.current.position.x = camera.position.x + sunPosition.x;
+      lightRef.current.position.z = camera.position.z + sunPosition.z;
+      lightRef.current.target.position.set(camera.position.x, 0, camera.position.z);
+      lightRef.current.target.updateMatrixWorld();
+    }
+  });
+
+  if (!sunEnabled) return null;
 
   return (
-    <>
-      {/* Shadow target at world origin — follow player in future */}
-      <object3D ref={targetRef} position={[0, 0, 0]} />
-      <directionalLight
-        ref={lightRef}
-        color={sun.color}
-        intensity={sun.intensity}
-        position={[sun.position.x, sun.position.y, sun.position.z]}
-        castShadow={performanceProfile.tier !== 'low'}
-        shadow-mapSize={[shadowMapSize, shadowMapSize]}
-        shadow-bias={sun.shadowBias}
-        shadow-normalBias={sun.shadowNormalBias}
-      />
-    </>
+    <directionalLight
+      ref={lightRef}
+      color={sunColor}
+      intensity={sunIntensity}
+      castShadow={performanceProfile.shadowsEnabled}
+      shadow-mapSize={[performanceProfile.shadowMapSize, performanceProfile.shadowMapSize]}
+      shadow-camera-far={400}
+      shadow-camera-left={-100}
+      shadow-camera-right={100}
+      shadow-camera-top={100}
+      shadow-camera-bottom={-100}
+      shadow-bias={-0.0005} // Soft contact shadows
+      shadow-normalBias={0.02}
+    />
   );
 }

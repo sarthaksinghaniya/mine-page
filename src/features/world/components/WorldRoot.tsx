@@ -29,6 +29,7 @@ import { PostProcessing } from './PostProcessing';
 import { Environment, BakeShadows, Sky } from '@react-three/drei';
 import { WaterBody } from './WaterBody';
 import { VegetationInstancer } from './VegetationInstancer';
+import { VillageSquare } from './VillageSquare';
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -204,6 +205,8 @@ export function WorldRoot(): React.ReactElement {
 
         {/* Interconnecting roads */}
         <RoadSystem />
+        
+        {activeZoneIds.includes('spawn') && <VillageSquare />}
 
         {/* Foliage and environment props */}
         <InstancedProps />
