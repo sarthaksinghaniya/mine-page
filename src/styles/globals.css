@@ -21,58 +21,58 @@
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
   --font-display: "Outfit", "Inter", system-ui, sans-serif;
 
-  /* Color Palette — Futuristic Cyber City */
-  --color-bg-void: #000000;
-  --color-bg-deep: #05050a;
-  --color-bg-surface: #0a0a14;
-  --color-bg-elevated: #11111a;
-  --color-bg-card: #161622;
-  --color-bg-glass: rgba(10, 10, 20, 0.4);
-  --color-bg-glass-hover: rgba(20, 20, 40, 0.6);
+  /* Color Palette — Bright & Modern (AAA UI) */
+  --color-bg-void: #f5f5f7;
+  --color-bg-deep: #e8e8ed;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: rgba(255, 255, 255, 0.9);
+  --color-bg-card: rgba(255, 255, 255, 0.7);
+  --color-bg-glass: rgba(255, 255, 255, 0.6);
+  --color-bg-glass-hover: rgba(255, 255, 255, 0.85);
 
-  /* Primary — Electric Cyan */
-  --color-primary-50: #e0fffe;
-  --color-primary-100: #b0f9fb;
-  --color-primary-200: #67f3f8;
-  --color-primary-300: #00e5f0;
-  --color-primary-400: #00c9d8;
-  --color-primary-500: #00adc0; /* Base */
-  --color-primary-600: #0091a5;
-  --color-primary-700: #007589;
-  --color-primary-800: #005a6e;
-  --color-primary-900: #003f52;
+  /* Primary — Soft Sky Blue */
+  --color-primary-50: #e0f2fe;
+  --color-primary-100: #bae6fd;
+  --color-primary-200: #7dd3fc;
+  --color-primary-300: #38bdf8;
+  --color-primary-400: #0ea5e9;
+  --color-primary-500: #0284c7; /* Base */
+  --color-primary-600: #0369a1;
+  --color-primary-700: #075985;
+  --color-primary-800: #0c4a6e;
+  --color-primary-900: #082f49;
 
-  /* Accent — Neon Purple */
-  --color-accent-50: #f5e6ff;
-  --color-accent-100: #e5bdff;
-  --color-accent-200: #cf8dff;
-  --color-accent-300: #b55dff;
-  --color-accent-400: #9c2dff;
-  --color-accent-500: #8000ff; /* Base */
-  --color-accent-600: #6600cc;
-  --color-accent-700: #4d0099;
-  --color-accent-800: #330066;
-  --color-accent-900: #1a0033;
+  /* Accent — Warm Gold */
+  --color-accent-50: #fefce8;
+  --color-accent-100: #fef9c3;
+  --color-accent-200: #fef08a;
+  --color-accent-300: #fde047;
+  --color-accent-400: #facc15;
+  --color-accent-500: #eab308; /* Base */
+  --color-accent-600: #ca8a04;
+  --color-accent-700: #a16207;
+  --color-accent-800: #854d0e;
+  --color-accent-900: #713f12;
 
-  /* Secondary — Hot Magenta */
-  --color-secondary-500: #ff0090;
-  --color-secondary-600: #cc0075;
+  /* Secondary — Nature Green */
+  --color-secondary-500: #22c55e;
+  --color-secondary-600: #16a34a;
 
   /* Text */
-  --color-text-primary: #f0f0ff;
-  --color-text-secondary: #a0a0c0;
-  --color-text-muted: #606080;
-  --color-text-inverse: #050508;
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #86868b;
+  --color-text-muted: #a1a1a6;
+  --color-text-inverse: #ffffff;
 
   /* Border */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.15);
-  --color-border-neon: rgba(0, 229, 240, 0.3);
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+  --color-border-neon: rgba(2, 132, 199, 0.2); /* renamed internally for compat */
 
-  /* Glow */
-  --glow-primary: 0 0 20px rgba(0, 229, 240, 0.2);
-  --glow-accent: 0 0 20px rgba(128, 0, 255, 0.2);
-  --glow-strong: 0 0 40px rgba(0, 229, 240, 0.4), 0 0 80px rgba(0, 229, 240, 0.1);
+  /* Glow -> Drop Shadows */
+  --glow-primary: 0 4px 14px rgba(0, 0, 0, 0.05);
+  --glow-accent: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --glow-strong: 0 12px 32px rgba(0, 0, 0, 0.12);
 
   /* Spacing */
   --spacing-hud: 1.5rem;

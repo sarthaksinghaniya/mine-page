@@ -15,6 +15,7 @@ import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { VehicleManager } from '@/features/vehicles/systems/VehicleManager';
 import { TerminalManager } from '@core/terminal/TerminalManager';
 import { AppManager } from '@core/apps/AppManager';
+import { AnimatedPlayerModel } from './AnimatedPlayerModel';
 
 // ── Physics parameters ────────────────────────────────────────────────────────
 
@@ -171,12 +172,11 @@ export function PlayerPhysicsController(): React.ReactElement {
       name="player"
     >
       <CapsuleCollider args={[0.5, 0.4]} />
-      {/* Visual Debug Mesh for Player Capsule */}
+      {/* Animated Procedural Character */}
       {!VehicleManager.getActiveVehicleId() && (
-        <mesh castShadow receiveShadow>
-          <capsuleGeometry args={[0.4, 1.0, 4, 8]} />
-          <meshStandardMaterial color="#00adc0" roughness={0.3} metalness={0.8} />
-        </mesh>
+        <group position={[0, -0.4, 0]}>
+          <AnimatedPlayerModel />
+        </group>
       )}
     </RigidBody>
   );

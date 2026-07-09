@@ -88,14 +88,21 @@ class AppManagerClass {
         id: `open-${appId}`,
         name: `Open App ${appId}`,
         priority: 100,
-        duration: 1.5,
+        duration: 3.0,
         keyframes: [
-          { time: 0, type: 'screen', screen: { fadeOpacity: 0.5, letterbox: true } },
           { time: 0, type: 'player', player: { frozen: true } },
-          { time: 0, type: 'camera', camera: { position: { x: building.entryPosition.x, y: building.entryPosition.y + 5, z: building.entryPosition.z + 10 }, lookAt: building.entryPosition } },
-          { time: 1.5, type: 'screen', screen: { fadeOpacity: 0, letterbox: false } }
+          { time: 0, type: 'screen', screen: { fadeOpacity: 0, letterbox: true } },
+          // Start camera outside
+          { time: 0, type: 'camera', camera: { position: { x: building.entryPosition.x, y: building.entryPosition.y + 2, z: building.entryPosition.z + 8 }, lookAt: building.entryPosition } },
+          // Push camera inside the building slowly
+          { time: 2.5, type: 'camera', camera: { position: { x: building.entryPosition.x, y: building.entryPosition.y + 1, z: building.entryPosition.z - 1 }, lookAt: { x: building.entryPosition.x, y: building.entryPosition.y + 1, z: building.entryPosition.z - 10 } } },
+          // Fade UI in naturally
+          { time: 3.0, type: 'screen', screen: { fadeOpacity: 0.6, letterbox: false } }
         ]
       });
+      
+      // Delay UI load until camera is inside
+      await new Promise(resolve => setTimeout(resolve, 2500));
     }
 
     try {

@@ -1,75 +1,83 @@
 /**
  * @file src/features/camera/modes/FollowCamera.tsx
- * @description Smooth follow camera mode.
- *
- * Follows a target entity using exponential damping (framerate-independent).
- * Position and look-at are computed each frame from the target's position
- * and the follow config offset.
- *
- * ARCHITECTURE NOTE: This component reads the target from world state.
- * It does NOT hold state — it reads refs and mutates the camera imperatively.
+ * @description AAA Third-Person camera mode. Smoothly follows the player and orbits based on mouse input.
  */
 
-import { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { damp } from '@shared/utils/math';
 import { useCameraStore } from '../camera.store';
 import { useCameraShake } from '../hooks/useCameraShake';
-
 import { usePlayerStore } from '@/features/player/player.store';
 
-// ── Scratch objects — allocated once, reused every frame ──────────────────────
 const _targetPos = new THREE.Vector3();
-const _desiredPos = new THREE.Vector3();
-const _currentPos = new THREE.Vector3();
-const _lookAtTarget = new THREE.Vector3();
-const _offsetWorld = new THREE.Vector3();
+const _idealOffset = new THREE.Vector3();
+const _idealPos = new THREE.Vector3();
 
-// ── Component ─────────────────────────────────────────────────────────────────
-
-/**
- * Follow Camera — renders null, drives camera via useFrame.
- * Mount inside Canvas as a child of CameraController.
- */
-export function FollowCamera(): null {
-  const { camera } = useThree();
+export function FollowCamera(): React.ReactElement | null {
+  const { camera, gl } = useThree();
   const { applyShake } = useCameraShake();
-  const followConfig = useCameraStore((s) => s.followConfig);
   const playerPos = usePlayerStore((s) => s.position);
+  const followConfig = useCameraStore((s) => s.followConfig);
 
-  // Current smoothed position and look-at (initialized from camera)
   const smoothedPos = useRef(camera.position.clone());
-  const smoothedLookAt = useRef(new THREE.Vector3(0, 0, 0));
+  const smoothedTarget = useRef(new THREE.Vector3(0, 0, 0));
+
+  // Mouse rotation state
+  const angles = useRef({ phi: Math.PI / 8, theta: 0 }); // elevation, azimuth
+  const isDragging = useRef(false);
+
+  useEffect(() => {
+    const handlePointerDown = () => (isDragging.current = true);
+    const handlePointerUp = () => (isDragging.current = false);
+    const handlePointerMove = (e: PointerEvent) => {
+      // In a real AAA game, we'd use PointerLock API. 
+      // For portfolio, drag to rotate or lock on click.
+      if (isDragging.current || document.pointerLockElement) {
+        angles.current.theta -= e.movementX * 0.005;
+        angles.current.phi -= e.movementY * 0.005;
+        // Clamp elevation
+        angles.current.phi = Math.max(-Math.PI / 4, Math.min(Math.PI / 3, angles.current.phi));
+      }
+    };
+
+    const canvas = gl.domElement;
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointermove', handlePointerMove);
+
+    return () => {
+      canvas.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointermove', handlePointerMove);
+    };
+  }, [gl.domElement]);
 
   useFrame((_, delta) => {
-    // ── Resolve target position ────────────────────────────────────────────────
-    _targetPos.set(playerPos.x, playerPos.y, playerPos.z);
+    _targetPos.set(playerPos.x, playerPos.y + 1.5, playerPos.z); // Focus on head/shoulders
 
-    // ── Compute desired camera position ───────────────────────────────────────
-    const { offset, positionLag, rotationLag } = followConfig;
-    _offsetWorld.set(offset.x, offset.y, offset.z);
-    _desiredPos.copy(_targetPos).add(_offsetWorld);
+    // Calculate ideal camera offset based on spherical coordinates
+    const radius = 6; // distance from player
+    const { phi, theta } = angles.current;
+    
+    _idealOffset.x = radius * Math.cos(phi) * Math.sin(theta);
+    _idealOffset.y = radius * Math.sin(phi);
+    _idealOffset.z = radius * Math.cos(phi) * Math.cos(theta);
 
-    // ── Smooth position with damp (framerate-independent) ─────────────────────
-    _currentPos.copy(smoothedPos.current);
-    _currentPos.x = damp(_currentPos.x, _desiredPos.x, positionLag, delta);
-    _currentPos.y = damp(_currentPos.y, _desiredPos.y, positionLag, delta);
-    _currentPos.z = damp(_currentPos.z, _desiredPos.z, positionLag, delta);
-    smoothedPos.current.copy(_currentPos);
+    _idealPos.copy(_targetPos).add(_idealOffset);
 
-    // ── Smooth look-at ────────────────────────────────────────────────────────
-    _lookAtTarget.x = damp(smoothedLookAt.current.x, _targetPos.x, rotationLag, delta);
-    _lookAtTarget.y = damp(smoothedLookAt.current.y, _targetPos.y + 1, rotationLag, delta);
-    _lookAtTarget.z = damp(smoothedLookAt.current.z, _targetPos.z, rotationLag, delta);
-    smoothedLookAt.current.copy(_lookAtTarget);
+    // Floor collision - simple clamp
+    if (_idealPos.y < 0.5) _idealPos.y = 0.5;
 
-    // ── Apply camera shake ────────────────────────────────────────────────────
-    applyShake(_currentPos, delta);
+    // Smooth position and target
+    smoothedPos.current.lerp(_idealPos, 1 - Math.exp(-followConfig.positionLag * delta));
+    smoothedTarget.current.lerp(_targetPos, 1 - Math.exp(-followConfig.rotationLag * delta));
 
-    // ── Write to camera ───────────────────────────────────────────────────────
-    camera.position.copy(_currentPos);
-    camera.lookAt(_lookAtTarget);
+    camera.position.copy(smoothedPos.current);
+    camera.lookAt(smoothedTarget.current);
+
+    applyShake(camera.position, delta);
   });
 
   return null;

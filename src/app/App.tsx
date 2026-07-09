@@ -25,6 +25,8 @@ import { performanceProfile } from '@config/performance';
 import { InteractionPrompt } from '@/ui/hud/InteractionPrompt';
 import { CinematicOverlay } from '@/ui/hud/CinematicOverlay';
 import { TerminalWindow } from '@/ui/hud/TerminalWindow';
+import { HUDOverlay } from '@/ui/hud/HUDOverlay';
+import { WorldMap } from '@/ui/hud/WorldMap';
 
 import { ApplicationShell } from '@/ui/apps/ApplicationShell';
 import { ErrorBoundary } from '@/ui/system';
@@ -87,6 +89,8 @@ export function App(): React.ReactElement {
       <SceneTransition />
       <DebugOverlay />
       <InteractionPrompt />
+      <HUDOverlay />
+      <WorldMap />
       <CinematicOverlay />
       <TerminalWindow />
       <Suspense fallback={<SkeletonLoader height="100vh" />}>

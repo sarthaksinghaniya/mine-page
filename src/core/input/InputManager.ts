@@ -11,6 +11,7 @@ export interface InputActionState {
   jump: boolean;
   sprint: boolean;
   interact: boolean;
+  toggleMap: boolean;
 }
 
 class InputManagerClass {
@@ -22,6 +23,7 @@ class InputManagerClass {
     jump: false,
     sprint: false,
     interact: false,
+    toggleMap: false,
   };
 
   private readonly keyMap: Record<string, keyof InputActionState> = {
@@ -37,6 +39,7 @@ class InputManagerClass {
     ShiftLeft: 'sprint',
     ShiftRight: 'sprint',
     KeyE: 'interact',
+    KeyM: 'toggleMap',
   };
 
   constructor() {

@@ -26,7 +26,9 @@ import { VehicleBase, VehicleManager } from '@/features/vehicles';
 import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
 import { PostProcessing } from './PostProcessing';
-import { Environment, BakeShadows } from '@react-three/drei';
+import { Environment, BakeShadows, Sky } from '@react-three/drei';
+import { WaterBody } from './WaterBody';
+import { VegetationInstancer } from './VegetationInstancer';
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -140,9 +142,23 @@ export function WorldRoot(): React.ReactElement {
 
   return (
     <Physics gravity={[0, -20, 0]}>
+      <WaterBody />
       {/* Global Fog and Environment */}
-      <fogExp2 attach="fog" args={['#05050a', 0.015]} />
-      <Environment preset="night" background blur={0.8} />
+      <fogExp2 attach="fog" args={['#87CEEB', 0.003]} />
+      <Sky sunPosition={[100, 20, 100]} turbidity={0.1} rayleigh={0.5} mieCoefficient={0.005} mieDirectionalG={0.8} />
+      <Environment preset="city" />
+      <ambientLight intensity={0.4} />
+      <directionalLight 
+        castShadow 
+        position={[100, 200, 100]} 
+        intensity={1.5} 
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-left={-200}
+        shadow-camera-right={200}
+        shadow-camera-top={200}
+        shadow-camera-bottom={-200}
+        shadow-camera-far={500}
+      />
       <BakeShadows />
       <PostProcessing />
 
@@ -191,6 +207,7 @@ export function WorldRoot(): React.ReactElement {
 
         {/* Foliage and environment props */}
         <InstancedProps />
+        <VegetationInstancer />
 
         {/* Player physical body */}
         <PlayerPhysicsController />
@@ -198,10 +215,7 @@ export function WorldRoot(): React.ReactElement {
         {/* Floor boundaries collider base */}
         <RigidBody type="fixed" position={[0, -0.55, 0]} friction={1} name="ground">
           <CuboidCollider args={[600, 0.5, 600]} />
-          <gridHelper
-            args={[1200, 120, '#00e5f0', '#0a0a14']}
-            position={[0, 0.5, 0]}
-          />
+
         </RigidBody>
       </group>
     </Physics>
