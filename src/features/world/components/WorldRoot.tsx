@@ -30,6 +30,12 @@ import { Environment, BakeShadows, Sky } from '@react-three/drei';
 import { WaterBody } from './WaterBody';
 import { VegetationInstancer } from './VegetationInstancer';
 import { VillageSquare } from './VillageSquare';
+import { VillageProps } from './VillageProps';
+import { AIResearchDistrict } from './AIResearchDistrict';
+import { ProjectsDistrict } from './ProjectsDistrict';
+import { CollectibleManager } from './CollectibleManager';
+import { GuideNPC } from '@/features/npc/components/GuideNPC';
+import { EnvironmentalVFX } from './EnvironmentalVFX';
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -206,7 +212,20 @@ export function WorldRoot(): React.ReactElement {
         {/* Interconnecting roads */}
         <RoadSystem />
         
-        {activeZoneIds.includes('spawn') && <VillageSquare />}
+        {activeZoneIds.includes('spawn') && (
+          <>
+            <VillageSquare />
+            <VillageProps />
+            <GuideNPC />
+          </>
+        )}
+
+        {activeZoneIds.includes('ai-research') && <AIResearchDistrict />}
+        
+        {activeZoneIds.includes('projects') && <ProjectsDistrict />}
+
+        <CollectibleManager />
+        <EnvironmentalVFX />
 
         {/* Foliage and environment props */}
         <InstancedProps />
