@@ -14,6 +14,7 @@ import { MinimapOverlay } from './components/MinimapOverlay';
 import { BottomHotbar } from './components/BottomHotbar';
 import { ControlsHelp } from './components/ControlsHelp';
 import { WorldTitleBanner } from './components/WorldTitleBanner';
+import { DialogueOverlay } from './components/DialogueOverlay';
 
 export function HUDOverlay(): React.ReactElement {
   const [isVisible, setIsVisible] = useState(true);
@@ -65,6 +66,9 @@ export function HUDOverlay(): React.ReactElement {
         <div className="absolute right-6 bottom-7">
           <ControlsHelp />
         </div>
+
+        {/* Dialogue Overlay */}
+        <DialogueOverlay />
       </div>
     </div>
   );

@@ -8,12 +8,14 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Html } from '@react-three/drei';
 import { usePlayerStore } from '@/features/player/player.store';
+import { useNpcStore } from '@/features/npc/npc.store';
+import { DialogueManager } from '@/features/npc/DialogueManager';
 
 export function GuideNPC(): React.ReactElement {
   const groupRef = useRef<THREE.Group>(null);
   const playerPos = usePlayerStore((s) => s.position);
+  const interactionState = useNpcStore((s) => s.interactionState);
   const [near, setNear] = useState(false);
-  const [talking, setTalking] = useState(false);
 
   // Hardcoded spawn position for guide
   const spawnPos = new THREE.Vector3(0, 0, 5);
@@ -49,31 +51,12 @@ export function GuideNPC(): React.ReactElement {
       </mesh>
 
       {/* Interaction UI */}
-      {near && !talking && (
+      {near && interactionState === 'idle' && (
         <Html position={[0, 3.5, 0]} center sprite>
           <div className="bg-black/80 backdrop-blur text-white text-sm px-3 py-1.5 rounded-lg border border-white/20 shadow-xl pointer-events-auto cursor-pointer"
-               onClick={() => { setTalking(true); }}>
+               onClick={() => { DialogueManager.startConversation('guide-npc'); }}>
             <span className="font-bold text-yellow-400 mr-2">E</span>
             Talk to Guide
-          </div>
-        </Html>
-      )}
-
-      {/* Dialogue UI */}
-      {talking && (
-        <Html position={[0, 4, 0]} center sprite>
-          <div className="bg-black/90 backdrop-blur p-4 rounded-xl border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.5)] min-w-[250px]">
-            <h4 className="text-blue-400 font-bold mb-2">Portfolio Guide</h4>
-            <p className="text-gray-200 text-sm mb-3">
-              Welcome to the Developer's Portfolio! Explore the world to see my projects, skills, and experience. 
-              Follow the stone paths to visit different districts.
-            </p>
-            <button 
-              className="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded transition-colors w-full"
-              onClick={() => { setTalking(false); }}
-            >
-              Let's go!
-            </button>
           </div>
         </Html>
       )}
