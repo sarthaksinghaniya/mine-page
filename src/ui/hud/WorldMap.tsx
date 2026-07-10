@@ -17,7 +17,7 @@ export function WorldMap(): React.ReactElement | null {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => { window.removeEventListener('keydown', handleKeyDown); };
   }, []);
 
   if (!isOpen) return null;
@@ -29,7 +29,7 @@ export function WorldMap(): React.ReactElement | null {
         <div className="px-6 py-4 border-b border-[var(--color-border)] flex justify-between items-center bg-[var(--color-bg-elevated)]">
           <h2 className="text-xl font-bold tracking-widest text-[var(--color-text-primary)]">WORLD MAP</h2>
           <button 
-            onClick={() => setIsOpen(false)}
+            onClick={() => { setIsOpen(false); }}
             className="w-8 h-8 rounded-full bg-[var(--color-border)] flex items-center justify-center hover:bg-[var(--color-primary-500)] text-[var(--color-text-primary)] transition-colors"
           >
             ✕

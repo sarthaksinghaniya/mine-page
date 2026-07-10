@@ -20,7 +20,7 @@ import { AnimatedPlayerModel } from './AnimatedPlayerModel';
 // ── Physics parameters ────────────────────────────────────────────────────────
 
 const ACCELERATION = 30; // units/s²
-const JUMP_FORCE = 7; // velocity impulse
+const JUMP_FORCE = 12; // stronger velocity impulse for punchy jump
 
 export function PlayerPhysicsController(): React.ReactElement {
   const bodyRef = useRef<RapierRigidBody>(null);
@@ -124,9 +124,10 @@ export function PlayerPhysicsController(): React.ReactElement {
     const targetVelX = moveVector.x * speedLimit;
     const targetVelZ = moveVector.z * speedLimit;
 
-    // Apply linear acceleration and friction drag
-    velocity.x += (targetVelX - velocity.x) * ACCELERATION * delta;
-    velocity.z += (targetVelZ - velocity.z) * ACCELERATION * delta;
+    // Apply linear acceleration and friction drag with smoother interpolation
+    const friction = onGround ? 15.0 : 2.0; // higher friction on ground, less in air
+    velocity.x = THREE.MathUtils.lerp(velocity.x, targetVelX, 1.0 - Math.exp(-friction * delta));
+    velocity.z = THREE.MathUtils.lerp(velocity.z, targetVelZ, 1.0 - Math.exp(-friction * delta));
 
     // ── 3. Jumping Mechanics ─────────────────────────────────────────────────
     if (actions.jump && !isPlayerFrozen) {
@@ -176,6 +177,7 @@ export function PlayerPhysicsController(): React.ReactElement {
       ref={bodyRef}
       colliders={false}
       enabledRotations={[false, false, false]} // lock axes to prevent capsule tipping
+      gravityScale={2.5}
       position={[playerStorePos.x, playerStorePos.y, playerStorePos.z]}
       name="player"
     >

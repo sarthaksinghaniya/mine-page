@@ -26,7 +26,7 @@ export const AudioZones = {
     // Trigger Howler ambient cross-fade transitions
     if (previousAmbience && AudioManager.isRegistered(previousAmbience)) {
       AudioManager.fade(previousAmbience, 0.6, 0.0, 1500);
-      setTimeout(() => AudioManager.stop(previousAmbience), 1500);
+      setTimeout(() => { AudioManager.stop(previousAmbience); }, 1500);
     }
 
     if (AudioManager.isRegistered(nextAmbience)) {

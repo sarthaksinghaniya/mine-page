@@ -56,10 +56,7 @@ export function RendererConfig({ config }: RendererConfigProps): null {
       resolved.outputColorSpace === 'srgb' ? THREE.SRGBColorSpace : THREE.LinearSRGBColorSpace;
 
     // ── Shadows ───────────────────────────────────────────────────────────────
-    gl.shadowMap.enabled = resolved.shadowsEnabled && resolved.shadowQuality !== 'off';
-    if (resolved.shadowQuality !== 'off') {
-      gl.shadowMap.type = SHADOW_MAP_TYPE[resolved.shadowQuality];
-    }
+    gl.shadowMap.enabled = false;
 
     // ── Background ────────────────────────────────────────────────────────────
     scene.background = new THREE.Color(resolved.backgroundColor);

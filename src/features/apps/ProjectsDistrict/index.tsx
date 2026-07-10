@@ -64,19 +64,19 @@ export default function ProjectsDistrictComponent() {
             type="text" 
             placeholder="Search projects..." 
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => { setSearch(e.target.value); }}
             style={{ padding: '8px 12px', backgroundColor: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,229,240,0.3)', color: '#fff', borderRadius: '4px' }}
           />
           <select 
             value={filterLang} 
-            onChange={(e) => setFilterLang(e.target.value)}
+            onChange={(e) => { setFilterLang(e.target.value); }}
             style={{ padding: '8px 12px', backgroundColor: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,229,240,0.3)', color: '#fff', borderRadius: '4px' }}
           >
             {languages.map(lang => <option key={lang} value={lang}>{lang}</option>)}
           </select>
           <select 
             value={sortBy} 
-            onChange={(e) => setSortBy(e.target.value as 'stars' | 'updated')}
+            onChange={(e) => { setSortBy(e.target.value as 'stars' | 'updated'); }}
             style={{ padding: '8px 12px', backgroundColor: 'rgba(0,0,0,0.5)', border: '1px solid rgba(0,229,240,0.3)', color: '#fff', borderRadius: '4px' }}
           >
             <option value="stars">Most Stars</option>
@@ -88,7 +88,7 @@ export default function ProjectsDistrictComponent() {
       {loading ? (
         <SkeletonLoader count={6} height="150px" />
       ) : error ? (
-        <ErrorState message={error} onRetry={() => window.location.reload()} />
+        <ErrorState message={error} onRetry={() => { window.location.reload(); }} />
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px', overflowY: 'auto', paddingRight: '8px' }}>
           {filteredRepos.map(repo => (

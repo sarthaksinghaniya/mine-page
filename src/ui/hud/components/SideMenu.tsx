@@ -19,25 +19,25 @@ export function SideMenu(): React.ReactElement {
   ];
 
   return (
-    <div className="flex flex-col h-full justify-center pointer-events-auto mt-16 pl-4">
-      <div className="bg-slate-900/40 backdrop-blur-2xl rounded-2xl py-4 px-2 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-white/10 w-56 transition-all duration-300">
-        <div className="flex flex-col gap-2">
+    <div className="pointer-events-auto relative z-20 flex h-full flex-col justify-center pl-4">
+      <div className="w-[290px] rounded-[24px] border border-white/10 bg-slate-900/78 px-4 py-5 shadow-[0_18px_45px_rgba(0,0,0,0.3)] backdrop-blur-md">
+        <div className="flex flex-col gap-3">
           {items.map((item) => (
             <button
               key={item.id}
-              className={`flex items-center gap-4 px-4 py-3 w-full rounded-xl text-left transition-all duration-300 relative group overflow-hidden ${
+              className={`group relative flex w-full items-center gap-4 overflow-hidden rounded-2xl px-4 py-4 text-left transition-all duration-300 ${
                 item.active 
-                  ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/10 text-white shadow-[inset_0_0_20px_rgba(6,182,212,0.15)] border border-cyan-500/30' 
-                  : 'text-slate-300 hover:text-white hover:bg-white/5 border border-transparent'
+                  ? 'border border-sky-400/55 bg-sky-500/20 text-white shadow-[0_0_0_1px_rgba(56,189,248,0.18),inset_0_0_20px_rgba(56,189,248,0.12)]'
+                  : 'border border-transparent text-slate-200 hover:border-white/5 hover:bg-white/5 hover:text-white'
               }`}
             >
               {item.active && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-3/4 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.9)] rounded-r-full" />
+                <div className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.8)]" />
               )}
-              <span className={`transition-transform duration-300 group-hover:scale-110 ${item.active ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]' : ''}`}>
+              <span className={`transition-transform duration-300 group-hover:scale-110 ${item.active ? 'text-sky-300' : 'text-slate-300'}`}>
                 {item.icon}
               </span>
-              <span className={`font-medium text-sm tracking-wide ${item.active ? 'drop-shadow-md font-semibold' : ''}`}>
+              <span className={`text-[16px] tracking-wide ${item.active ? 'font-bold' : 'font-medium'}`}>
                 {item.label}
               </span>
             </button>
@@ -45,9 +45,9 @@ export function SideMenu(): React.ReactElement {
         </div>
       </div>
       
-      <div className="mt-8 pl-4 flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity">
-        <kbd className="bg-slate-800/80 border border-slate-600 text-slate-200 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-widest shadow-[0_2px_4px_rgba(0,0,0,0.5)]">TAB</kbd>
-        <span className="text-slate-300 text-xs font-medium tracking-wide">Toggle Menu</span>
+      <div className="mt-3 flex items-center gap-3 pl-4 opacity-90 transition-opacity hover:opacity-100">
+        <kbd className="rounded-md border border-white/10 bg-slate-800 px-2.5 py-1 text-[12px] font-bold text-slate-100 shadow-md">TAB</kbd>
+        <span className="text-[18px] font-semibold tracking-wide text-white">Open Menu</span>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@
 import { appEvents } from './app.events';
 import type { PortfolioApp, AppManagerState } from './app.types';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
-import { DISTRICT_BUILDINGS } from '@core/data/district.data';
+import { DISTRICTS_LIST } from '@/features/buildings/district.types';
 import { ApplicationAudioManager } from '@features/audio/ApplicationAudioManager';
 import { useCameraStore } from '@features/camera/camera.store';
 
@@ -82,8 +82,17 @@ class AppManagerClass {
       zoom: camStore.zoom,
     };
 
-    const building = Object.values(DISTRICT_BUILDINGS).find(b => b.appId === appId);
-    if (building) {
+    let targetLot = null;
+    for (const district of DISTRICTS_LIST) {
+      for (const lot of district.lots) {
+        if (lot.appId === appId) {
+          targetLot = lot;
+        }
+      }
+    }
+
+    if (targetLot) {
+      const entryPos = targetLot.position;
       CinematicDirector.play({
         id: `open-${appId}`,
         name: `Open App ${appId}`,
@@ -93,9 +102,9 @@ class AppManagerClass {
           { time: 0, type: 'player', player: { frozen: true } },
           { time: 0, type: 'screen', screen: { fadeOpacity: 0, letterbox: true } },
           // Start camera outside
-          { time: 0, type: 'camera', camera: { position: { x: building.entryPosition.x, y: building.entryPosition.y + 2, z: building.entryPosition.z + 8 }, lookAt: building.entryPosition } },
+          { time: 0, type: 'camera', camera: { position: { x: entryPos.x, y: entryPos.y + 2, z: entryPos.z + 25 }, lookAt: entryPos } },
           // Push camera inside the building slowly
-          { time: 2.5, type: 'camera', camera: { position: { x: building.entryPosition.x, y: building.entryPosition.y + 1, z: building.entryPosition.z - 1 }, lookAt: { x: building.entryPosition.x, y: building.entryPosition.y + 1, z: building.entryPosition.z - 10 } } },
+          { time: 2.5, type: 'camera', camera: { position: { x: entryPos.x, y: entryPos.y + 1, z: entryPos.z + 5 }, lookAt: { x: entryPos.x, y: entryPos.y + 1, z: entryPos.z - 10 } } },
           // Fade UI in naturally
           { time: 3.0, type: 'screen', screen: { fadeOpacity: 0.6, letterbox: false } }
         ]

@@ -90,7 +90,7 @@ export function TerrainChunk({ zone }: TerrainChunkProps): React.ReactElement {
         pos[i++] = localZ;
 
         // --- 5. COLOR BLENDING ---
-        let vertexColor = new THREE.Color().copy(COLORS.grass);
+        const vertexColor = new THREE.Color().copy(COLORS.grass);
 
         // Slope calculation for cliffs
         const eps = 0.5;

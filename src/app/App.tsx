@@ -15,7 +15,6 @@ import { LightingSystem } from '@features/lighting';
 import { SceneManager, SceneTransition, useSceneStore } from '@features/scene';
 import {
   DebugOverlay,
-  useDebugMetrics,
   InteractionDebug,
   CinematicDebug,
   VehicleDebug,
@@ -29,17 +28,16 @@ import { HUDOverlay } from '@/ui/hud/HUDOverlay';
 import { WorldMap } from '@/ui/hud/WorldMap';
 
 import { ApplicationShell } from '@/ui/apps/ApplicationShell';
+import { PortfolioModal } from '@features/portfolio/components/PortfolioModal';
 import { ErrorBoundary } from '@/ui/system';
 import { SkeletonLoader } from '@/ui/components/SharedComponents';
 
+import { QuestManager } from '@/features/gameplay/systems/QuestManager';
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
 // ── Inside-Canvas Controller ──────────────────────────────────────────────────
 
 function CanvasEngineController(): React.ReactElement {
-  // Drives real-time benchmarks (FPS, heap, drawcalls)
-  useDebugMetrics();
-
   return (
     <>
       <RendererConfig />
@@ -48,12 +46,15 @@ function CanvasEngineController(): React.ReactElement {
       <SceneManager />
       <DayNightCycle />
       <WeatherSystem />
+      <QuestManager />
       <InteractionDebug />
       <CinematicDebug />
       <VehicleDebug />
     </>
   );
 }
+
+import { registerAllApps } from '@features/apps';
 
 // ── Root App Component ────────────────────────────────────────────────────────
 
@@ -62,6 +63,7 @@ export function App(): React.ReactElement {
 
   // Trigger loading initial world scene
   useEffect(() => {
+    registerAllApps();
     loadScene('world');
   }, [loadScene]);
 
@@ -93,6 +95,7 @@ export function App(): React.ReactElement {
       <WorldMap />
       <CinematicOverlay />
       <TerminalWindow />
+      <PortfolioModal />
       <Suspense fallback={<SkeletonLoader height="100vh" />}>
         <ApplicationShell />
       </Suspense>

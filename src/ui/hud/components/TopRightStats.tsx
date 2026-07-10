@@ -13,43 +13,62 @@ export function TopRightStats(): React.ReactElement {
   const energy = useGameplayStore((s) => s.energy);
   const maxEnergy = useGameplayStore((s) => s.maxEnergy);
 
-  const Badge = ({ icon, value, colorClass, barProgress }: any) => (
-    <div className={`flex items-center bg-[rgba(20,25,35,0.7)] backdrop-blur-md rounded-lg p-1.5 shadow-lg border border-white/10 pointer-events-auto`}>
-      <div className={`flex items-center gap-2 pl-2 pr-3 relative overflow-hidden ${barProgress ? 'w-32' : ''}`}>
-        {barProgress && (
-          <div 
-            className={`absolute left-0 top-0 bottom-0 opacity-20 ${colorClass}`} 
-            style={{ width: `${barProgress}%` }} 
+  const Badge = ({
+    icon,
+    value,
+    textColor,
+    bgColor,
+    barProgress,
+  }: {
+    icon: React.ReactNode;
+    value: string;
+    textColor: string;
+    bgColor: string;
+    barProgress?: number;
+  }) => (
+    <div
+      className={`pointer-events-auto flex items-center overflow-hidden rounded-2xl border border-white/10 ${bgColor} shadow-[0_14px_30px_rgba(0,0,0,0.25)] backdrop-blur-md`}
+    >
+      <div className={`relative flex h-[50px] min-w-[104px] items-center gap-2 px-4 ${barProgress ? 'pr-3' : 'pr-3'}`}>
+        {barProgress ? (
+          <div
+            className="absolute inset-y-0 left-0 bg-white/15"
+            style={{ width: `${barProgress}%` }}
           />
-        )}
-        <span className={`drop-shadow-md z-10 ${colorClass}`}>{icon}</span>
-        <span className="text-white font-bold text-sm tracking-wide z-10">{value}</span>
+        ) : null}
+        <span className={`relative z-10 ${textColor}`}>{icon}</span>
+        <span className="relative z-10 text-[20px] font-extrabold tracking-tight text-white">
+          {value}
+        </span>
       </div>
-      <button className="bg-white/10 hover:bg-white/20 p-1 rounded transition-colors ml-1 z-10">
-        <Plus size={14} className="text-white" />
+      <button className="flex h-[50px] w-[42px] items-center justify-center border-l border-white/10 bg-black/15 transition-colors hover:bg-black/30">
+        <Plus size={18} className="text-white" />
       </button>
     </div>
   );
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
       <Badge 
-        icon={<Star size={16} fill="currentColor" />} 
+        icon={<Star size={18} fill="currentColor" />} 
         value={stars.toLocaleString()} 
-        colorClass="text-yellow-400" 
+        textColor="text-yellow-400"
+        bgColor="bg-slate-900/78"
       />
       <Badge 
-        icon={<Diamond size={16} fill="currentColor" />} 
+        icon={<Diamond size={18} fill="currentColor" />} 
         value={diamonds.toLocaleString()} 
-        colorClass="text-cyan-400" 
+        textColor="text-cyan-400"
+        bgColor="bg-slate-900/78"
       />
       <Badge 
-        icon={<Zap size={16} fill="currentColor" />} 
+        icon={<Zap size={18} fill="currentColor" />} 
         value={`${energy}/${maxEnergy}`} 
-        colorClass="text-emerald-400 bg-emerald-500/20" 
+        textColor="text-white" 
+        bgColor="bg-emerald-500/90" 
         barProgress={(energy / maxEnergy) * 100}
       />
-      <button className="bg-[rgba(20,25,35,0.7)] hover:bg-[rgba(30,35,45,0.8)] backdrop-blur-md p-2.5 rounded-lg border border-white/10 transition-colors pointer-events-auto shadow-lg ml-2">
+      <button className="pointer-events-auto flex h-[50px] w-[46px] items-center justify-center rounded-2xl border border-white/10 bg-slate-900/78 shadow-[0_14px_30px_rgba(0,0,0,0.25)] backdrop-blur-md transition-colors hover:bg-slate-800/90">
         <Settings size={20} className="text-white" />
       </button>
     </div>

@@ -5,7 +5,7 @@
 
 import { eventBus } from '@core/events/EventBus';
 import type { InteractableConfig } from './interactable.types';
-import { DISTRICT_BUILDINGS } from '@core/data/district.data';
+import { DISTRICTS_LIST } from '@/features/buildings/district.types';
 import { AppManager } from '@core/apps/AppManager';
 
 class InteractionManagerClass {
@@ -18,25 +18,27 @@ class InteractionManagerClass {
   }
 
   private loadBuildings() {
-    for (const building of Object.values(DISTRICT_BUILDINGS)) {
-      this.register({
-        id: building.id,
-        name: building.id,
-        position: building.entryPosition,
-        radius: building.interactionRadius,
-        enabled: true,
-        priority: 10,
-        type: 'building',
-        onFocus: () => {
-          // Additional visual focus if needed
-        },
-        onBlur: () => {
-          // Additional visual blur if needed
-        },
-        onInteract: () => {
-          // Handled generically in interact() now, but could be specific
+    for (const district of DISTRICTS_LIST) {
+      for (const lot of district.lots) {
+        if (lot.appId || lot.interior) {
+          this.register({
+            id: lot.id,
+            name: lot.name,
+            position: lot.position,
+            radius: lot.interactRadius,
+            enabled: true,
+            priority: 10,
+            type: 'building',
+            onFocus: () => {},
+            onBlur: () => {},
+            onInteract: () => {
+              if (lot.appId) {
+                AppManager.open(lot.appId);
+              }
+            }
+          });
         }
-      });
+      }
     }
   }
 
@@ -135,12 +137,7 @@ class InteractionManagerClass {
         this.cooldownActive = false;
       }, 1000);
 
-      const building = DISTRICT_BUILDINGS[target.id];
-      if (building) {
-        AppManager.open(building.appId);
-      } else {
-        target.onInteract?.();
-      }
+      target.onInteract?.();
     }
   }
 }

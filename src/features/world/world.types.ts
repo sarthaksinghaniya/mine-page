@@ -4,7 +4,7 @@
  */
 
 import type { ZoneTheme } from './zone.types';
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 export type { ZoneTheme };
 
@@ -27,6 +27,8 @@ export interface ZoneDefinition {
 
 // ── World State ───────────────────────────────────────────────────────────────
 
+export type QualityPreset = 'LOW' | 'MEDIUM' | 'HIGH';
+
 export interface WorldState {
   /** All zone definitions in the game world */
   zones: ZoneDefinition[];
@@ -36,4 +38,6 @@ export interface WorldState {
   focusedZoneId: ZoneId | null;
   /** Status map for each zone */
   zoneStatuses: Record<ZoneId, ZoneStatus>;
+  /** Device graphical quality preset */
+  quality: QualityPreset;
 }

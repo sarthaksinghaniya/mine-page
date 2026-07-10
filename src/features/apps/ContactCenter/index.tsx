@@ -7,7 +7,7 @@ export default function ContactCenterComponent() {
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setCopied(label);
-    setTimeout(() => setCopied(null), 2000);
+    setTimeout(() => { setCopied(null); }, 2000);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -16,7 +16,7 @@ export default function ContactCenterComponent() {
     // Simulate network request
     setTimeout(() => {
       setFormStatus('success');
-      setTimeout(() => setFormStatus('idle'), 3000);
+      setTimeout(() => { setFormStatus('idle'); }, 3000);
     }, 1500);
   };
 
@@ -109,7 +109,7 @@ export default function ContactCenterComponent() {
                 </div>
               </div>
               <button 
-                onClick={() => handleCopy(link.value, link.label)}
+                onClick={() => { handleCopy(link.value, link.label); }}
                 style={{
                   padding: '8px 16px',
                   backgroundColor: 'transparent',

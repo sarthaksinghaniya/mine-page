@@ -6,7 +6,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type * as THREE from 'three';
-import { Sparkles, MeshReflectorMaterial } from '@react-three/drei';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { DistrictScene } from '../components/DistrictScene';
 import { AppManager } from '@core/apps/AppManager';
@@ -70,7 +69,6 @@ export function SpawnPlazaScene(): React.ReactElement {
 
   return (
     <DistrictScene id="spawn">
-      {/* ── Centerpiece Holographic Monument ── */}
       <group position={[0, 4.0, 0]}>
         <mesh ref={monumentRef}>
           <cylinderGeometry args={[2.0, 2.0, 8, 6, 1, true]} />
@@ -83,52 +81,25 @@ export function SpawnPlazaScene(): React.ReactElement {
             opacity={0.6}
           />
         </mesh>
-        {/* Glow point light inside monument */}
-        <pointLight intensity={5.0} color="#00e5f0" distance={40} />
-        {/* Holographic data particles floating around the monument */}
-        <Sparkles 
-          count={200} 
-          scale={12} 
-          size={4} 
-          speed={0.4} 
-          opacity={0.8} 
-          color="#00e5f0" 
-        />
+        <pointLight intensity={3.0} color="#00e5f0" distance={40} />
       </group>
 
-      {/* ── Dynamic Wet Reflection Floor ── */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
         <planeGeometry args={[100, 100]} />
-        <MeshReflectorMaterial
-          blur={[300, 100]}
-          resolution={1024}
-          mixBlur={1}
-          mixStrength={40}
-          roughness={1}
-          depthScale={1.2}
-          minDepthThreshold={0.4}
-          maxDepthThreshold={1.4}
-          color="#15151a"
-          metalness={0.5}
-          mirror={1}
-        />
+        <meshStandardMaterial color="#1f2937" roughness={1} metalness={0} />
       </mesh>
 
-      {/* ── Animated Water Fountain ── */}
       <group position={[0, 0.1, -18]}>
-        {/* Fountain pool base */}
         <mesh receiveShadow>
           <cylinderGeometry args={[8.0, 8.2, 0.4, 32]} />
           <meshStandardMaterial color="#1a1a24" roughness={0.9} />
         </mesh>
-        {/* Animated water columns */}
         <mesh ref={waterRef} position={[0, 1.2, 0]}>
           <cylinderGeometry args={[0.3, 0.3, 2.4, 8]} />
-          <meshBasicMaterial color="#00adc0" transparent opacity={0.7} />
+          <meshStandardMaterial color="#00adc0" transparent opacity={0.7} />
         </mesh>
       </group>
 
-      {/* ── Cyber Hedges & Planters ── */}
       <group position={[15, 0.5, 15]}>
         <mesh castShadow>
           <boxGeometry args={[12, 1.0, 3]} />

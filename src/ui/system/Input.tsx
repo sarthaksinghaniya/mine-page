@@ -3,7 +3,8 @@
  * @description Standardized input fields with cyberpunk styling.
  */
 
-import React, { InputHTMLAttributes, forwardRef } from 'react';
+import type { InputHTMLAttributes} from 'react';
+import React, { forwardRef } from 'react';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;

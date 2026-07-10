@@ -47,9 +47,9 @@ const defaultWeather: WeatherState = {
 export const useEnvironmentStore = create<EnvironmentStore>()(
   subscribeWithSelector((set) => ({
     // ── Initial State ──────────────────────────────────────────────────────────
-    sun: defaultSun,
+    sun: { ...defaultSun, timeOfDay: 0.45 },
     weather: defaultWeather,
-    cycleRunning: true,
+    cycleRunning: false,
     cycleSpeed: 60, // 1 game-day per 24 real minutes
 
     // ── Actions ────────────────────────────────────────────────────────────────

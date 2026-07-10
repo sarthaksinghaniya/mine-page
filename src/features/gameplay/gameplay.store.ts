@@ -4,6 +4,7 @@
  */
 
 import { create } from 'zustand';
+import { gameStats } from '../../../data/content';
 
 interface InventoryItem {
   id: string;
@@ -29,16 +30,20 @@ interface GameplayState {
   hotbar: (InventoryItem | null)[];
   activeSlot: number;
 
+  // Quests
+  visitedDistricts: string[];
+
   // Actions
   addXp: (amount: number) => void;
   addStars: (amount: number) => void;
   addDiamonds: (amount: number) => void;
   setActiveSlot: (index: number) => void;
+  visitDistrict: (id: string) => void;
 }
 
 export const useGameplayStore = create<GameplayState>((set) => ({
   xp: 12850,
-  level: 28,
+  level: gameStats.level,
   
   stars: 2450,
   diamonds: 860,
@@ -60,8 +65,9 @@ export const useGameplayStore = create<GameplayState>((set) => ({
     { id: 'torch', type: 'block', count: 64 },
   ],
   activeSlot: 0,
+  visitedDistricts: [],
   
-  addXp: (amount: number) => set((state) => {
+  addXp: (amount: number) => { set((state) => {
     const nextXp = state.xp + amount;
     const levelUpThreshold = 18000; // static for now based on image (12,850 / 18,000)
     
@@ -69,9 +75,17 @@ export const useGameplayStore = create<GameplayState>((set) => ({
       return { xp: nextXp - levelUpThreshold, level: state.level + 1 };
     }
     return { xp: nextXp };
-  }),
+  }); },
   
-  addStars: (amount: number) => set((state) => ({ stars: state.stars + amount })),
-  addDiamonds: (amount: number) => set((state) => ({ diamonds: state.diamonds + amount })),
-  setActiveSlot: (index: number) => set({ activeSlot: index }),
+  addStars: (amount: number) => { set((state) => ({ stars: state.stars + amount })); },
+  addDiamonds: (amount: number) => { set((state) => ({ diamonds: state.diamonds + amount })); },
+  setActiveSlot: (index: number) => { set({ activeSlot: index }); },
+  visitDistrict: (id: string) => { 
+    set((state) => {
+      if (!state.visitedDistricts.includes(id)) {
+        return { visitedDistricts: [...state.visitedDistricts, id] };
+      }
+      return state;
+    });
+  }
 }));

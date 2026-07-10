@@ -8,6 +8,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Html, useGLTF } from '@react-three/drei';
 import { useCharacterAsset } from '@/core/assets/AssetLoader';
+import { CanvasErrorBoundary } from '@/ui/system/CanvasErrorBoundary';
 
 // Assuming the user downloads Kenney / Quaternius assets to these paths:
 const ASSETS = {
@@ -21,31 +22,37 @@ const ASSETS = {
   lamp: '/assets/props/street_lamp.glb',
 };
 
-// Safe loader wrapper that returns null if the file doesn't exist yet
-function SafeModel({ path, position, rotation, scale = 1, fallbackContent }: { path: string, position: [number, number, number], rotation?: [number, number, number], scale?: number, fallbackContent?: React.ReactNode }) {
-  try {
-    const { scene } = useGLTF(path);
-    // Clone scene to allow multiple instances
-    const clone = React.useMemo(() => scene.clone(), [scene]);
-    return <primitive object={clone} position={position} rotation={rotation} scale={scale} castShadow receiveShadow />;
-  } catch (e) {
-    // If GLTF fails (e.g. user hasn't downloaded it yet), render fallback stylized primitive
-    return (
-      <group position={position} rotation={rotation} scale={scale}>
-        {fallbackContent || (
-          <mesh castShadow receiveShadow position={[0, 5, 0]}>
-            <boxGeometry args={[10, 10, 10]} />
-            <meshStandardMaterial color="#cbd5e1" wireframe />
-            <Html center position={[0, 6, 0]}>
-              <div className="bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
-                Missing Asset: {path.split('/').pop()}
-              </div>
-            </Html>
-          </mesh>
-        )}
-      </group>
-    );
-  }
+function SafeModelInner({ path, position, rotation, scale = 1 }: { path: string, position: [number, number, number], rotation?: [number, number, number], scale?: number }) {
+  const { scene } = useGLTF(path);
+  const clone = React.useMemo(() => scene.clone(), [scene]);
+  return <primitive object={clone} position={position} rotation={rotation} scale={scale} castShadow receiveShadow />;
+}
+
+function SafeModelFallback({ path, position, rotation, scale = 1, fallbackContent }: { path: string, position: [number, number, number], rotation?: [number, number, number], scale?: number, fallbackContent?: React.ReactNode }) {
+  return (
+    <group position={position} rotation={rotation} scale={scale}>
+      {fallbackContent || (
+        <mesh castShadow receiveShadow position={[0, 5, 0]}>
+          <boxGeometry args={[10, 10, 10]} />
+          <meshStandardMaterial color="#cbd5e1" wireframe />
+          <Html center position={[0, 6, 0]}>
+            <div className="bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
+              Missing Asset: {path.split('/').pop()}
+            </div>
+          </Html>
+        </mesh>
+      )}
+    </group>
+  );
+}
+
+// Safe loader wrapper that returns fallback if the file doesn't exist yet
+function SafeModel(props: { path: string, position: [number, number, number], rotation?: [number, number, number], scale?: number, fallbackContent?: React.ReactNode }) {
+  return (
+    <CanvasErrorBoundary fallback={<SafeModelFallback {...props} />}>
+      <SafeModelInner {...props} />
+    </CanvasErrorBoundary>
+  );
 }
 
 export function ProjectsDistrict(): React.ReactElement {

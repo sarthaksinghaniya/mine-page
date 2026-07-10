@@ -128,7 +128,7 @@ export const useCameraStore = create<CameraStore>()(
         elapsed: 0,
         easing,
         ...(onComplete ? { onComplete } : {}),
-      } as CameraTransition;
+      };
 
       // Apply GSAP values dynamically to our transition parameters
       const animObj = { progress: 0 };

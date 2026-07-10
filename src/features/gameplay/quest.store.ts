@@ -51,7 +51,7 @@ export const useQuestStore = create<QuestState>((set) => ({
   ],
   activeQuestId: 'main-tour',
 
-  completeTask: (questId, taskId) => set((state) => {
+  completeTask: (questId, taskId) => { set((state) => {
     const quests = state.quests.map(q => {
       if (q.id === questId) {
         const tasks = q.tasks.map(t => t.id === taskId ? { ...t, completed: true } : t);
@@ -61,13 +61,13 @@ export const useQuestStore = create<QuestState>((set) => ({
       return q;
     });
     return { quests };
-  }),
+  }); },
 
-  collectItem: (collectibleId) => set((state) => ({
+  collectItem: (collectibleId) => { set((state) => ({
     collectibles: state.collectibles.map(c => 
       c.id === collectibleId ? { ...c, collected: true } : c
     )
-  })),
+  })); },
 
-  setActiveQuest: (questId) => set({ activeQuestId: questId }),
+  setActiveQuest: (questId) => { set({ activeQuestId: questId }); },
 }));

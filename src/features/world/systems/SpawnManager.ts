@@ -11,7 +11,7 @@ export interface SpawnPoint {
 }
 
 const DEFAULT_SPAWN: SpawnPoint = {
-  position: { x: 0, y: 1.5, z: 0 },
+  position: { x: 0, y: 1.5, z: 12 },
   rotation: { yaw: 0, pitch: 0 },
 };
 

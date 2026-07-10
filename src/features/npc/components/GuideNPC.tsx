@@ -52,7 +52,7 @@ export function GuideNPC(): React.ReactElement {
       {near && !talking && (
         <Html position={[0, 3.5, 0]} center sprite>
           <div className="bg-black/80 backdrop-blur text-white text-sm px-3 py-1.5 rounded-lg border border-white/20 shadow-xl pointer-events-auto cursor-pointer"
-               onClick={() => setTalking(true)}>
+               onClick={() => { setTalking(true); }}>
             <span className="font-bold text-yellow-400 mr-2">E</span>
             Talk to Guide
           </div>
@@ -70,7 +70,7 @@ export function GuideNPC(): React.ReactElement {
             </p>
             <button 
               className="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded transition-colors w-full"
-              onClick={() => setTalking(false)}
+              onClick={() => { setTalking(false); }}
             >
               Let's go!
             </button>

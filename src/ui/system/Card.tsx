@@ -3,7 +3,8 @@
  * @description Core container primitive enforcing strict glassmorphism rules.
  */
 
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'glow' | 'hologram';

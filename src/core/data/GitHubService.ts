@@ -95,7 +95,7 @@ class GitHubServiceClass {
         if (rand > 0.95) count = Math.floor(Math.random() * 15) + 5;
         
         contributions.push({
-          date: d.toISOString().split('T')[0] as string,
+          date: d.toISOString().split('T')[0]!,
           count
         });
       }

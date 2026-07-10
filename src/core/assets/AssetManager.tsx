@@ -4,8 +4,12 @@
  */
 
 import React, { useMemo } from 'react';
-import { useGLTF, Html } from '@react-three/drei';
-import * as THREE from 'three';
+import { Html, useGLTF, useTexture } from '@react-three/drei';
+import type * as THREE from 'three';
+import { CanvasErrorBoundary } from '@/ui/system/CanvasErrorBoundary';
+import { CacheManager } from '@/core/cache/CacheManager';
+
+const cache = CacheManager;
 
 // Optional: Pre-configure Draco if user provides decoder
 // useGLTF.preload('/assets/models/example.glb', '/draco-gltf/')
@@ -51,53 +55,63 @@ interface SafeModelProps {
  * - Cloning (allows multiple instances of the same loaded model)
  * - Shadow casting configuration
  */
-export function SafeModel({ 
-  path, 
-  position = [0,0,0], 
-  rotation = [0,0,0], 
-  scale = 1, 
+function SafeModelGLTF({
+  path,
+  position = [0, 0, 0],
+  rotation = [0, 0, 0],
+  scale = 1,
   castShadow = true,
   receiveShadow = true,
+}: SafeModelProps) {
+  const gltf = useGLTF(path);
+  const scene = gltf.scene;
+  
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone();
+    clone.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        child.castShadow = castShadow;
+        child.receiveShadow = receiveShadow;
+      }
+    });
+    return clone;
+  }, [scene, castShadow, receiveShadow]);
+
+  return (
+    <primitive 
+      object={clonedScene} 
+      position={position} 
+      rotation={rotation} 
+      scale={scale} 
+    />
+  );
+}
+
+function SafeModelFallback({
+  position = [0, 0, 0],
+  rotation = [0, 0, 0],
+  scale = 1,
   fallbackPrimitive = 'box',
   fallbackColor = '#94a3b8' 
 }: SafeModelProps) {
-  
-  try {
-    const { scene } = useGLTF(path);
-    
-    // Deep clone the scene so we can mutate materials/positions per instance
-    const clonedScene = useMemo(() => {
-      const clone = scene.clone();
-      clone.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh) {
-          child.castShadow = castShadow;
-          child.receiveShadow = receiveShadow;
-        }
-      });
-      return clone;
-    }, [scene, castShadow, receiveShadow]);
+  const s = typeof scale === 'number' ? [scale, scale, scale] as [number, number, number] : scale;
+  return (
+    <group position={position} rotation={rotation} scale={s}>
+      <mesh castShadow receiveShadow position={[0, 0.5, 0]}>
+        {fallbackPrimitive === 'box' && <boxGeometry args={[1, 1, 1]} />}
+        {fallbackPrimitive === 'cylinder' && <cylinderGeometry args={[0.5, 0.5, 1]} />}
+        {fallbackPrimitive === 'sphere' && <sphereGeometry args={[0.5]} />}
+        {fallbackPrimitive === 'cone' && <coneGeometry args={[0.5, 1]} />}
+        <meshStandardMaterial color={fallbackColor} />
+      </mesh>
+    </group>
+  );
+}
 
-    return (
-      <primitive 
-        object={clonedScene} 
-        position={position} 
-        rotation={rotation} 
-        scale={scale} 
-      />
-    );
-  } catch (e) {
-    // Graceful fallback if asset is not downloaded yet
-    const s = typeof scale === 'number' ? [scale, scale, scale] : scale;
-    return (
-      <group position={position} rotation={rotation} scale={s}>
-        <mesh castShadow receiveShadow position={[0, 0.5, 0]}>
-          {fallbackPrimitive === 'box' && <boxGeometry args={[1, 1, 1]} />}
-          {fallbackPrimitive === 'cylinder' && <cylinderGeometry args={[0.5, 0.5, 1]} />}
-          {fallbackPrimitive === 'sphere' && <sphereGeometry args={[0.5]} />}
-          {fallbackPrimitive === 'cone' && <coneGeometry args={[0.5, 1]} />}
-          <meshStandardMaterial color={fallbackColor} />
-        </mesh>
-      </group>
-    );
-  }
+export function SafeModel(props: SafeModelProps) {
+  return (
+    <CanvasErrorBoundary fallback={<SafeModelFallback {...props} />}>
+      <SafeModelGLTF {...props} />
+    </CanvasErrorBoundary>
+  );
 }

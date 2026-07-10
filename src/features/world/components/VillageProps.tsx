@@ -4,7 +4,7 @@
  */
 
 import React, { useRef } from 'react';
-import * as THREE from 'three';
+import type * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 
 export function VillageProps(): React.ReactElement {

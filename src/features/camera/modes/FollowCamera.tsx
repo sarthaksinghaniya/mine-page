@@ -3,7 +3,8 @@
  * @description AAA Third-Person camera mode. Smoothly follows the player and orbits based on mouse input.
  */
 
-import React, { useRef, useEffect } from 'react';
+import type React from 'react';
+import { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { damp } from '@shared/utils/math';

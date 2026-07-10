@@ -3,7 +3,8 @@
  * @description Core interactive button primitive with glassmorphism and neon hover states.
  */
 
-import React, { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
+import React from 'react';
 import { ApplicationAudioManager } from '@features/audio/ApplicationAudioManager';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

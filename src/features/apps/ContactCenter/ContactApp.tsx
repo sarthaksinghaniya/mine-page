@@ -25,7 +25,7 @@ export function ContactApp() {
         {/* Contact Form */}
         <div className="lg:col-span-3">
           <Card variant="glow" padding="lg" className="border-[#ff00ff]/20">
-            <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-6" onSubmit={(e) => { e.preventDefault(); }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-widest">Transmitter ID</label>

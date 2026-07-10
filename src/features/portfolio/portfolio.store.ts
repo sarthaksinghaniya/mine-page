@@ -18,10 +18,11 @@ interface PortfolioActions {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   setActiveProject: (projectId: string | null) => void;
+  setActiveItem: (activeItem: any) => void;
   setLastUpdated: (timestamp: number) => void;
 }
 
-type PortfolioStore = PortfolioState & PortfolioActions;
+type PortfolioStore = PortfolioState & PortfolioActions & { activeItem: any };
 
 export const usePortfolioStore = create<PortfolioStore>()((set) => ({
   // ── Initial State ────────────────────────────────────────────────────────────
@@ -31,6 +32,7 @@ export const usePortfolioStore = create<PortfolioStore>()((set) => ({
   loading: false,
   error: null,
   activeProjectId: null,
+  activeItem: null, // Any type of portfolio item for the modal
   lastUpdated: null,
 
   // ── Actions ──────────────────────────────────────────────────────────────────
@@ -40,5 +42,6 @@ export const usePortfolioStore = create<PortfolioStore>()((set) => ({
   setLoading: (loading) => { set({ loading }); },
   setError: (error) => { set({ error }); },
   setActiveProject: (activeProjectId) => { set({ activeProjectId }); },
+  setActiveItem: (activeItem: any) => { set({ activeItem }); },
   setLastUpdated: (timestamp) => { set({ lastUpdated: timestamp }); },
 }));

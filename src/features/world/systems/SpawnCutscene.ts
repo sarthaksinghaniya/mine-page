@@ -7,10 +7,15 @@ import { CinematicDirector } from '@core/cinematic/CinematicDirector';
 import { eventBus } from '@core/events/EventBus';
 
 export const SpawnCutscene = {
+  hasPlayedIntro: false,
+  
   /**
    * Plays the intro visual sequence sweeps.
    */
   playIntro(): void {
+    if (this.hasPlayedIntro) return;
+    this.hasPlayedIntro = true;
+
     CinematicDirector.play({
       id: 'spawn-intro-sequence',
       name: 'Welcome to Spawn Plaza',
@@ -47,11 +52,11 @@ export const SpawnCutscene = {
           type: 'camera',
           camera: { position: { x: -10, y: 6, z: -15 }, lookAt: { x: 0, y: 4, z: 0 } },
         },
-        // Shot 4: Smooth transition back to player perspective
+        // Shot 4: Smooth transition back to player perspective (behind player at gate)
         {
           time: 8.0,
           type: 'camera',
-          camera: { position: { x: 0, y: 8, z: -25 }, lookAt: { x: 0, y: 2, z: -10 } },
+          camera: { position: { x: 0, y: 6, z: 55 }, lookAt: { x: 0, y: 2, z: 35 } },
         },
         // Hide Welcome Text and remove letterbox
         {

@@ -60,38 +60,35 @@ export function BottomHotbar(): React.ReactElement {
   };
 
   return (
-    <div className="flex flex-col items-center gap-3 pointer-events-auto mb-2 transition-transform hover:-translate-y-1">
+    <div className="pointer-events-auto flex flex-col items-center gap-2">
       {/* Stats Row */}
-      <div className="flex items-center justify-between w-[400px]">
-        {/* Hearts */}
-        <div className="flex">{renderHearts()}</div>
-        
-        {/* Level */}
-        <div className="relative flex items-center justify-center">
-          <div className="absolute inset-0 bg-cyan-400/20 blur-md rounded-full" />
-          <div className="text-cyan-400 font-black text-2xl drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] z-10">
-            {level}
-          </div>
+      <div className="flex w-[840px] items-center justify-between">
+        <div className="flex items-center gap-0.5">{renderHearts()}</div>
+        <div className="text-[34px] font-black leading-none text-lime-400 drop-shadow-[0_2px_2px_rgba(0,0,0,1)]">
+          {level}
         </div>
-        
-        {/* Hunger */}
-        <div className="flex">{renderHunger().reverse()}</div>
+        <div className="flex items-center gap-0.5">{renderHunger().reverse()}</div>
+      </div>
+
+      <div className="relative mt-[-2px] h-[12px] w-[760px] overflow-hidden rounded-full border border-black/80 bg-slate-900/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <div className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-600" />
+        <div className="absolute inset-0 rounded-full ring-1 ring-white/10" />
       </div>
 
       {/* Hotbar */}
-      <div className="flex gap-1.5 p-2 bg-slate-900/40 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+      <div className="mt-1 flex border-[3px] border-black/70 bg-black/35 p-[2px] shadow-[0_16px_35px_rgba(0,0,0,0.35)]">
         {hotbar.map((item, index) => (
           <div 
             key={index}
-            className={`relative w-14 h-14 flex items-center justify-center rounded-xl cursor-pointer transition-all duration-200 overflow-hidden ${
+            className={`relative flex h-[58px] w-[58px] items-center justify-center overflow-hidden border-r border-white/15 transition-all duration-75 last:border-r-0 ${
               activeSlot === index 
-                ? 'bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-400 shadow-[inset_0_0_20px_rgba(34,211,238,0.3)] scale-110 z-10' 
-                : 'bg-black/40 border border-white/5 hover:bg-white/10 hover:border-white/20'
+                ? 'z-10 border-[3px] border-white bg-black/45 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]'
+                : 'border-[1px] border-white/10 bg-black/20 hover:bg-white/10'
             }`}
-            onClick={() => useGameplayStore.getState().setActiveSlot(index)}
+            onClick={() => { useGameplayStore.getState().setActiveSlot(index); }}
           >
             {/* Slot Number */}
-            <span className={`absolute top-1 left-1.5 text-[10px] font-bold ${activeSlot === index ? 'text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,1)]' : 'text-slate-400'}`}>
+            <span className={`absolute top-1 left-1 text-[12px] font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)] ${activeSlot === index ? 'text-white' : 'text-slate-200'}`}>
               {index + 1}
             </span>
             
@@ -100,7 +97,7 @@ export function BottomHotbar(): React.ReactElement {
             
             {/* Item Count */}
             {item && item.count > 1 && (
-              <span className="absolute bottom-0.5 right-1 text-white text-[10px] font-bold drop-shadow-md">
+              <span className="absolute bottom-0.5 right-1 text-[12px] font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
                 {item.count}
               </span>
             )}

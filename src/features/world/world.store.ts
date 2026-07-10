@@ -8,7 +8,7 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { WorldState, ZoneId, ZoneStatus } from './world.types';
+import type { WorldState, ZoneId, ZoneStatus, QualityPreset } from './world.types';
 
 interface WorldActions {
   /** Mark a zone as loading */
@@ -19,6 +19,8 @@ interface WorldActions {
   deactivateZone: (id: ZoneId) => void;
   /** Set the player's focused zone */
   setFocusedZone: (id: ZoneId | null) => void;
+  /** Set graphical quality preset */
+  setQuality: (quality: QualityPreset) => void;
 }
 
 type WorldStore = WorldState & WorldActions;
@@ -30,6 +32,7 @@ export const useWorldStore = create<WorldStore>()(
     activeZoneIds: [],
     focusedZoneId: null,
     zoneStatuses: {},
+    quality: 'HIGH',
 
     // ── Actions ────────────────────────────────────────────────────────────────
     setZoneStatus: (id, status) =>
@@ -50,5 +53,6 @@ export const useWorldStore = create<WorldStore>()(
       })); },
 
     setFocusedZone: (id) => { set({ focusedZoneId: id }); },
+    setQuality: (q) => { set({ quality: q }); },
   })),
 );

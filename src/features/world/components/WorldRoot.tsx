@@ -17,25 +17,16 @@ import { SpawnManager } from '../systems/SpawnManager';
 
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
 import { PlayerPhysicsController } from '@/features/player/components/PlayerPhysicsController';
+import { Environment } from '@react-three/drei';
 import { BuildingRoot, DISTRICTS_LIST } from '@/features/buildings';
-import { InstancedProps } from '@/features/environment';
 import { AudioZones } from '@/features/audio';
 import { InteractionManager } from '@core/interaction/InteractionManager';
 import { CinematicDirector } from '@core/cinematic/CinematicDirector';
-import { VehicleBase, VehicleManager } from '@/features/vehicles';
-import { DISTRICT_PLUGINS } from '../systems/districtPlugins';
 import { SpawnCutscene } from '../systems/SpawnCutscene';
-import { PostProcessing } from './PostProcessing';
-import { Environment, BakeShadows, Sky } from '@react-three/drei';
-import { WaterBody } from './WaterBody';
-import { VegetationInstancer } from './VegetationInstancer';
 import { VillageSquare } from './VillageSquare';
 import { VillageProps } from './VillageProps';
-import { AIResearchDistrict } from './AIResearchDistrict';
-import { ProjectsDistrict } from './ProjectsDistrict';
-import { CollectibleManager } from './CollectibleManager';
 import { GuideNPC } from '@/features/npc/components/GuideNPC';
-import { EnvironmentalVFX } from './EnvironmentalVFX';
+import { usePortfolioStore } from '@/features/portfolio/portfolio.store';
 
 export function WorldRoot(): React.ReactElement {
   const activeZoneIds = useWorldStore((s) => s.activeZoneIds);
@@ -63,7 +54,7 @@ export function WorldRoot(): React.ReactElement {
           radius: lot.interactRadius,
           priority: lot.category === 'landmark' ? 10 : 5,
           enabled: true,
-          promptText: lot.interior ? `Enter ${lot.name}` : `Inspect ${lot.name}`,
+          promptText: lot.meta ? `View ${lot.name}` : (lot.interior ? `Enter ${lot.name}` : `Inspect ${lot.name}`),
           onInteract: () => {
             if (lot.id === 'spawn-plaza-pillar') {
               // Trigger a cinematic sequence
@@ -85,25 +76,15 @@ export function WorldRoot(): React.ReactElement {
                   { time: 3.5, type: 'player', player: { frozen: false } },
                 ],
               });
-            }
-            if (lot.interior) {
+            } else if (lot.meta) {
+              // Dynamic portfolio items
+              usePortfolioStore.getState().setActiveItem(lot.meta);
+            } else if (lot.interior) {
               // Interior portal interaction handled by the app system
             }
           },
         });
       });
-    });
-
-    // Register a test cyber car vehicle config
-    VehicleManager.register({
-      id: 'cyber-car-01',
-      name: 'Cyber Roadster',
-      category: 'car',
-      position: { x: 10, y: 1.5, z: 15 },
-      rotation: 0,
-      maxSpeed: 40,
-      acceleration: 25,
-      mass: 1200,
     });
 
     // Bootstrap initial active zone at spawn
@@ -120,7 +101,6 @@ export function WorldRoot(): React.ReactElement {
           InteractionManager.unregister(lot.id);
         });
       });
-      VehicleManager.unregister('cyber-car-01');
     };
   }, [setPosition, setRotation, activateZone, setZoneStatus]);
 
@@ -147,41 +127,31 @@ export function WorldRoot(): React.ReactElement {
     // natively inside the scene group or just use it.
   }, []);
 
+  const quality = useWorldStore((s) => s.quality);
+
   return (
     <Physics gravity={[0, -20, 0]}>
-      <WaterBody />
-      {/* Global Fog and Environment */}
-      <fogExp2 attach="fog" args={['#87CEEB', 0.003]} />
-      <Sky sunPosition={[100, 20, 100]} turbidity={0.1} rayleigh={0.5} mieCoefficient={0.005} mieDirectionalG={0.8} />
-      <Environment preset="city" />
-      <ambientLight intensity={0.4} />
+      {quality === 'HIGH' && <fogExp2 attach="fog" color="#0f172a" density={0.005} />}
+      <ambientLight intensity={quality === 'LOW' ? 1.5 : 0.5} />
+      
       <directionalLight 
-        castShadow 
-        position={[100, 200, 100]} 
-        intensity={1.5} 
-        shadow-mapSize={[2048, 2048]}
+        position={[50, 120, 50]} 
+        intensity={2.5} 
+        castShadow={quality !== 'LOW'} 
+        shadow-mapSize={quality === 'HIGH' ? [2048, 2048] : [1024, 1024]} 
         shadow-camera-left={-200}
         shadow-camera-right={200}
         shadow-camera-top={200}
         shadow-camera-bottom={-200}
-        shadow-camera-far={500}
       />
-      <BakeShadows />
-      <PostProcessing />
+      
+      {quality !== 'LOW' && <Environment preset="city" background blur={0.8} />}
 
       <group name="world-root">
         {/* Dynamic streamed zones */}
         {activeChunks.map((zone) => (
           <TerrainChunk key={zone.id} zone={zone} />
         ))}
-
-        {/* Dynamic District Scene Plugins */}
-        {activeZoneIds.map((zoneId) => {
-          const plugin = DISTRICT_PLUGINS[zoneId as import('../zone.types').ZoneTheme];
-          if (!plugin) return null;
-          const Component = plugin.component;
-          return <Component key={`plugin-${plugin.id}`} />;
-        })}
 
         {/* Dynamic buildings on active lots */}
         {activeChunks.map((zone) => {
@@ -191,23 +161,6 @@ export function WorldRoot(): React.ReactElement {
             <BuildingRoot key={lot.id} lot={lot} color={zone.color} />
           ));
         })}
-
-        {/* Dynamic vehicles in active zones */}
-        {activeZoneIds.includes('spawn') && (
-          <VehicleBase
-            config={{
-              id: 'cyber-car-01',
-              name: 'Cyber Roadster',
-              category: 'car',
-              position: { x: 10, y: 1.5, z: 15 },
-              rotation: 0,
-              maxSpeed: 40,
-              acceleration: 25,
-              mass: 1200,
-            }}
-            color="#ff5500"
-          />
-        )}
 
         {/* Interconnecting roads */}
         <RoadSystem />
@@ -219,17 +172,6 @@ export function WorldRoot(): React.ReactElement {
             <GuideNPC />
           </>
         )}
-
-        {activeZoneIds.includes('ai-research') && <AIResearchDistrict />}
-        
-        {activeZoneIds.includes('projects') && <ProjectsDistrict />}
-
-        <CollectibleManager />
-        <EnvironmentalVFX />
-
-        {/* Foliage and environment props */}
-        <InstancedProps />
-        <VegetationInstancer />
 
         {/* Player physical body */}
         <PlayerPhysicsController />
