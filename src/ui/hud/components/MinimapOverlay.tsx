@@ -7,10 +7,12 @@ import React from 'react';
 import { useWorldStore } from '@/features/world/world.store';
 import { usePlayerStore } from '@/features/player/player.store';
 import { DISTRICTS_LIST } from '@/features/buildings/district.types';
-import { MapPin, Sun } from 'lucide-react';
+import { useAudioStore } from '@/features/audio/audio.store';
+import { MapPin, Sun, Music } from 'lucide-react';
 
 export function MinimapOverlay(): React.ReactElement {
   const focusedZoneId = useWorldStore((s) => s.focusedZoneId);
+  const currentAmbient = useAudioStore((s) => s.currentAmbient);
   const position = usePlayerStore((s) => s.position);
   const time = '10:30 AM';
 
@@ -66,6 +68,19 @@ export function MinimapOverlay(): React.ReactElement {
           <Sun size={18} className="text-yellow-400" fill="currentColor" />
           <span className="text-[18px] font-extrabold">{time}</span>
         </div>
+        
+        {/* Now Playing Widget */}
+        {currentAmbient && (
+          <div className="mt-1 flex items-center gap-2 text-white drop-shadow-md animate-in fade-in duration-500">
+            <Music size={16} className="text-pink-400 animate-pulse" />
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold text-pink-400/80 uppercase tracking-widest leading-none">Now Playing</span>
+              <span className="text-[13px] font-semibold text-slate-200 truncate max-w-[180px] leading-tight mt-0.5">
+                {currentAmbient.replace('-ambient', '').replace('-bg', '').replace(/-/g, ' ').toUpperCase()} Theme
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

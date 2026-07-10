@@ -22,6 +22,9 @@ export const AudioZones = {
 
     const previousAmbience = this.activeTheme;
     this.activeTheme = nextAmbience;
+    
+    // Sync with UI Store
+    import('../audio.store').then(m => m.useAudioStore.getState().setCurrentAmbient(nextAmbience));
 
     // Trigger Howler ambient cross-fade transitions
     if (previousAmbience && AudioManager.isRegistered(previousAmbience)) {

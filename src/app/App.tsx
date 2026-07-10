@@ -33,6 +33,7 @@ import { ErrorBoundary } from '@/ui/system';
 import { SkeletonLoader } from '@/ui/components/SharedComponents';
 
 import { QuestManager } from '@/features/gameplay/systems/QuestManager';
+import { AudioController } from '@/features/audio/systems/AudioController';
 import { DayNightCycle, WeatherSystem } from '@features/environment';
 
 // ── Inside-Canvas Controller ──────────────────────────────────────────────────
@@ -47,6 +48,7 @@ function CanvasEngineController(): React.ReactElement {
       <DayNightCycle />
       <WeatherSystem />
       <QuestManager />
+      <AudioController />
       <InteractionDebug />
       <CinematicDebug />
       <VehicleDebug />
